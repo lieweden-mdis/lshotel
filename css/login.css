@@ -1,0 +1,122 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.container{
+    width:100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-form {
+    border-radius: 40px;
+    width: fit-content;
+    height: fit-content;
+	background-color: transparent;	
+    box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+    z-index: 1;
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 400;
+	font-style: normal;
+	font-variation-settings:
+		"slnt" 0;
+}
+
+.login-form .form-header {
+    display: flex;
+    background-color: skyblue;
+    border-radius: 40px 40px 0 0;
+    justify-content: center;
+    align-items: center;
+    font-size: 2em;
+    padding: 2%;
+}
+
+.login-form .row {
+    display: flex;
+    justify-content: space-around;
+    padding: 1%;
+    margin-top: 0.5em;
+}
+
+.login-form .row label {
+    font-size: 1.5em;
+    margin-bottom: 0.8em;
+}
+
+.login-form .input-data {
+    display: flex;
+    flex-direction: column;
+	margin-top: 1.5em;
+}
+
+.login-form .input-data i{
+	padding-left:2%;
+}
+
+.login-form input[type="text"],
+.login-form input[type="password"]
+{
+	outline: hidden;
+	border: 2px solid black;
+    border-radius: 10px;
+    padding: 1%;
+    height: 3em;
+    width: 20em;
+	padding-left: 0.5em;
+}
+
+.login-form input[type="text"]:focus,
+.login-form input[type="password"]:focus
+{
+	outline: none;
+    border-color: blue;
+    border-width: 2px;
+}
+
+.login-form input[type="text"]::placeholder,
+.login-form input[type="password"]::placeholder {
+	font-size: 1em;
+}
+
+.login-form .button {
+    display: flex;
+    flex-direction: column;
+    padding: 1.5em;
+    align-items: center;
+}
+
+.login-form .button input[type="submit"] {
+    border-radius: 10px;
+    padding: 2% 2% 2% 2%;
+    font-size: 2em;
+}
+
+.login-form .button input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: skyblue;
+}
+
+.login-form .button span {
+    font-weight: bold;
+    font-size: 1.2em;
+    margin-top: 2%;
+    text-align: center;
+}
+
+.login-form .button a {
+    cursor: pointer;
+    text-decoration: none;
+    color: red;
+}
