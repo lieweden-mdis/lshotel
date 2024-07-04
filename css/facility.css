@@ -1,0 +1,36 @@
+.facilities {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 1em;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.facilities h2 {
+    text-align: center;
+}
+
+.facility {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.facility img {
+    width: 60px;
+    height: 60px;
+    margin-right: 1em;
+}
+
+.facility-details {
+    flex: 1;
+}
+
+.facility-details h3 {
+    margin-top: 0;
+}
+
+.facility-details p {
+    margin-bottom: 0;
+}

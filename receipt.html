@@ -18,23 +18,24 @@
     <link rel="icon" href="img/icon.jpg">
 </head>
 <body>
-<!--Navigation Bar-->
-<section class="header">
-    <div class="logo">
-    <a href="index.html"><img src="img/logo.jpg" alt="logo" /></a>
+  <header>
+    <div>
+  <img src="img/logo.png" alt="Logo">
     </div>
-    <div class="navigation">
-      <a href="room.html">Room</a>
-      <a href="facility.html">Facility</a>
-      <a href="dining.html">Dining</a>
-      <a href="reservation.html">My Reservation</a>
-      <a href="feedback.html">Feedback</a>
+    <div class="user-links">
+        <a href="login.html">Login</a>
+        <a href="register.html">Register</a>
+        <a href="profile.html"><img src="img/profile-icon.png" alt="profile-icon"></a>
     </div>
-    <div class="user">
-      <a href="login.html"><i class="fa-regular fa-user"></i>Login</a>
-      <!--<span>Liew Eden</span>-->
-    </div>
-    </section>
+</header>
+
+<nav>
+    <a href="index.html">HOME</a>
+    <a href="room.html">ROOM</a>
+    <a href="facilities.html">FACILITIES</a>
+    <a href="dining.html">DINING</a>
+    <a href="about.html">ABOUT</a>
+</nav>
 
     <!--Profile-->
     <section class="account">
@@ -47,6 +48,40 @@
       <div class="content">
         <div class="account-header">
           <span>My Receipt</span>
+        </div>
+        <div class="receipt-table">
+          <div class="receipt-header">
+            <div class="header-cell">Reservation ID</div>
+            <div class="header-cell">Date</div>
+            <div class="header-cell">Payment Method</div>
+            <div class="header-cell">Payment Status</div>
+            <div class="header-cell">View/Download Receipt</div>
+        </div>
+        <div class="row">
+          <div class="cell">&nbsp;</div>
+          <div class="cell">&nbsp;</div>
+          <div class="cell">&nbsp;</div>
+          <div class="cell">&nbsp;</div>
+          <div class="cell" id="view-download">
+            <form method="post">
+                <button type="submit" formaction="generate_receipt.php" formtarget="_blank" name="action" value="view" data-reservation-id="12345">View</button>
+                <button type="submit" formaction="generate_receipt.php" name="action" value="download" data-reservation-id="12345">Download</button>
+            </form>
+        </div>
+        </div>
+
+        <div class="row">
+          <div class="cell">&nbsp;</div>
+          <div class="cell">&nbsp;</div>
+          <div class="cell">&nbsp;</div>
+          <div class="cell">&nbsp;</div>
+          <div class="cell" id="view-download">
+            <form method="post">
+                <button type="submit" formaction="generate_receipt.php" formtarget="_blank" name="action" value="view" data-reservation-id="12345">View</button>
+                <button type="submit" formaction="generate_receipt.php" name="action" value="download" data-reservation-id="12345">Download</button>
+            </form>
+        </div>
+        </div>
         </div>
       </div>
     </section>
