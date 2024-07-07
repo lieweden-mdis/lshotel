@@ -32,16 +32,15 @@ body {
     box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;  
   }
 
+    /* Hide the images by default */
+    .room-gallery .mySlides {
+      display: none;
+    }
  .room-gallery .mySlides img {
     vertical-align: middle;
-    height: 60vh;
+    height: 50vh;
     border-radius: 0.5em 0.5em 0 0;
 
-  }
-  
-  /* Hide the images by default */
-  .room-gallery .mySlides {
-    display: none;
   }
   
     /* Next & previous buttons */
@@ -185,17 +184,24 @@ body {
   border-radius: 0.5em;
 }
 
+.room-details .booking-availability{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .room-details button{
-    width: 100%;
+	background-color: white;
     height: 3em;
+    width: 60%;
     margin-top: 3%;
     font-weight: bold;
     font-size: 1em;
     border-radius: 0.5em;
-    border: none;
-    color: black;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-}
+	border: none;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	color: black;
+  }
 
 .room-details button:hover{
     background-color: skyblue;
@@ -203,6 +209,15 @@ body {
     cursor: pointer;
 }
 
+.room-details .availability{
+  padding-top: 3%;
+}
+
+.room-details .availability span{
+	font-size: 1.1em;
+	font-weight: bold;
+	color: green;
+}
 .room-descripion{
   display: flex;
   flex-direction: column;
