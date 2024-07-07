@@ -81,7 +81,13 @@ body {
 	  font-size: 1.5em;
 	  color: white;
   }
-  
+  .room-gallery .row {
+    padding-top: 1%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 10px;
+  }
   .room-gallery .row:after {
     content: "";
     display: table;
@@ -89,16 +95,17 @@ body {
   }
   
   .room-gallery .column {
-    float: left;
-    padding: 1% 1% 0 1%;
+    flex: 1;
 }
 
 .room-gallery .column img {
-    width: 10vw; /* Adjust this to change the size */
-    height: 10vh; /* Ensure the aspect ratio is maintained */
+  width: 100%;
+  height: 10vh;
+  opacity: 0.6;
+  cursor: pointer;
 }
 .room-gallery .column img:hover{
-  border: 2px solid blue;
+  opacity: 1;
 }
 
   /* Add a transparency effect for thumnbail images */
@@ -130,8 +137,9 @@ body {
   }
   
 .room-details .label{
-    font-size: 1.5em;
-    padding:1%;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding:1.5% 0 1% 1%;
 }
 
 .room-details .facility{
@@ -148,7 +156,7 @@ body {
 .room-details .facility .facility-items{
     padding: 0.5em;
     margin: 1%;
-    font-size: 1.1em;
+    font-size: 1em;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     width: fit-content;
     height: fit-content;
@@ -164,7 +172,7 @@ body {
   .room-details .features .features-items{
       padding: 0.5em;
       margin: 1%;
-      font-size: 1.2em;
+      font-size: 1em;
       box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
       width: fit-content;
       height: fit-content;
@@ -177,7 +185,7 @@ body {
 
 .room-details .size .size-info{
   padding: 0.5em;
-  font-size: 1.2em;
+  font-size: 1em;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   width: fit-content;
   height: fit-content;
@@ -193,7 +201,7 @@ body {
 .room-details button{
 	background-color: white;
     height: 3em;
-    width: 60%;
+    width: 100%;
     margin-top: 3%;
     font-weight: bold;
     font-size: 1em;
