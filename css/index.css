@@ -4,37 +4,41 @@
     height: 50vh;
     background-size: cover;
     background-position: center;
-    overflow: hidden;
 }
 
 .banner img {
-    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
 }
 
 /*Booking Form*/
 .booking-form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: rgba(255, 255, 255, 0.8);
     padding: 2em;
-    border-radius: 8px;
+    border-radius: 1em;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: fit-content;
+	height: fit-content;
 }
 
 .booking-form h2 {
     margin-top: 0;
 }
 
-.booking-form label {
-    display: inline-block;
-    margin-right: 1em;
+.booking-form .form-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .booking-form input,
@@ -73,14 +77,13 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
-    margin:1% auto 8% auto;
+	padding: 0 2% 2% 2%;
 }
 
 .roomtype-box {
     display: flex;
     flex-direction: column;
-	justify-content: space-around;
-    width: 22em;
+	width: 20%;
     height: 30em;
     border-radius: 0.8em;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;

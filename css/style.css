@@ -1,8 +1,15 @@
-body {
-  font-family: Arial, sans-serif;
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: Arial, sans-serif;
+}
+
 header {
   background-color: #87cefa;
   color: white;
@@ -12,18 +19,21 @@ header {
   justify-content: space-between;
   align-items: center;
 }
+
 header img {
   height: 50px;
 }
+
 nav {
   display: flex;
   justify-content: center;
-  background-color: #87ceeb ;
+  background-color: #87ceeb;
   padding: 0.5em;
 }
+
 nav a {
   color: white;
-font-size: 1.2em;
+  font-size: 1.2em;
   margin: 0 1em;
   text-decoration: none;
 }
@@ -32,6 +42,7 @@ font-size: 1.2em;
   display: flex;
   align-items: center;
 }
+
 .user-links a {
   color: white;
   margin: 0 0.5em;
@@ -39,6 +50,7 @@ font-size: 1.2em;
   display: flex;
   align-items: center;
 }
+
 .user-links a img {
   height: 24px;
   margin-right: 0.5em;
@@ -49,8 +61,6 @@ footer {
   color: white;
   text-align: center;
   padding: 1em;
-  position: fixed;
-  width: 100%;
-  bottom: 0;
   font-size: 1.2em;
+  margin-top: auto;
 }
