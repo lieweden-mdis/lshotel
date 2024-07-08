@@ -75,19 +75,22 @@
 
 .room-card{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-	padding: 0 2% 2% 2%;
+	padding: 1%;
+    margin:1%;
+    border-radius: 0.8em;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
 }
 
-.roomtype-box {
+    .roomtype-box {
     display: flex;
     flex-direction: column;
-	width: 20%;
-    height: 30em;
+    height: 100%;
     border-radius: 0.8em;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
     padding: 10px;
+    margin: 0.5em;
     box-sizing: border-box; 
 }
 
@@ -106,14 +109,11 @@
 
 .roomtype-box .room-simple-desc {
     flex-grow: 1;
-    padding: 5%;
+    padding: 2%;
     word-wrap: break-word;
     line-height: 1.5;
     overflow: hidden;
     text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
     margin-bottom: 10px;
 }
 
@@ -121,20 +121,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
     width: fit-content;
     padding: 3%;
     border-radius: 0.5em;
-    background-color: wheat;
+    background-color: black;
     align-self: center;
+    margin-bottom: 1%;
 }
 
 .roomtype-box .viewmore:hover {
-    background-color: skyblue;
+    background-color: gray;
 }
 
 .roomtype-box .viewmore a {
     text-decoration: none;
-    color: black;
+    color: white;
     font-weight: bold;
 }
