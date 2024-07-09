@@ -9,23 +9,26 @@
 
 .booking-container{
     display: flex;
+    margin-left: 5%;
+    margin-right: 5%;
 }
-
-.booking-container .booking-card{
+/* Room Type */
+.booking-container .roomtype-card{
     display: flex;
     flex-direction: column;
-    width: 60%;
-    margin: 1%;
     padding: 1%;
+	border-radius: 0.8em;
+
 }
 
-.booking-card .room-type-box{
+.roomtype-card .room-type-box{
     display: flex;
-    padding: 2% 5% 2% 2%;
+    padding: 1em;
+    width: 95%;
     border-radius: 0.8em;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 }
-
+/* Room Image */
 .room-type-box img{
     width: 10em;
     height: 10em;
@@ -35,25 +38,27 @@
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    width: 100%;
+    width: 90%;
 }
+/* Room Type */
 .room-type-info .room-type-header{
     margin: 0 2% 0 2%;
 }
+
 .room-type-info .room-type-header span{
-    font-size: 2em;
+    font-size: 2.5em;
     font-weight: bold;
 }
 
+/* Room Features */
 .room-type-box .room-features{
     display: flex;
-    justify-content: space-between;
-    margin: 0 2% 0 2%;
+	justify-content: space-around;
     width: 100%;
+    padding: 0 2% 0 0;
 }
 
 .room-type-box .room-features span{
-    padding: 0.5%;
     font-size: 1em;
 }
 
@@ -63,11 +68,203 @@
 
 .room-type-info .refund
 {
-    font-size: 1em;
+    font-size: 1.2em;
     margin: 0 2% 0 2%;
+    font-weight: bold;
+    color: red;
+}
+
+#booking-form{
+	width:95%;
+}
+/* Booking Information */
+.form-content {
+    display: flex;
+    flex-direction:column;
+    margin-top: 2%;
+    border-radius: 0.8em;
+    width: 100%;
+}
+
+.booking-card{
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.8em;
+    padding: 1em;
+    margin-top: 3%;
+	width:100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.form-header{
+    font-size: 2em;
+    font-weight: bold;
+    text-align: left;
+	padding-bottom: 0.5em;
+}
+
+.booking-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.booking-info .column {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    padding: 1%;
+    justify-content: center;
+    margin: 0 5px; /* Adjust margin as needed */
+}
+
+.booking-info label {
+    display: flex;
+    margin-right: 1em;
+    white-space: nowrap; /* Prevent the label text from wrapping */
+    text-align: right;
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.booking-info input[type="date"], input[type="number"] {
+    height: 3em; /* Set a consistent height */
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.booking-info input[type="date"] {
+    flex: 1;
+}
+
+.booking-info input[type="number"] {
+    flex: 1;
+}
+
+/* Guest Information */
+.guest-card {
+    display: flex;
+    flex-direction: column;
+    border-radius: 0.8em;
+    width: 100%;
+    padding: 1em;
+    margin-top: 3%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.guest-card .row {
+    display: flex;
+    margin: 2% 2% 2% 0;
+}
+
+.guest-card .column {
+    flex: 1;
+    display: flex;
+	padding-left: 2%;
+    align-items: center; /* Align items in the center vertically */
+}
+
+.guest-card .column label {
+    width: 15em;
+    padding: 1%;
+    text-align: left;
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.guest-card .column input,.guest-card .column select {
+    height: 3em; /* Set a consistent height */
+    width: 100%;
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.guest-card .column input#car-plate::placeholder{
+    font-size: 0.88em;
+    font-weight: bold;
+
 }
 
 .booking-container .price-card{
     display: flex;
     flex-direction: column;
+    padding: 1%;
+    width: 40%;
+    }
+
+.priceinfo .price-title{
+    font-weight: bold;
+    font-size: 2em;
+	padding: 1%;
+}
+
+.priceinfo{
+    padding: 1%;
+    border-radius: 0.8em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.priceinfo .product{
+    align-items: center;
+	padding: 1%;
+	
+}
+    
+.product span{
+    font-size: 2em;
+    line-height: 1.5;
+} 
+    
+.priceinfo .column{
+    display: flex;
+    padding: 0.5%;
+    margin: 1% 1% 1% 0;
+    justify-content: space-between;
+    align-items: center;
+}   
+
+hr{
+	border: 2px solid black;
+	width: 100%;
+}
+
+.price-card .remarks{
+	padding: 1%;
+	margin-top: 2em;
+    border-radius: 0.8em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.remarks span.remarks-header{
+	font-size: 2em;
+	font-weight: bold;
+	padding: 1%;
+}
+
+.remarks span.remarks-content{
+	font-size: 1.5em;
+	display: block;
+	line-height: 1.5;
+	padding: 1%;
+}
+
+.booking-button{
+	padding: 1%;
+	margin-top: 2em;
+    border-radius: 0.8em;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+}
+
+.booking-button button#submit-btn{
+	width: 100%;
+	height: 2em;
+	font-size: 2em;
+	border: none;
+	border-radius: 0.5em;
+    cursor: pointer;
+}
+
+.booking-button button#submit-btn:hover{
+    background-color: skyblue;
 }

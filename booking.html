@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-       <!--Icon-->  
-       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!--Icon-->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
     <title>L's HOTEL - BOOKINGS</title>
     <link rel="icon" href="img/icon.jpg" >
@@ -17,7 +17,7 @@
 
     <header>
         <div>
-			<img src="img/logo.png" alt="Logo">
+            <img src="img/logo.png" alt="Logo">
         </div>
         <div class="user-links">
             <a href="login.html">Login</a>
@@ -40,16 +40,16 @@
     </div>
     <!--Container for flex-->
     <div class="booking-container">
-        <!--Booking Form-->
-        <div class="booking-card">
+        <div class="roomtype-card">
             <div class="room-type-box">
                 <img src="img/room-image/deluxe-room/deluxe1.webp" alt="Deluxe Room" />
                 <div class="room-type-info">
                 <div class="room-type-header">
-                        <span>Deluxe Room</span>
+                        <span>Standard Room</span>
                     </div>
                     <div class="room-features">
-                        <span class="features-items"><i class="fa-solid fa-bed"></i> 1 Queen Bed / 2 Single Bed</span>
+                        <span class="features-items"><i class="fa-solid fa-bed"></i> 1 Queen Bed</span>
+                        <span class="features-items"><i class="fa-solid fa-bed"></i> 2 Single Bed</span>
                         <span class="features-items"><i class="fa-solid fa-smoking"></i>Smoking</span>
                         <span class="features-items"><i class="fa-solid fa-ban-smoking"></i>Non-Smoking</span>
                         <span class="features-items"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>17 m²/183 ft²</span>
@@ -57,35 +57,108 @@
                     <span class="refund">Not Refundable</span>
                 </div>
             </div>
-            <form id="booking form" action="submit-booking.php" method="post">
-                <div class="booking">
-                    <span class="booking-form-header">Booking Information</span>
-                    <div class="form-content">
-                        <div class="row">
-                            <label for="roomtype">Room Type:</label>
-                            <span class="roomtype">Deluxe Room</span>
-
-                            <label for="night">Check In Date</label>
-                            <input type="date" name="check-in-date"/>
-
-                            <label for="night">Check Out Date</label>
-                            <input type="date" name="check-in-date"/>
-
+            <form id="booking-form" action="submit-booking.php" method="post">
+                <div class="form-content">
+                    <div class="booking-card">
+                        <span class="form-header">Booking Information</span>
+                        <div class="booking-info">
+                            <div class="column" id="checkindate">
+                                <label for="check-in-date">Check In Date</label>
+                                <input type="date" id="check-in-date" name="check-in-date" required>
+                            </div>
+                            <div class="column" id="checkoutdate">
+                                <label for="check-out-date">Check Out Date</label>
+                                <input type="date" id="check-out-date" name="check-out-date" required>
+                            </div>
+                            <div class="column" id="guestnum">
+                                <label for="guestnum">Number for Guest</label>
+                                <input type="number" name="guestnum" required>
+                            </div>
                         </div>
                     </div>
-                </div>
 
+                    <div class="guest-card">
+                        <span class="form-header">Guest Information</span>
+                        <div class="row">
+                            <div class="column">
+                                <label for="fname">First Name</label>
+                                <input type="text" name="fname" required minlength="5" maxlength="128">
+                            </div>
+                            <div class="column">
+                                <label for="lname">Last Name</label>
+                                <input type="text" name="lname" required minlength="5" maxlength="128">
+                            </div>
+                    </div>
+
+                <div class="row">
+                    <div class="column">
+                        <label for="email">Email</label>
+                        <input type="email" name="email">
+                    </div>
+                    <div class="column">
+                        <label for="phone">Phone Number</label>
+                        <input type="text" name="phone" required minlength="8" maxlength="11">
+                    </div>
+            </div>
+
+            <div class="row">
+                <div class="column">
+                    <label for="car" id="car">Bring Car?</label>
+                    <select name="car" id="car-plate" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="column">
+                    <label for="car-plate">Car Plate Number</label>
+                    <input type="text" name="car-plate" placeholder="Please enter your car plate number">
+                </div>
+        </div>
+                    </div>
+                </div>
             </form>
         </div>
         <!--Payment-->
         <div class="price-card">
-            <div class="priceinfo">c</div>
-            <div class="remarks">d</div>
+            <div class="priceinfo">
+                <span class="price-title">Price Detail</span>
+                <div class="product">
+                <div class="column">
+                    <span>1 Room &#9747; 1 Night</span>
+                    <span>RM 340</span>
+                </div>
+                <div class="column">
+                    <span>Additional Charges</span>
+                    <span>RM 0</span>
+                </div>  
+                    <hr>
+                <div class="column">
+                    <span>Total Amount</span>
+                    <span>RM 340</span>
+                </div> 
+            </div>
+            </div>
+            <div class="remarks">
+                <span class="remarks-header">Remarks</span>
+                <span class="remarks-content">
+                    Check-in time is 3 PM (early check-in will result in a RM 50 charge)
+                </span>
+                <span class="remarks-content">
+                    Check-out time is 1 PM (all customers must check out before this time)
+                </span>
+                <span class="remarks-content">
+                    A RM 50 cleaning fee will be charged if smoking occurs in a non-smoking room.
+                </span>
+            </div>
+            <div class="booking-button">
+                <button id="submit-btn" type="button" onclick="submitForm()">Submit Booking</button>
+            </div>
         </div>
     </div>
     <footer>
         <p>&copy;2024 L's Hotel  All Right Reserved.</p>
     </footer>
-    
-    </body>
-    </html>
+       
+</body>
+<script src="script/booking.js" type="text/javascript"></script>
+</html>
