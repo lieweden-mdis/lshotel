@@ -11,8 +11,6 @@ html, body {
 }
 
 .login-form {
-    margin-top: 2em;
-    margin-bottom: 2em;
     border-radius: 40px;
     width: fit-content;
     height: fit-content;
@@ -94,7 +92,7 @@ html, body {
 .login-form .button input[type="submit"] {
     border-radius: 10px;
     padding: 2% 2% 2% 2%;
-    font-size: 2em;
+    font-size: 1.5em;
 }
 
 .login-form .button input[type="submit"]:hover {

@@ -1,0 +1,59 @@
+.dining {
+    max-width: 800px;
+    margin: 2em auto;
+    padding: 1em;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.dining h2 {
+    text-align: center;
+}
+
+.meal-category {
+    margin-bottom: 2em;
+    padding: 1em;
+    border-radius: 8px;
+}
+
+.malaysian {
+    background-color: #e0ffff ;
+}
+
+.western {
+    background-color: #afeeee;
+}
+
+.japanese {
+    background-color: #b0e0e6; 
+}
+
+.buffet {
+    background-color: #00ced1 ; 
+}
+
+.dining-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+.dining-option img {
+    width: 150px;
+    height: 100px;
+    margin-right: 1em;
+    border-radius: 8px;
+}
+
+.dining-details {
+    flex: 1;
+}
+
+.dining-details h4 {
+    margin-top: 0;
+}
+
+.dining-details p {
+    margin-bottom: 0.5em;
+}

@@ -57,62 +57,24 @@
                     <span class="refund">Not Refundable</span>
                 </div>
             </div>
+            <form id="booking form" action="submit-booking.php" method="post">
+                <div class="booking">
+                    <span class="booking-form-header">Booking Information</span>
+                    <div class="form-content">
+                        <div class="row">
+                            <label for="roomtype">Room Type:</label>
+                            <span class="roomtype">Deluxe Room</span>
 
-            
-            <form action="submit_booking.php" method="post">
-                <div class="form-section">
-                    <h2>Booking Information</h2>
-                    <div class="form-row">
-                        <label for="room-type">Room Type:</label>
-                        <span class="header">Deluxe Room</span>
-                    </div>
-                    <div class="form-row">
-                        <label for="guests">Number of Guests:</label>
-                        <input type="number" id="guests" name="guests" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="checkin-date">Check In Date:</label>
-                        <input type="date" id="checkin-date" name="checkin-date" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="checkout-date">Check Out Date:</label>
-                        <input type="date" id="checkout-date" name="checkout-date" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="bring-car">Bring Car?</label>
-                        <select id="bring-car" name="bring-car">
-                            <option value="yes">Yes</option>
-                            <option value="no">No</option>
-                        </select>
-                    </div>
-                    <div class="form-row">
-                        <label for="car-plate">Car Plate Number:</label>
-                        <input type="text" id="car-plate" name="car-plate">
+                            <label for="night">Check In Date</label>
+                            <input type="date" name="check-in-date"/>
+
+                            <label for="night">Check Out Date</label>
+                            <input type="date" name="check-in-date"/>
+
+                        </div>
                     </div>
                 </div>
-                <div class="form-section">
-                    <h2>Guest Information</h2>
-                    <div class="form-row">
-                        <label for="first-name">First Name:</label>
-                        <input type="text" id="first-name" name="first-name" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="last-name">Last Name:</label>
-                        <input type="text" id="last-name" name="last-name" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="email">Email:</label>
-                        <input type="email" id="email" name="email" required>
-                    </div>
-                    <div class="form-row">
-                        <label for="phone">Phone Number:</label>
-                        <input type="tel" id="phone" name="phone" required>
-                    </div>
-                </div>
-                <button type="submit">Submit Booking</button>
-            </form>
 
-            </div>
             </form>
         </div>
         <!--Payment-->
