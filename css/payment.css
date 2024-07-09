@@ -1,0 +1,80 @@
+/* payment.css */
+
+/* Styles for payment page */
+.payment-header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.payment-container {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px;
+}
+
+.payment-form {
+    flex: 1;
+    margin-right: 20px;
+}
+
+.form-header {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.payment-info .column {
+    margin-bottom: 10px;
+}
+
+.payment-info label {
+    font-weight: bold;
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.payment-info input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.payment-button {
+    margin-top: 20px;
+    text-align: center;
+}
+
+#pay-btn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+#pay-btn:hover {
+    background-color: #45a049;
+}
+
+.price-summary {
+    flex: 1;
+}
+
+.price-title {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.summary .column {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
