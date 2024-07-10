@@ -1,5 +1,5 @@
 <?php
-// Database connection settings
+// Database connection
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,63 +13,30 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Validate input and check for duplicate email
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName = trim($_POST['fname']);
-    $lastName = trim($_POST['lname']);
-    $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
-    $password = trim($_POST['password']);
-    $confirmPassword = trim($_POST['confirmpassword']);
-    
-    // Check if all fields are filled
-    if (empty($firstName) || empty($lastName) || empty($email) || empty($phone) || empty($password) || empty($confirmPassword)) {
-        echo "All fields are required.";
-        exit;
-    }
-    
-    // Check if password and confirm password match
-    if ($password !== $confirmPassword) {
-        echo "Passwords do not match.";
-        exit;
-    }
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $first_name = mysqli_real_escape_string($conn, $_POST['fname']);
+    $last_name = mysqli_real_escape_string($conn, $_POST['lname']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $phone_number = mysqli_real_escape_string($conn, $_POST['phone']);
+    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    // Validate email format
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Invalid email format.";
-        exit;
-    }
-    
     // Check if email already exists
-    $sql = "SELECT id FROM users WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
-    
-    if ($stmt->num_rows > 0) {
-        echo "Email already exists.";
-        exit;
-    }
-    
-    // Hash the password
-    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-    
-    // Insert the user into the database
-    $sql = "INSERT INTO users (first_name, last_name, email, phone, password) VALUES (?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $hashedPassword);
-    
-    if ($stmt->execute()) {
-        echo "Registration successful.";
-        // Redirect to the login page
-        header("Location: login.html");
-        exit;
+    $query = "SELECT * FROM users WHERE email = '$email'";
+    $result = $conn->query($query);
+
+    if ($result->num_rows == 0) {
+        // Insert new user
+        $query = "INSERT INTO users (first_name, last_name, email, phone_number, password) VALUES ('$first_name', '$last_name', '$email', '$phone_number', '$password')";
+
+        if ($conn->query($query) === TRUE) {
+            echo "<script>alert('Registration successful!'); window.location.href='login.html';</script>";
+        } else {
+            echo "<script>alert('Error: " . $query . "<br>" . $conn->error . "'); window.location.href='register.html';</script>";
+        }
     } else {
-        echo "Error: " . $stmt->error;
+        // Email already exists
+        echo "<script>alert('Email already exists!'); window.location.href='register.html';</script>";
     }
-    
-    $stmt->close();
 }
 
 $conn->close();

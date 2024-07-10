@@ -1,148 +1,41 @@
+<?php include('session.php'); ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>L's HOTEL - INDEX</title>
-    <link rel="icon" href="img/icon.jpg" >
+    <meta name="keywords" content="Hotel">
+    <title>L's HOTEL - LOGIN</title>
+    <link rel="icon" href="img/icon.jpg">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/index.css">
+    <link rel="stylesheet" type="text/css" href="css/login.css">
 </head>
-      
 <body>
-
     <header>
         <div>
-			<img src="img/logo.png" alt="Logo">
+            <img src="img/logo.png" alt="Logo">
         </div>
         <div class="user-links">
-            <a href="login.html">Login</a>
-            <a href="register.html">Register</a>
-            <a href="profile.html"><img src="img/profile-icon.png" alt="profile-icon"></a>
+            <?php if ($userLoggedIn): ?>
+                <span>Welcome, <?php echo htmlspecialchars($userName); ?></span>
+                <a href="profile.html"><img src="img/profile-icon.png" alt="profile-icon"></a>
+                <a href="logout.php">Logout</a>
+            <?php else: ?>
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            <?php endif; ?>
         </div>
     </header>
-    
-    <nav>
-        <a href="index.html">HOME</a>
-        <a href="room.html">ROOM</a>
-        <a href="facilities.html">FACILITIES</a>
-        <a href="dining.html">DINING</a>
-        <a href="about.html">ABOUT</a>
-    </nav>
-
-<section class="banner">
-    <img src="img/banner.jpg" alt="Banner Image">
-    <div class="booking-form">
-        <h2>Book a room</h2>
-        <form>
-			<div class="form-content">
-            <label for="num-rooms">Rooms:</label>
-            <select id="num-rooms" name="num-rooms">
-                <option value="1">1 room</option>
-                <option value="2">2 room </option>
-                <option value="3">3 room</option>
-                <option value="4">4 room</option>
-                <option value="5">5 room</option>
-            </select>
-
-            <label for="check-in">Check-in time:</label>
-            <input type="date" id="check-in" name="check-in">
-
-            <label for="check-out">Check-out time:</label>
-            <input type="date" id="check-out" name="check-out">
-				</div>
-
-            <button type="submit">Booking</button>
+    <div class="container">
+        <form method="POST" action="login.php">
+            <h1>LOGIN</h1>
+            <input type="text" name="email-staffid" placeholder="Email or Staff ID" required>
+            <input type="password" name="password" placeholder="Password" required>
+            <button type="submit">LOGIN</button>
+            <div class="form-footer">
+                <a href="register.html">Don't have an account? Register</a>
+            </div>
         </form>
     </div>
-</section>
-<!--Room Gallery-->
-		<div class="room-gallery">
-		<span>Room Gallery</span>
-	</div>
-<div class="room-card">
-  <div class="roomtype-box" id="standard-room">
-    <!--room image-->
-    <div class="room-img-small">
-      <img src="img/room-image/standard-room/standard1.webp" alt="standard-room" />
-    </div>
-    <!--room simple description-->
-    <div class="room-desc-header">
-      <span>Standard Room</span>
-    </div>
-    <div class="room-simple-desc">
-      <span>
-        Discover comfort and convenience in our Standard Room, ideal for both leisure and business travelers. Enjoy essential amenities and a welcoming ambiance, ensuring a relaxing stay whether you're here for a short visit or an extended stay.          </p>
-      </span>
-    </div>
-    <div class="viewmore">
-      <a href="standard-room.html" target="_blank">View More</a>
-    </div>
-  </div>
-
-    <div class="roomtype-box" id="deluxe-room">
-      <!--room image-->
-      <div class="room-img-small">
-        <img src="img/room-image/deluxe-room/deluxe1.webp" alt="deluxe-room" />
-      </div>
-      <!--room simple description-->
-      <div class="room-desc-header">
-        <span>Deluxe Room</span>
-      </div>
-      <div class="room-simple-desc">
-        <span>
-          Experience the perfect blend of comfort and luxury in our Deluxe Room, designed to cater to both leisure and business travelers. Enjoy modern amenities and a cozy atmosphere, making your stay both convenient and relaxing.
-        </span>
-      </div>
-      <div class="viewmore">
-        <a href="deluxe-room.html" target="_blank">View More</a>
-      </div>
-    </div>
-
-    <div class="roomtype-box" id="triple-room">
-      <!--room image-->
-      <div class="room-img-small">
-        <img src="img/room-image/triple-room/triple1.jpg" alt="triple-room" />
-      </div>
-      <!--room simple description-->
-      <div class="room-desc-header">
-        <span>Triple Room</span>
-      </div>
-      <div class="room-simple-desc">
-        <span>
-          Experience comfort and convenience in our well-appointed Triple Room, designed to cater to the needs of small groups or families. This room offers a perfect blend of functionality and style, ensuring a pleasant and memorable stay.
-        </span>
-      </div>
-      <div class="viewmore">
-        <a href="triple-room.html" target="_blank">View More</a>
-      </div>
-    </div>
-  
-    <div class="roomtype-box" id="family-suite-room">
-      <!--room image-->
-      <div class="room-img-small">
-        <img src="img/room-image/family-suite-room/family-suite2.webp" alt="family-suite-room" />
-      </div>
-      <!--room simple description-->
-      <div class="room-desc-header">
-        <span>Family Suite Room</span>
-      </div>
-      <div class="room-simple-desc">
-        <span>
-          Experience unparalleled luxury and comfort in our Family Suite Room, designed to cater to all your needs and provide an unforgettable stay. Perfect for families, this spacious suite offers a harmonious blend of modern amenities and elegant decor.
-        </span>
-      </div>
-      <div class="viewmore">
-        <a href="family-suite-room.html" target="_blank">View More</a>
-      </div>
-    </div>
-  
-
-  </div>
-
-<footer>
-    <p>&copy;2024 L's Hotel  All Right Reserved.</p>
-</footer>
-
 </body>
 </html>
