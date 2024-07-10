@@ -53,16 +53,28 @@
 /* Room Features */
 .room-type-box .room-features{
     display: flex;
-	justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 1em;
+    justify-content: flex-start;
     width: 100%;
-    padding: 0 2% 0 0;
 }
 
 .room-type-box .room-features span{
     font-size: 1em;
+    padding-left: 2%;
 }
 
 .room-type-box .room-features span i{
+    margin-right: 0.2em;
+}
+
+.room-type-box span.size{
+    display: flex;
+    width: 100%;
+    padding-left: 2%;
+}
+
+.room-type-box span.size i{
     margin-right: 0.2em;
 }
 
@@ -97,7 +109,7 @@
 }
 
 .form-header{
-    font-size: 2em;
+    font-size: 1.7em;
     font-weight: bold;
     text-align: left;
 	padding-bottom: 0.5em;
@@ -105,41 +117,35 @@
 
 .booking-info {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
+    justify-content: space-around;
+    gap: 0.5em;
 }
 
 .booking-info .column {
     flex: 1;
     display: flex;
     align-items: center;
-    padding: 1%;
-    justify-content: center;
-    margin: 0 5px; /* Adjust margin as needed */
+    box-sizing: border-box;
 }
 
 .booking-info label {
-    display: flex;
-    margin-right: 1em;
     white-space: nowrap; /* Prevent the label text from wrapping */
     text-align: right;
     font-size: 1em;
+    margin-right: 0.2em;
     font-weight: bold;
 }
 
 .booking-info input[type="date"], input[type="number"] {
+    flex: 1;
     height: 3em; /* Set a consistent height */
-    padding: 1%;
+    padding: 0.5em;
     box-sizing: border-box;
 }
 
-.booking-info input[type="date"] {
-    flex: 1;
-}
 
-.booking-info input[type="number"] {
-    flex: 1;
+.booking-info input[type="number"]{
+    width: 5em;
 }
 
 /* Guest Information */
@@ -155,33 +161,35 @@
 
 .guest-card .row {
     display: flex;
-    margin: 2% 2% 2% 0;
+    margin: 2% 0; /* Adjust margin to balance the spacing */
+    padding: 0 1% 1% 1%;
 }
 
 .guest-card .column {
     flex: 1;
     display: flex;
-	padding-left: 2%;
     align-items: center; /* Align items in the center vertically */
 }
 
 .guest-card .column label {
     width: 15em;
-    padding: 1%;
+    margin-left: 0.5em;
     text-align: left;
-    font-size: 1.2em;
+    font-size: 1em;
     font-weight: bold;
 }
 
-.guest-card .column input,.guest-card .column select {
+.guest-card .column input,
+.guest-card .column select {
     height: 3em; /* Set a consistent height */
     width: 100%;
-    padding: 1%;
+    padding: 0.5em; /* Adjust padding for better spacing */
     box-sizing: border-box;
-}
+    }
+
 
 .guest-card .column input#car-plate::placeholder{
-    font-size: 0.88em;
+    font-size: 0.8em;
     font-weight: bold;
 
 }
@@ -195,7 +203,7 @@
 
 .priceinfo .price-title{
     font-weight: bold;
-    font-size: 2em;
+    font-size: 1.5em;
 	padding: 1%;
 }
 
@@ -212,7 +220,7 @@
 }
     
 .product span{
-    font-size: 2em;
+    font-size: 1em;
     line-height: 1.5;
 } 
     
@@ -237,13 +245,13 @@ hr{
 }
 
 .remarks span.remarks-header{
-	font-size: 2em;
+	font-size: 1.5em;
 	font-weight: bold;
 	padding: 1%;
 }
 
 .remarks span.remarks-content{
-	font-size: 1.5em;
+	font-size: 1em;
 	display: block;
 	line-height: 1.5;
 	padding: 1%;
@@ -259,7 +267,7 @@ hr{
 .booking-button button#submit-btn{
 	width: 100%;
 	height: 2em;
-	font-size: 2em;
+	font-size: 1.5em;
 	border: none;
 	border-radius: 0.5em;
     cursor: pointer;
