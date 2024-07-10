@@ -48,10 +48,8 @@
                         <span>Standard Room</span>
                     </div>
                     <div class="room-features">
-                        <span class="features-items"><i class="fa-solid fa-bed"></i> 1 Queen Bed</span>
-                        <span class="features-items"><i class="fa-solid fa-bed"></i> 2 Single Bed</span>
-                        <span class="features-items"><i class="fa-solid fa-smoking"></i>Smoking</span>
-                        <span class="features-items"><i class="fa-solid fa-ban-smoking"></i>Non-Smoking</span>
+                        <span class="features-items"><i class="fa-solid fa-bed"></i> 1 Queen Bed /2 Single Bed</span>
+                        <span class="features-items"><i class="fa-solid fa-smoking"></i>Smoking / Non-Smoking</span>
                     </div>
                     <span class="size"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>17 m²/183 ft²</span>
                     <span class="refund">Not Refundable</span>
@@ -70,12 +68,67 @@
                                 <label for="check-out-date">Check Out Date</label>
                                 <input type="date" id="check-out-date" name="check-out-date" required>
                             </div>
-                            <div class="column" id="guestnum">
-                                <label for="guestnum">Number for Guest</label>
-                                <input type="number" name="guestnum" required>
+                            <div class="column" id="dayofstay">
+                                <label for="day">Day of Stay</label>
+                                <input type="number" id="day" name="day" readonly>
+                            </div>
+
+                            <div class="column" id="dayofstay">
+                                <label for="day">Room Quantity</label>
+                                <input type="number" id="room-quantity" name="room-quantity" required>
+                            </div>
+
+                            <div class="column" id="dayofstay">
+                                <label for="day">Bed Selection</label>
+                                <select name="bed" id="bed" required>
+                                    <option value="1 Queen Bed">1 Queen Bed</option>
+                                    <option value="2 Single Beds">2 Single Beds</option>
+                                  </select>
+                            </div>
+
+                            <div class="column" id="smoke-selection">
+                                <label for="day">Smoke?</label>
+                                <select name="smoke" id="smoke" required>
+                                    <option value="smoke">Smoking</option>
+                                    <option value="non-smoking">Non-smoking</option>
+                                  </select>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="additional-request-card">
+                        <span class="form-header">Additional Request</span>
+                        <div class="request-info">
+                            <div class="column" id="add-bed">
+                                <label for="add-bed">Add Extra Bed</label>
+                                <select name="add-bed" id="add-bed" onchange="toggleExtraBed(this.value)" required>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                    
+                            <div class="column" id="bed">
+                                <label for="bed-quantity">Extra Bed Quantity</label>
+                                <input type="number" id="bedquantity" name="bed-quantity" required placeholder="Key in the extra bed quantity">
+                            </div>
+                    
+                            <div class="column" id="add-breakfast">
+                                <label for="add-breakfast">Add Breakfast</label>
+                                <select name="add-breakfast" id="add-breakfast" onchange="toggleBreakfast(this.value)" required>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                    
+                            <div class="column" id="breakfast-quantity">
+                                <label for="breakfast-quantity">Breakfast Quantity</label>
+                                <input type="number" id="breakfastquantity" name="breakfast-quantity" required placeholder="Key in the breakfast quantity">
                             </div>
                         </div>
                     </div>
+                    
+                    
 
                     <div class="guest-card">
                         <span class="form-header">Guest Information</span>

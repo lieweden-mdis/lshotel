@@ -53,3 +53,59 @@ document.addEventListener('DOMContentLoaded', function() {
         carPlateInput.placeholder = "No car plate required";
     }
 });
+
+document.getElementById('check-in-date').addEventListener('change', calculateDays);
+        document.getElementById('check-out-date').addEventListener('change', calculateDays);
+
+        function calculateDays() {
+            // Get the values from the input fields
+            const checkinDate = document.getElementById('check-in-date').value;
+            const checkoutDate = document.getElementById('check-out-date').value;
+
+            // Check if both dates are provided
+            if (!checkinDate || !checkoutDate) {
+                document.getElementById('day').value = '';
+                return;
+            }
+
+            // Convert the date strings to Date objects
+            const checkin = new Date(checkinDate);
+            const checkout = new Date(checkoutDate);
+
+            // Calculate the difference in time
+            const diffTime = checkout - checkin;
+
+            // Convert the difference in time to days
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            // Set the value of the "day" input field
+            document.getElementById('day').value = diffDays > 0 ? diffDays : 0;
+        }
+        
+    function toggleExtraBed(value) {
+        var bedQuantityInput = document.getElementById('bedquantity');
+        if (value === 'No') {
+            bedQuantityInput.disabled = true;
+            bedQuantityInput.style.backgroundColor = 'black';
+            bedQuantityInput.placeholder = 'No extra bed quantity required';
+            bedQuantityInput.value = '';
+        } else {
+            bedQuantityInput.disabled = false;
+            bedQuantityInput.style.backgroundColor = '';
+            bedQuantityInput.placeholder = 'Key in the extra bed quantity';
+        }
+    }
+
+    function toggleBreakfast(value) {
+        var breakfastQuantityInput = document.getElementById('breakfastquantity');
+        if (value === 'No') {
+            breakfastQuantityInput.disabled = true;
+            breakfastQuantityInput.style.backgroundColor = 'black';
+            breakfastQuantityInput.placeholder = 'No extra bed quantity required';
+            breakfastQuantityInput.value = '';
+        } else {
+            breakfastQuantityInput.disabled = false;
+            breakfastQuantityInput.style.backgroundColor = '';
+            breakfastQuantityInput.placeholder = 'Key in the breakfast quantity';
+        }
+    }
