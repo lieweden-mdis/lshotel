@@ -272,6 +272,26 @@ body {
     font-size: 0.8em;
 }
 
+
+.additional-request-remarks{
+    display: flex;
+     justify-content: space-around;
+}
+
+.additional-request-card span#extra-bed-remarks{
+    color: red;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 1% 0 1%;
+}
+
+.additional-request-card span#add-breakfast-remarks{
+    color: red;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 0 1% 0 1%;
+}
+
 .booking-container .price-card {
     display: flex;
     flex-direction: column;

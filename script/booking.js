@@ -101,7 +101,7 @@ document.getElementById('check-in-date').addEventListener('change', calculateDay
         if (value === 'No') {
             breakfastQuantityInput.disabled = true;
             breakfastQuantityInput.style.backgroundColor = 'black';
-            breakfastQuantityInput.placeholder = 'No extra bed quantity required';
+            breakfastQuantityInput.placeholder = 'No breakfast quantity required';
             breakfastQuantityInput.value = '';
         } else {
             breakfastQuantityInput.disabled = false;
