@@ -24,6 +24,8 @@ body {
     display: flex;
     margin-left: 5%;
     margin-right: 5%;
+    flex-wrap: wrap;
+    gap: 20px; /* Added gap for better spacing */
 }
 
 /* Room Type */
@@ -32,6 +34,7 @@ body {
     flex-direction: column;
     padding: 1%;
     border-radius: 0.8em;
+    flex: 3;
 }
 
 .roomtype-card .room-type-box {
@@ -112,7 +115,7 @@ body {
 }
 
 .booking-card {
-    flex: 1 1 60%; /* Adjust these values based on your design */
+    flex: 1 1 60%;
     display: flex;
     flex-direction: column;
     border-radius: 0.8em;
@@ -136,7 +139,7 @@ body {
 }
 
 .booking-info .column {
-    flex: 1 1 auto; /* Allow columns to grow and shrink */
+    flex: 1 1 auto;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -148,20 +151,20 @@ body {
 .booking-info .column#checkindate,
 .booking-info .column#checkoutdate,
 .booking-info .column#dayofstay {
-    flex: 1 1 calc(33.33% - 0.5em); /* Larger width for Check In, Check Out, and Day of Stay */
+    flex: 1 1 calc(33.33% - 0.5em);
 }
 
 .booking-info .column#room-quantity,
-.booking-info .column#bed,
-.booking-info .column#smoke {
-    flex: 1 1 calc(33.33% - 0.5em); /* Equal width for Room Quantity, Bed Selection, and Smoke */
+.booking-info .column#bed-selection,
+.booking-info .column#smoke-selection {
+    flex: 1 1 calc(33.33% - 0.5em);
 }
 
 .booking-info label {
-    white-space: nowrap; /* Prevent the label text from wrapping */
-    text-align: right;
+    white-space: nowrap;
+    text-align: left; /* Changed alignment to left */
     font-size: 1em;
-    margin-right: 0.2em;
+    margin-bottom: 0.2em;
     font-weight: bold;
 }
 
@@ -169,7 +172,7 @@ body {
 .booking-info input[type="number"], 
 .booking-info select {
     flex: 1;
-    height: 3em; /* Set a consistent height */
+    height: 3em;
     width: 100%;
     padding: 0.5em;
     font-size: 1.2em;
@@ -190,19 +193,19 @@ body {
 
 .guest-card .row {
     display: flex;
-    margin: 2% 0; /* Adjust margin to balance the spacing */
+    margin: 2% 0;
     padding: 0 1% 1% 1%;
+    gap: 20px; /* Added gap for better spacing */
 }
 
 .guest-card .column {
     flex: 1;
     display: flex;
-    align-items: center; /* Align items in the center vertically */
+    flex-direction: column; /* Changed to column */
 }
 
 .guest-card .column label {
-    width: 15em;
-    margin-left: 0.5em;
+    margin-bottom: 0.2em; /* Adjusted margin for better spacing */
     text-align: left;
     font-size: 1em;
     font-weight: bold;
@@ -210,9 +213,9 @@ body {
 
 .guest-card .column input,
 .guest-card .column select {
-    height: 3em; /* Set a consistent height */
+    height: 3em;
     width: 100%;
-    padding: 0.5em; /* Adjust padding for better spacing */
+    padding: 0.5em;
     box-sizing: border-box;
 }
 
@@ -221,8 +224,9 @@ body {
     font-weight: bold;
 }
 
+/* Additional Request Card */
 .additional-request-card {
-    flex: 1 1 60%; /* Adjust these values based on your design */
+    flex: 1 1 45%;
     display: flex;
     flex-direction: column;
     border-radius: 0.8em;
@@ -234,11 +238,12 @@ body {
 
 .request-info {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.5em;
 }
 
 .request-info .column {
-    flex: 1 1 auto; /* Allow columns to grow and shrink */
+    flex: 1 1 calc(50% - 0.5em);
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -247,45 +252,34 @@ body {
 }
 
 .request-info label {
-    white-space: nowrap; /* Prevent the label text from wrapping */
-    text-align: right;
+    white-space: nowrap;
+    text-align: left; /* Changed alignment to left */
     font-size: 1em;
-    margin-right: 0.2em;
+    margin-bottom: 0.2em;
     font-weight: bold;
 }
- 
+
 .request-info input[type="number"], 
 .request-info select {
     flex: 1;
-    height: 3em; /* Set a consistent height */
+    height: 3em;
     width: 100%;
     padding: 0.5em;
     font-size: 1.2em;
     box-sizing: border-box;
 }
 
-.request-info input#breakfastquantity::placeholder{
+.request-info input#breakfastquantity::placeholder,
+.request-info input#bedquantity::placeholder {
     font-size: 0.8em;
 }
 
-.request-info input#bedquantity::placeholder{
-    font-size: 0.8em;
-}
-
-
-.additional-request-remarks{
+.additional-request-remarks {
     display: flex;
-     justify-content: space-around;
+    justify-content: space-around;
 }
 
-.additional-request-card span#extra-bed-remarks{
-    color: red;
-    font-size: 1.2em;
-    font-weight: bold;
-    padding: 0 1% 0 1%;
-}
-
-.additional-request-card span#add-breakfast-remarks{
+.additional-request-card span#additional-charges-remarks-text{
     color: red;
     font-size: 1.2em;
     font-weight: bold;
@@ -296,12 +290,22 @@ body {
     display: flex;
     flex-direction: column;
     padding: 1%;
-    height:fit-content;
+    height: fit-content;
     border-radius: 0.8em;
     margin-top: 1%;
-    margin-bottom: 2%; /* Adjust margin bottom if necessary */
+    margin-bottom: 2%;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     background-color: white;
+    flex: 1;
+    margin-left: auto; /* Align to the right */
+    position: sticky; /* Make the price card sticky */
+    top: 20px; /* Set the distance from the top of the viewport */
+    transition: box-shadow 0.3s ease, background-color 0.3s ease; /* Add transition for smooth effect */
+}
+
+.price-card.sticky {
+    box-shadow: rgba(0, 0, 0, 0.5) 0px 8px 20px;
+    background-color: #f8f9fa;
 }
 
 .priceinfo .price-title {
@@ -322,7 +326,7 @@ body {
 }
 
 .product span {
-    font-size: 1em;
+    font-size: 1.2em;
     line-height: 1.5;
 }
 
@@ -353,7 +357,7 @@ hr {
 }
 
 .remarks span.remarks-content {
-    font-size: 1em;
+    font-size: 1.2em;
     display: block;
     line-height: 1.5;
     padding: 1%;
@@ -368,14 +372,90 @@ hr {
 
 .booking-button button#submit-btn {
     width: 100%;
-    height: 2em;
-    font-size: 1.5em;
+    height: 3em; /* Increased height for better appearance */
+    font-size: 1.2em; /* Adjusted font size */
     border: none;
     border-radius: 0.5em;
     cursor: pointer;
-    background-color: lightgray;
+    background-color: #007bff; /* Primary color */
+    color: white;
+    transition: background-color 0.3s ease;
 }
 
 .booking-button button#submit-btn:hover {
-    background-color: skyblue;
+    background-color: #0056b3; /* Hover color */
+}
+
+/* Styles for dynamically generated elements */
+#additional-requests-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1em;
+}
+
+/* Additional styles */
+#add-car-plate-btn {
+    border-radius: 0.5em;
+    background-color: #007bff;
+    font-size: 1em;
+    color: white;
+    border: none;
+    padding: 0.8em; /* Adjusted padding */
+    margin-left: 10px; /* Added margin for spacing */
+    height: 3em; /* Adjusted height */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: inline-block;
+    flex: 0 1 auto;
+    align-self: flex-end; /* Align button to the bottom */
+}
+
+#add-car-plate-btn:hover {
+    background-color: #0056b3;
+}
+
+#add-car-plate-btn.disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+}
+
+#car-plate-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.car-plate-row {
+    display: flex;
+    flex-direction: column;
+    margin: 2%;
+    gap: 0.5em;
+}
+
+.car-plate-label {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.car-plate-row input {
+    font-size: 1em;
+    height: 3em;
+    padding: 1%;
+    box-sizing: border-box;
+}
+
+.car-plate-row button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 0.8em; /* Adjusted padding */
+    cursor: pointer;
+    border-radius: 0.5em;
+    margin-left: auto;
+    height: 3em;
+    align-self: flex-end;
+}
+
+.car-plate-row button:hover {
+    background-color: darkred;
 }
