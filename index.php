@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php
+session_start();
+require 'header.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,30 +13,6 @@
     <link rel="stylesheet" type="text/css" href="css/index.css">
 </head>
 <body>
-    <header>
-        <div>
-            <img src="img/logo.png" alt="Logo">
-        </div>
-        <div class="user-links">
-            <?php if (isset($_SESSION['full_name'])): ?>
-                <span>Welcome, <?php echo htmlspecialchars($_SESSION['full_name']); ?></span>
-                <a href="logout.php">Logout</a>
-            <?php else: ?>
-                <a href="login.html">Login</a>
-                <a href="register.html">Register</a>
-            <?php endif; ?>
-            <a href="profile.html"><img src="img/profile-icon.png" alt="profile-icon"></a>
-        </div>
-    </header>
-    
-    <nav>
-        <a href="index.php">HOME</a>
-        <a href="room.html">ROOM</a>
-        <a href="facilities.html">FACILITIES</a>
-        <a href="dining.html">DINING</a>
-        <a href="about.html">ABOUT</a>
-    </nav>
-
     <section class="banner">
         <img src="img/banner.jpg" alt="Banner Image">
         <div class="booking-form">
@@ -80,7 +59,7 @@
                 </span>
             </div>
             <div class="viewmore">
-                <a href="standard-room.html" target="_blank">View More</a>
+                <a href="standard-room.php" target="_blank">View More</a>
             </div>
         </div>
 
@@ -99,7 +78,7 @@
                 </span>
             </div>
             <div class="viewmore">
-                <a href="deluxe-room.html" target="_blank">View More</a>
+                <a href="deluxe-room.php" target="_blank">View More</a>
             </div>
         </div>
 
@@ -118,7 +97,7 @@
                 </span>
             </div>
             <div class="viewmore">
-                <a href="triple-room.html" target="_blank">View More</a>
+                <a href="triple-room.php" target="_blank">View More</a>
             </div>
         </div>
 
@@ -137,7 +116,7 @@
                 </span>
             </div>
             <div class="viewmore">
-                <a href="family-suite-room.html" target="_blank">View More</a>
+                <a href="family-suite-room.php" target="_blank">View More</a>
             </div>
         </div>
     </div>

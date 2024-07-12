@@ -11,6 +11,8 @@ html, body {
 }
 
 .login-form {
+    display: flex;
+    flex-direction: column;
     border-radius: 40px;
     width: fit-content;
     height: fit-content;

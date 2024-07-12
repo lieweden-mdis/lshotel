@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="keywords" content="Hotel">
+    
+    <!--Icon-->  
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!--Font Family-->
+    
+    <!--CSS Stylesheet-->
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/booking.css">
+    
+    <title>L's HOTEL - PROFILE</title>
+    <link rel="icon" href="img/icon.jpg">
+</head>
+<body>
+    <?php include 'header.php'; ?>   
+    <!--Booking-->
+    <div class="booking-header">
+        <span>Booking Page</span>
+    </div>
+    
+    <!--Container for flex-->
+    <div class="booking-container">
+        <div class="roomtype-card">
+            <div class="room-type-box">
+                <img src="img/room-image/deluxe-room/deluxe1.webp" alt="Deluxe Room"/>
+                <div class="room-type-info">
+                    <div class="room-type-header">
+                        <span id="room-type-name">Deluxe Room</span>
+                    </div>
+                    <div class="room-features">
+                        <span class="features-items"><i class="fa-solid fa-bed"></i> 1 Queen Bed / 2 Single Beds</span>
+                        <span class="features-items"><i class="fa-solid fa-smoking"></i> Smoking / Non-Smoking</span>
+                    </div>
+                    <span class="size"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> 17 m² / 183 ft²</span>
+                    <span class="refund">Not Refundable</span>
+                </div>
+            </div>
+            <form id="booking-form" action="process_booking.php" method="post">
+                <div class="form-content">
+                    <div class="booking-card">
+                        <span class="form-header">Booking Information</span>
+                        <div class="booking-info">
+                            <div class="column" id="checkindate">
+                                <label for="check-in-date">Check In Date</label>
+                                <input type="date" id="check-in-date" name="check-in-date" required onchange="calculateDays()">
+                            </div>
+                            <div class="column" id="checkoutdate">
+                                <label for="check-out-date">Check Out Date</label>
+                                <input type="date" id="check-out-date" name="check-out-date" required onchange="calculateDays()">
+                            </div>
+                            <div class="column" id="dayofstay">
+                                <label for="day">Day of Stay</label>
+                                <input type="number" id="day" name="day" readonly>
+                            </div>
+
+                            <div class="column" id="room-quantity">
+                                <label for="room-quantity-input">Room Quantity</label>
+                                <input type="number" id="room-quantity-input" name="room-quantity" required onchange="generateRoomOptions()">
+                            </div>
+
+                            <div class="column" id="bed-selection">
+                                <label for="bed">Bed Selection</label>
+                                <select name="bed" id="bed" required>
+                                    <option value="" selected disabled hidden></option>
+                                    <option value="1 Queen Bed">1 Queen Bed</option>
+                                    <option value="2 Single Beds">2 Single Beds</option>
+                                </select>
+                            </div>
+
+                            <div class="column" id="smoke-selection">
+                                <label for="smoke">Smoke?</label>
+                                <select name="smoke" id="smoke" required>
+                                    <option value="" selected disabled hidden></option>
+                                    <option value="smoke">Smoking</option>
+                                    <option value="non-smoking">Non-smoking</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="additional-requests-container"></div>
+
+                    <div class="guest-card">
+                        <span class="form-header">Guest Information</span>
+                        <div class="row">
+                            <div class="column">
+                                <label for="fname">First Name</label>
+                                <input type="text" name="fname" id="fname" required maxlength="128" placeholder="This is same with given name">
+                            </div>
+                            <div class="column">
+                                <label for="lname">Last Name</label>
+                                <input type="text" name="lname" id="lname" required maxlength="128" placeholder="This is your surname">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="column">
+                                <label for="email">Email</label>
+                                <input type="email" name="email" id="email" placeholder="Please key in your email (If have)">
+                            </div>
+                            <div class="column">
+                                <label for="phone">Phone Number</label>
+                                <input type="text" name="phone" id="phone" required minlength="8" maxlength="11" placeholder="Example:0123456789">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="column">
+                                <label for="car-1">Bring Car?</label>
+                                <select name="car-1" id="car-1" required onchange="toggleCarPlateField(this)">
+                                    <option value="" selected disabled hidden></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <div class="column">
+                                <button id="add-car-plate-btn" type="button" onclick="addCarPlateField()">Add Car Plate</button>
+                            </div>
+                        </div>
+                        <div id="car-plate-container"></div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="price-card">
+            <div class="priceinfo">
+                <span class="price-title">Price Detail</span>
+                <div class="product">
+                    <div class="column">
+                        <span id="stay-duration">0 Room @ 0 Night</span>
+                        <span id="stay-price">RM 0</span>
+                    </div>
+                    <div id="additional-charges-container" class="column">
+                        <span>Additional Charges</span>
+                        <span id="additional-charges">RM 0</span>
+                    </div>
+                    <hr>
+                    <div class="column">
+                        <span>Total Amount</span>
+                        <span id="total-amount">RM 0</span>
+                    </div>
+                </div>
+            </div>
+            <div class="remarks">
+                <span class="remarks-header">Remarks</span>
+                <span class="remarks-content">
+                    Check-in time: 3 PM (early check in will be charge RM50 upon check in)
+                    <br>
+                    Check-out time: 1 PM (all customers must check out before this time)
+                </span>
+                <span class="remarks-content">
+                    A RM 50 cleaning fee will be charged if smoking occurs in a non-smoking room.
+                </span>
+            </div>
+            <div class="booking-button">
+                <button id="submit-btn" type="button" onclick="submitForm(event)">Submit Booking</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy;2024 L's Hotel  All Right Reserved.</p>
+    </footer>
+
+    <script src="script/booking.js" type="text/javascript"></script>
+</body>
+</html>

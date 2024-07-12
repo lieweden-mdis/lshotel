@@ -38,24 +38,6 @@ nav a {
   text-decoration: none;
 }
 
-.user-links {
-  display: flex;
-  align-items: center;
-}
-
-.user-links a {
-  color: white;
-  margin: 0 0.5em;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-}
-
-.user-links a img {
-  height: 24px;
-  margin-right: 0.5em;
-}
-
 footer {
   background-color: #87cefa;
   color: white;

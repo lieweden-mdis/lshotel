@@ -1,3 +1,24 @@
+<?php
+require 'header.php';
+require 'config.php'; // Include database connection
+
+// Check if the user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit;
+}
+
+// Fetch user details from the database
+$user_id = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT first_name, last_name, email, phone_number FROM users WHERE id = ?");
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($firstName, $lastName, $email, $phone);
+$stmt->fetch();
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,30 +39,14 @@
     <link rel="icon" href="img/icon.jpg">
 </head>
 <body>
-  <header>
-    <div>
-  <img src="img/logo.png" alt="Logo">
-    </div>
-    <div class="user-links">
-        <a href="login.html">Login</a>
-        <a href="register.html">Register</a>
-        <a href="profile.html"><img src="img/profile-icon.png" alt="profile-icon"></a>
-    </div>
-</header>
+    <!--Header and Nav included through header.php-->
 
-<nav>
-    <a href="index.html">HOME</a>
-    <a href="room.html">ROOM</a>
-    <a href="facilities.html">FACILITIES</a>
-    <a href="dining.html">DINING</a>
-    <a href="about.html">ABOUT</a>
-</nav>
     <!--Profile-->
     <section class="account">
       <div class="sidemenu">
-        <a href="profile.html"><i class="fa-solid fa-user"></i>My Profile</a>
-        <a href="reservation.html"><i class="fa-regular fa-calendar-check"></i>My Reservation</a>
-        <a href="receipt.html"><i class="fa-solid fa-receipt"></i>My Receipt</a>
+        <a href="profile.php"><i class="fa-solid fa-user"></i>My Profile</a>
+        <a href="reservation.php"><i class="fa-regular fa-calendar-check"></i>My Reservation</a>
+        <a href="receipt.php"><i class="fa-solid fa-receipt"></i>My Receipt</a>
         <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
       </div>
       <div class="content">
@@ -51,19 +56,19 @@
         <div class="profile">
           <fieldset class="box">
             <legend>Name</legend>
-            <span>Liew Eden</span>
+            <span><?php echo htmlspecialchars($lastName . ' ' . htmlspecialchars($firstName)); ?></span>
             <button type="button">Edit</button>
           </fieldset>
 
           <fieldset class="box">
             <legend>Email</legend>
-            <span>lieweden03@gmail.com</span>
+            <span><?php echo htmlspecialchars($email); ?></span>
             <button type="button">Edit</button>
           </fieldset>
 
           <fieldset class="box">
             <legend>Phone Number</legend>
-            <span>01128220633</span>
+            <span><?php echo htmlspecialchars($phone); ?></span>
             <button type="button">Edit</button>
           </fieldset>
 
