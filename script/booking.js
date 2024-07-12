@@ -1,16 +1,64 @@
-const roomPrices = {
-    "Standard Room": 300,
-    "Deluxe Room": 340,
-    "Triple Room": 500,
-    "Family Suite Room": 1000
-};
+function fetchRoomDetails(roomType) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'fetch-room-details.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const roomDetails = JSON.parse(xhr.responseText);
+            updateRoomDetails(roomDetails);
+        } else {
+            console.error('Failed to fetch room details: ' + xhr.statusText);
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Error during the AJAX request.');
+    };
+    xhr.send('room_type=' + encodeURIComponent(roomType) + '&response_type=json');
+}
+
+function updateRoomDetails(roomDetails) {
+    document.getElementById('room-type-name').textContent = roomDetails.name;
+    document.getElementById('room-price').textContent = 'RM ' + roomDetails.price + ' per Room per Night';
+    document.getElementById('room-size').textContent = roomDetails.size;
+    document.getElementById('room-image').src = roomDetails.image;
+
+    const featuresContainer = document.getElementById('room-features');
+    featuresContainer.innerHTML = ''; // Clear previous entries
+    roomDetails.features.forEach(feature => {
+        const featureElement = document.createElement('span');
+        featureElement.textContent = feature;
+        featuresContainer.appendChild(featureElement);
+    });
+
+    // Populate bed options
+    const bedSelect = document.getElementById('bed');
+    bedSelect.innerHTML = '<option value="" selected disabled hidden></option>';
+    roomDetails.bed_options.forEach(bed => {
+        const option = document.createElement('option');
+        option.value = bed;
+        option.textContent = bed;
+        bedSelect.appendChild(option);
+    });
+
+    // Populate smoking options
+    const smokeSelect = document.getElementById('smoke');
+    smokeSelect.innerHTML = '<option value="" selected disabled hidden></option>';
+    roomDetails.smoking_options.forEach(smoke => {
+        const option = document.createElement('option');
+        option.value = smoke;
+        option.textContent = smoke;
+        smokeSelect.appendChild(option);
+    });
+
+    updatePriceDetails();
+}
 
 function calculateDays() {
     const checkInDateValue = document.getElementById('check-in-date').value;
     const checkOutDateValue = document.getElementById('check-out-date').value;
 
     if (!checkInDateValue || !checkOutDateValue) {
-        return;
+        return; // Exit function if either date is not selected
     }
 
     const checkInDate = new Date(checkInDateValue);
@@ -22,6 +70,7 @@ function calculateDays() {
 
     const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
     const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
     const adjustedNightCount = dayDiff === 0 ? 1 : dayDiff;
 
     document.getElementById('day').value = adjustedNightCount;
@@ -31,7 +80,7 @@ function calculateDays() {
 function generateRoomOptions() {
     const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
     const container = document.getElementById('additional-requests-container');
-    container.innerHTML = '';
+    container.innerHTML = ''; // Clear previous entries
 
     for (let i = 1; i <= roomQuantity; i++) {
         const roomDiv = document.createElement('div');
@@ -73,6 +122,7 @@ function generateRoomOptions() {
         `;
         container.appendChild(roomDiv);
 
+        // Add event listeners for the newly created elements
         document.getElementById(`add-bed-${i}`).addEventListener('change', function() {
             toggleFieldState(this, `bedquantity-${i}`);
         });
@@ -83,8 +133,8 @@ function generateRoomOptions() {
         document.getElementById(`breakfastquantity-${i}`).addEventListener('input', updatePriceDetails);
     }
 
-    updatePriceDetails();
-    updateCarPlateButtonState();
+    updatePriceDetails(); // Ensure initial update after generating options
+    updateCarPlateButtonState(); // Update car plate button state
 }
 
 function toggleFieldState(selectElement, inputId) {
@@ -101,20 +151,20 @@ function toggleFieldState(selectElement, inputId) {
         inputElement.style.backgroundColor = "grey";
         inputElement.style.color = "#aaa";
     }
-    updatePriceDetails();
+    updatePriceDetails(); // Update after toggle
 
     inputElement.addEventListener('input', function() {
         let value = this.value.trim();
 
         if (parseFloat(value) < 0) {
-            this.value = '';
+            this.value = ''; 
             return;
         }
 
         if (value.includes('e')) {
             const parts = value.split('e');
             if (parts.length !== 2 || isNaN(parts[1])) {
-                this.value = '';
+                this.value = ''; 
                 return;
             }
         }
@@ -181,10 +231,10 @@ function updatePriceDetails() {
 function submitForm(event) {
     const form = document.getElementById('booking-form');
     if (!form.checkValidity()) {
-        event.preventDefault();
-        form.reportValidity();
+        event.preventDefault(); 
+        form.reportValidity(); 
     } else {
-        form.submit();
+        form.submit(); 
     }
 }
 
@@ -229,7 +279,7 @@ function addCarPlateField() {
     removeButton.innerText = 'Remove';
     removeButton.onclick = function() {
         container.removeChild(row);
-        updateCarPlateButtonState();
+        updateCarPlateButtonState(); 
     };
     row.appendChild(removeButton);
 
@@ -264,6 +314,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById('check-in-date').addEventListener('change', calculateDays);
     document.getElementById('check-out-date').addEventListener('change', calculateDays);
+
     document.getElementById('room-quantity-input').addEventListener('change', generateRoomOptions);
 
     document.querySelectorAll('select[name^="add-bed"]').forEach(select => {
@@ -286,14 +337,14 @@ document.addEventListener('DOMContentLoaded', function() {
             let value = this.value.trim();
 
             if (parseFloat(value) < 0) {
-                this.value = '';
+                this.value = ''; 
                 return;
             }
 
             if (value.includes('e')) {
                 const parts = value.split('e');
                 if (parts.length !== 2 || isNaN(parts[1])) {
-                    this.value = '';
+                    this.value = ''; 
                     return;
                 }
             }
@@ -306,14 +357,14 @@ document.addEventListener('DOMContentLoaded', function() {
             let value = this.value.trim();
 
             if (parseFloat(value) < 0) {
-                this.value = '';
+                this.value = ''; 
                 return;
             }
 
             if (value.includes('e')) {
                 const parts = value.split('e');
-                if (parts.length !== 2 || isNaN(parts[1])) {
-                    this.value = '';
+                if (parts.length !== 2 or isNaN(parts[1])) {
+                    this.value = ''; 
                     return;
                 }
             }

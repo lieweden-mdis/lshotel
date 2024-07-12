@@ -46,15 +46,20 @@ body {
 }
 
 /* Room Image */
-.room-type-box img {
-    width: 10em;
-    height: 10em;
+.room-type-box img#room-image {
+    width: 12em;
+    height: 12em;
 }
 
 .room-type-info {
     display: flex;
     flex-direction: column;
     width: 100%;
+}
+
+.room-price-card .room-price{
+    color: black;
+    font-weight: bold;
 }
 
 /* Room Type */
@@ -100,6 +105,17 @@ body {
     margin: 0 2% 0 2%;
     font-weight: bold;
     color: red;
+}
+
+.room-price-card {
+    color: black;
+    font-weight: bold;
+    font-size: 1.5em;
+    margin: 0 2% 0 2%;
+}
+.feature-item, #room-size {
+    color: black;
+    font-weight: bold;
 }
 
 #booking-form {
