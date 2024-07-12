@@ -4,119 +4,129 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - TRIPLE ROOM</title>
-    <link rel="icon" href="img/icon.jpg" >
+    <link rel="icon" href="img/icon.jpg">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-	<link rel="stylesheet" type="text/css" href="css/room-details.css">
+    <link rel="stylesheet" type="text/css" href="css/room-details.css">
+    <style>
+        .room-description {
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+            margin: 1% 2% 2% 2%;
+            padding: 1%;
+            border-radius: 0.5em;
+            box-shadow: rgba(187, 201, 211, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+        }
+
+        .room-description .description-header {
+            font-size: 2em;
+            font-weight: bold;
+        }
+
+        .room-description .description-content {
+            font-size: 1.1em;
+            line-height: 1.5;
+        }
+
+        .book-now-btn {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .book-now-btn:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
-      
 <body>
-
-<?php include 'header.php'; ?>
-
-<!--Room-->
-
+    <?php include 'header.php'; ?>
+    <!--Room-->
     <div class="room-header">
-        <span class="header">Triple Room</span>
+        <span class="header" id="roomType">Triple Room</span>
     </div>
-    <div class="roomcontainer">
-        <div class="room-gallery">
-                <div class="mySlides">
-                  <img src="img/room-image/triple-room/triple1.jpg"  alt="roomimg1" style="width:100%">
-                </div>
-              
-                <div class="mySlides">
-                  <img src="img/room-image/triple-room/triple2.jpg" alt="roomimg2" style="width:100%">
-                </div>
-              
-                <div class="mySlides">
-                  <img src="img/room-image/triple-room/triple3.webp" alt="roomimg3" style="width:100%">
-                </div>
-                  
-                <div class="mySlides">
-                  <img src="img/room-image/triple-room/triple4.jpg" alt="roomimg4" style="width:100%">
-                </div>
-                  
-                <a class="prev" onclick="plusSlides(-1)">❮</a>
-                <a class="next" onclick="plusSlides(1)">❯</a>
-              
-                <div class="caption-container">
-                  <p id="caption"></p>
-                </div>
-              
-                <div class="row">
-                  <div class="column">
-                    <imgsrc="img/room-image/gallery.webp" alt="gallery" style="width:100%">
-                    <img class="demo" src="img/room-image/triple-room/triple1.jpg" onclick="currentSlide(1)" alt="">
-                  </div>
-                  <div class="column">
-                    <img class="demo" src="img/room-image/triple-room/triple2.jpg" onclick="currentSlide(2)" alt="">
-                  </div>
-                  <div class="column">
-                    <img class="demo" src="img/room-image/triple-room/triple3.webp" onclick="currentSlide(3)" alt="">
-                  </div>
-                  <div class="column">
-                    <img class="demo" src="img/room-image/triple-room/triple4.jpg" onclick="currentSlide(4)" alt="">
-                  </div>  
-                </div>
-              </div>
-
-        <div class="room-details">
-            <span class="price">RM 500 per night</span>
-            <div class="features">
-                <span class="label">Features</span>
-                <div class="features-list">
-                  <span class="features-items">1 Queen Bed</span>
-                  <span class="features-items">1 Single Bed</span>
-                  <span class="features-items">Smoking</span>
-                  <span class="features-items">Non-Smoking</span>
-                </div>
-            </div>
-            <div class="facility">
-                <span class="label">Facilities</span>
-                <div class="facility-list">
-                    <span class="facility-items">Mobility accessibility</span>
-                    <span class="facility-items">Hair dryer</span>
-                    <span class="facility-items">Private bathroom</span>
-                    <span class="facility-items">Toiletries</span>
-                    <span class="facility-items">Towels</span>
-                    <span class="facility-items">Satellite/cable channels</span>
-                    <span class="facility-items">Telephone</span>
-                    <span class="facility-items">Fan</span>
-                    <span class="facility-items">Slippers</span>
-                    <span class="facility-items">Air conditioning</span>
-                    <span class="facility-items">Coffee/tea maker</span>
-                    <span class="facility-items">Mineral Water</span>
-                    <span class="facility-items">Refrigerator</span>
-                    <span class="facility-items">Daily housekeeping</span>
-                    <span class="facility-items">Desk</span>
-                    <span class="facility-items">Window</span>
-                    <span class="facility-items">Closet</span>
-                    <span class="facility-items">Ironing facilities</span>
-                    <span class="facility-items">Safety Box</span>
-                </div>
-            </div>
-            <div class="size">
-                <span class="label">Size</span>
-                <span class="size-info">17 m²/183 ft²</span>
-            </div>
-            <button>Book Now</button>
-            <div class="availability">
-              <span>Room Availability: 9</span>
-            </div>
-        </div>
-      </div>
-        <!--Room Description-->
-        <div class="room-descripion">
-          <span class="description-header">Description</span>
-          <p class="description-content">
-            Experience comfort and convenience in our well-appointed Triple Room, designed to cater to the needs of small groups or families. This room offers a perfect blend of functionality and style, ensuring a pleasant and memorable stay.
-          </p>
-        </div>
-
+    <div id="roomDetails"></div>
+    
     <footer>
-        <p>&copy;2024 L's Hotel  All Right Reserved.</p>
+        <p>&copy;2024 L's Hotel All Right Reserved.</p>
     </footer>
     
-    </body>
-    <script src="script/room-details.js" type="text/javascript"></script>
-    </html>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        var roomType = document.getElementById('roomType').textContent;
+
+        // Make an AJAX request to fetch room details
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'fetch-room-details.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                document.getElementById('roomDetails').innerHTML = xhr.responseText;
+                // Re-initialize slideshow functions after content load
+                initSlideshow();
+                
+                // Check room availability and disable book now button if necessary
+                var availability = document.getElementById('roomAvailability').value;
+                var bookNowButton = document.getElementById('bookNow');
+                if (availability == 0) {
+                    bookNowButton.disabled = true;
+                    bookNowButton.textContent = 'Not Available';
+                } else {
+                    bookNowButton.addEventListener('click', function() {
+                        window.location.href = 'booking.php?roomType=' + encodeURIComponent(roomType);
+                    });
+                }
+            }
+        };
+        xhr.send('room_type=' + encodeURIComponent(roomType) + '&response_type=html');
+    });
+
+    function initSlideshow() {
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        function currentSlide(n) {
+            showSlides(slideIndex = n);
+        }
+
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("demo");
+
+            if (slides.length === 0 || dots.length === 0) {
+                console.error("Slideshow elements not found.");
+                return;
+            }
+
+            if (n > slides.length) {slideIndex = 1}
+            if (n < 1) {slideIndex = slides.length}
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";
+            dots[slideIndex-1].className += " active";
+        }
+
+        document.querySelector('.prev').addEventListener('click', function() { plusSlides(-1); });
+        document.querySelector('.next').addEventListener('click', function() { plusSlides(1); });
+        document.querySelectorAll('.demo').forEach((element, index) => {
+            element.addEventListener('click', function() { currentSlide(index + 1); });
+        });
+    }
+    </script>
+</body>
+</html>

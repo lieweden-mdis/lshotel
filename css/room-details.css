@@ -1,101 +1,94 @@
 body {
-    font-family: Arial;
-    margin: 0;
-  }
-  
-  * {
-    box-sizing: border-box;
-  }
-.roomcontainer{
+  font-family: Arial;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.roomcontainer {
   display: flex;
   justify-content: space-between;
   padding-left: 1%;
   padding-right: 1%;
 }
-  .room-header{
-    padding: 1% 2% 0 2%;
-  }
 
-.room-header span{
-    font-size: 1.5em;
-    font-weight: bold;
+.room-header {
+  padding: 1% 2% 0 2%;
 }
 
-  /* Position the image container (needed to position the left and right arrows) */
-  .room-gallery {
-    position: relative;
-    margin: 1%;
-    width: 100%;
-    height: fit-content;
-    padding: 0.5%;
-    border-radius: 0.5em;
-    box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;  
-  }
+.room-header span {
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
-    /* Hide the images by default */
-    .room-gallery .mySlides {
-      display: none;
-    }
- .room-gallery .mySlides img {
-    vertical-align: middle;
-    height: 50vh;
-    border-radius: 0.5em 0.5em 0 0;
+/* Position the image container (needed to position the left and right arrows) */
+.room-gallery {
+  position: relative;
+  margin: 1%;
+  width: 100%;
+  height: fit-content;
+  padding: 0.5%;
+  border-radius: 0.5em;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
 
-  }
-  
-    /* Next & previous buttons */
-  .room-gallery .prev,
-  .room-gallery .next {
-    cursor: pointer;
-    position: absolute;
-    top: 25vh;
-    width: auto;
-    padding: 16px;
-    color: #ffffff;
-    font-weight: bold;
-    font-size: 20px;
-    border-radius: 0 3px 3px 0;
-    user-select: none;
-    -webkit-user-select: none;
-  }
-  
-  /* Position the "next button" to the right */
-  .room-gallery .next {
-    right: 0;
-    border-radius: 3px 0 0 3px;
-  }
-  
-  /* On hover, add a black background color with a little bit see-through */
-  .room-gallery .prev:hover,
-  .room-gallery .next:hover {
-    background-color: rgba(0, 0, 0, 0.8);
-  }
-  
-  /* Container for image text */
-  .room-gallery .caption-container {
-	  display:flex;
-	  justify-content: center;
-	  align-items: center;
-	  background-color: #222;
-	  height: 5vh;
-	  font-size: 1.5em;
-	  color: white;
-  }
-  .room-gallery .row {
-    padding-top: 1%;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: 10px;
-  }
-  .room-gallery .row:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
-  
-  .room-gallery .column {
-    flex: 1;
+/* Hide the images by default */
+.room-gallery .mySlides {
+  display: none;
+}
+
+.room-gallery .mySlides img {
+  vertical-align: middle;
+  height: 50vh;
+  border-radius: 0.5em 0.5em 0 0;
+}
+
+/* Next & previous buttons */
+.room-gallery .prev,
+.room-gallery .next {
+  cursor: pointer;
+  position: absolute;
+  top: 25vh;
+  width: auto;
+  padding: 16px;
+  color: #ffffff;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Position the "next button" to the right */
+.room-gallery .next {
+  right: 0;
+  border-radius: 3px 0 0 3px;
+}
+
+/* On hover, add a black background color with a little bit see-through */
+.room-gallery .prev:hover,
+.room-gallery .next:hover {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.room-gallery .row {
+  padding-top: 1%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.room-gallery .row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.room-gallery .column {
+  flex: 1;
 }
 
 .room-gallery .column img {
@@ -104,86 +97,88 @@ body {
   opacity: 0.6;
   cursor: pointer;
 }
-.room-gallery .column img:hover{
+
+.room-gallery .column img:hover {
   opacity: 1;
 }
 
-  /* Add a transparency effect for thumnbail images */
-  .room-gallery .demo {
-    opacity: 0.6;
-    cursor: pointer;
-  }
-  
-  .room-gallery .active,
-  .room-gallery .demo:hover {
-    opacity: 1;
-  }
-
-  .room-details{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 100%;
-    height: fit-content;
-    margin: 1%;
-    padding: 1%;
-    border-radius: 0.5em;
-    box-shadow: rgba(187, 201, 211, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-  }
-
-  .room-details .price{
-    font-size: 2em;
-    padding-left: 1%;
-  }
-  
-.room-details .label{
-    font-size: 1.2em;
-    font-weight: bold;
-    padding:1.5% 0 1% 1%;
+/* Add a transparency effect for thumnbail images */
+.room-gallery .demo {
+  opacity: 0.6;
+  cursor: pointer;
 }
 
-.room-details .facility{
+.room-gallery .active,
+.room-gallery .demo:hover {
+  opacity: 1;
+}
+
+.room-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+  margin: 1%;
+  padding: 1%;
+  border-radius: 0.5em;
+  box-shadow: rgba(187, 201, 211, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+
+.room-details .price {
+  font-size: 2em;
+  padding-left: 1%;
+}
+
+.room-details .label {
+  font-size: 1.2em;
+  font-weight: bold;
+  padding: 1.5% 0 1% 1%;
+}
+
+.room-details .facility {
   display: flex;
   flex-direction: column;
 }
 
-.room-details .facility .facility-list{
+.room-details .facility .facility-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
 }
 
-.room-details .facility .facility-items{
-    padding: 0.5em;
-    margin: 1%;
-    font-size: 1em;
-    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 0.5em;
-  }
+.room-details .facility .facility-items {
+  padding: 0.5em;
+  margin: 1%;
+  font-size: 1em;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 0.5em;
+}
 
-  .room-details .features .features-list{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-  }
-  
-  .room-details .features .features-items{
-      padding: 0.5em;
-      margin: 1%;
-      font-size: 1em;
-      box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-      width: fit-content;
-      height: fit-content;
-      border-radius: 0.5em;
-    }
-.room-details .size{
+.room-details .features .features-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.room-details .features .features-items {
+  padding: 0.5em;
+  margin: 1%;
+  font-size: 1em;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  width: fit-content;
+  height: fit-content;
+  border-radius: 0.5em;
+}
+
+.room-details .size {
   display: flex;
   flex-direction: column;
 }
 
-.room-details .size .size-info{
+.room-details .size .size-info {
   padding: 0.5em;
   font-size: 1em;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
@@ -192,56 +187,37 @@ body {
   border-radius: 0.5em;
 }
 
-.room-details .booking-availability{
+.room-details .booking-availability {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.room-details button{
-	background-color: white;
-    height: 3em;
-    width: 100%;
-    margin-top: 3%;
-    font-weight: bold;
-    font-size: 1em;
-    border-radius: 0.5em;
-	border: none;
-	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-	color: black;
-  }
-
-.room-details button:hover{
-    background-color: skyblue;
-    color: blue;
-    cursor: pointer;
+.room-details button {
+  background-color: white;
+  height: 3em;
+  width: 100%;
+  margin-top: 3%;
+  font-weight: bold;
+  font-size: 1em;
+  border-radius: 0.5em;
+  border: none;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  color: black;
 }
 
-.room-details .availability{
+.room-details button:hover {
+  background-color: skyblue;
+  color: blue;
+  cursor: pointer;
+}
+
+.room-details .availability {
   padding-top: 3%;
 }
 
-.room-details .availability span{
-	font-size: 1.1em;
-	font-weight: bold;
-	color: green;
-}
-.room-descripion{
-  display: flex;
-  flex-direction: column;
-  height: fit-content;
-  margin: 1% 2% 2% 2%;
-  padding: 1%;
-  border-radius: 0.5em;
-  box-shadow: rgba(187, 201, 211, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-}
-
-.room-descripion .description-header{
-  font-size: 2em;
-  font-weight: bold;
-}
-
-.room-descripion .description-content{
+.room-details .availability span {
   font-size: 1.1em;
-  line-height: 1.5;
+  font-weight: bold;
+  color: green;
 }

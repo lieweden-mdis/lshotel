@@ -9,24 +9,19 @@ function calculateDays() {
     const checkInDateValue = document.getElementById('check-in-date').value;
     const checkOutDateValue = document.getElementById('check-out-date').value;
 
-    // Check if either date is not selected
     if (!checkInDateValue || !checkOutDateValue) {
-        return; // Exit function if either date is not selected
+        return;
     }
 
     const checkInDate = new Date(checkInDateValue);
     const checkOutDate = new Date(checkOutDateValue);
 
-    // Validate check-in and check-out dates
     if (checkOutDate < checkInDate) {
         return;
     }
 
-    // Calculate the number of nights stayed
     const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
     const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-    // Adjust for the number of nights considering hotel stay rules
     const adjustedNightCount = dayDiff === 0 ? 1 : dayDiff;
 
     document.getElementById('day').value = adjustedNightCount;
@@ -36,7 +31,7 @@ function calculateDays() {
 function generateRoomOptions() {
     const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
     const container = document.getElementById('additional-requests-container');
-    container.innerHTML = ''; // Clear previous entries
+    container.innerHTML = '';
 
     for (let i = 1; i <= roomQuantity; i++) {
         const roomDiv = document.createElement('div');
@@ -78,7 +73,6 @@ function generateRoomOptions() {
         `;
         container.appendChild(roomDiv);
 
-        // Add event listeners for the newly created elements
         document.getElementById(`add-bed-${i}`).addEventListener('change', function() {
             toggleFieldState(this, `bedquantity-${i}`);
         });
@@ -89,8 +83,8 @@ function generateRoomOptions() {
         document.getElementById(`breakfastquantity-${i}`).addEventListener('input', updatePriceDetails);
     }
 
-    updatePriceDetails(); // Ensure initial update after generating options
-    updateCarPlateButtonState(); // Update car plate button state
+    updatePriceDetails();
+    updateCarPlateButtonState();
 }
 
 function toggleFieldState(selectElement, inputId) {
@@ -107,23 +101,20 @@ function toggleFieldState(selectElement, inputId) {
         inputElement.style.backgroundColor = "grey";
         inputElement.style.color = "#aaa";
     }
-    updatePriceDetails(); // Update after toggle
+    updatePriceDetails();
 
-    // Add input validation for numeric inputs
     inputElement.addEventListener('input', function() {
         let value = this.value.trim();
 
-        // Prevent negative values
         if (parseFloat(value) < 0) {
-            this.value = ''; // Reset to empty string or previous valid value
+            this.value = '';
             return;
         }
 
-        // Prevent scientific notation without valid exponent
         if (value.includes('e')) {
             const parts = value.split('e');
             if (parts.length !== 2 || isNaN(parts[1])) {
-                this.value = ''; // Reset to empty string or previous valid value
+                this.value = '';
                 return;
             }
         }
@@ -134,7 +125,6 @@ function updatePriceDetails() {
     const checkInDateValue = document.getElementById('check-in-date').value;
     const checkOutDateValue = document.getElementById('check-out-date').value;
 
-    // Hide stay details if either date is not selected
     if (!checkInDateValue || !checkOutDateValue) {
         document.getElementById('stay-duration').innerText = '';
         document.getElementById('stay-price').innerText = '';
@@ -189,13 +179,12 @@ function updatePriceDetails() {
 }
 
 function submitForm(event) {
-    // Validate form using native HTML5 validation
     const form = document.getElementById('booking-form');
     if (!form.checkValidity()) {
-        event.preventDefault(); // Prevent form submission if invalid
-        form.reportValidity(); // Trigger native validation UI
+        event.preventDefault();
+        form.reportValidity();
     } else {
-        form.submit(); // Submit the form if valid
+        form.submit();
     }
 }
 
@@ -240,6 +229,7 @@ function addCarPlateField() {
     removeButton.innerText = 'Remove';
     removeButton.onclick = function() {
         container.removeChild(row);
+        updateCarPlateButtonState();
     };
     row.appendChild(removeButton);
 
@@ -270,17 +260,12 @@ document.addEventListener('DOMContentLoaded', function() {
     addCarPlateButton.disabled = true;
     addCarPlateButton.classList.add('disabled');
 
-    // Initialize event listeners and generate room options
     generateRoomOptions();
 
-    // Add event listeners for date inputs
     document.getElementById('check-in-date').addEventListener('change', calculateDays);
     document.getElementById('check-out-date').addEventListener('change', calculateDays);
-
-    // Add event listener for room quantity input
     document.getElementById('room-quantity-input').addEventListener('change', generateRoomOptions);
 
-    // Add event listeners for initial additional requests
     document.querySelectorAll('select[name^="add-bed"]').forEach(select => {
         select.addEventListener('change', function() {
             const roomId = select.id.split('-')[2];
@@ -300,17 +285,15 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', function() {
             let value = this.value.trim();
 
-            // Prevent negative values
             if (parseFloat(value) < 0) {
-                this.value = ''; // Reset to empty string or previous valid value
+                this.value = '';
                 return;
             }
 
-            // Prevent scientific notation without valid exponent
             if (value.includes('e')) {
                 const parts = value.split('e');
                 if (parts.length !== 2 || isNaN(parts[1])) {
-                    this.value = ''; // Reset to empty string or previous valid value
+                    this.value = '';
                     return;
                 }
             }
@@ -322,17 +305,15 @@ document.addEventListener('DOMContentLoaded', function() {
         input.addEventListener('input', function() {
             let value = this.value.trim();
 
-            // Prevent negative values
             if (parseFloat(value) < 0) {
-                this.value = ''; // Reset to empty string or previous valid value
+                this.value = '';
                 return;
             }
 
-            // Prevent scientific notation without valid exponent
             if (value.includes('e')) {
                 const parts = value.split('e');
                 if (parts.length !== 2 || isNaN(parts[1])) {
-                    this.value = ''; // Reset to empty string or previous valid value
+                    this.value = '';
                     return;
                 }
             }
@@ -341,7 +322,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function isValidEmail(email) {
-    // Basic email validation using regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
