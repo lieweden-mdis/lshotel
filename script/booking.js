@@ -65,15 +65,20 @@ function calculateDays() {
     const checkOutDate = new Date(checkOutDateValue);
 
     if (checkOutDate < checkInDate) {
+        alert("Check-out date must be after or the same as the check-in date.");
+        document.getElementById('check-out-date').value = '';
+        document.getElementById('day').value = '';
         return;
     }
 
     const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
-    const dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+    let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
-    const adjustedNightCount = dayDiff === 0 ? 1 : dayDiff;
+    if (dayDiff === 0) {
+        dayDiff = 1; // If check-in date is the same as check-out date, treat as one day stay
+    }
 
-    document.getElementById('day').value = adjustedNightCount;
+    document.getElementById('day').value = dayDiff;
     updatePriceDetails();
 }
 
@@ -99,7 +104,7 @@ function generateRoomOptions() {
         
                 <div class="column">
                     <label for="bedquantity-${i}">Extra Bed Quantity</label>
-                    <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" placeholder="Select extra bed option first" disabled>
+                    <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" placeholder="Select extra bed option" disabled>
                 </div>
         
                 <div class="column">
@@ -113,7 +118,7 @@ function generateRoomOptions() {
         
                 <div class="column">
                     <label for="breakfastquantity-${i}">Breakfast Quantity</label>
-                    <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" placeholder="Select breakfast option first" disabled>
+                    <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" placeholder="Select breakfast option" disabled>
                 </div>
             </div>
             <div class="additional-request-remarks">
@@ -148,8 +153,8 @@ function toggleFieldState(selectElement, inputId) {
         inputElement.disabled = true;
         inputElement.value = '';
         inputElement.placeholder = "No quantity required";
-        inputElement.style.backgroundColor = "grey";
-        inputElement.style.color = "#aaa";
+        inputElement.style.backgroundColor = "#CBCCCC";
+        inputElement.style.color = "black";
     }
     updatePriceDetails(); // Update after toggle
 
@@ -228,14 +233,36 @@ function updatePriceDetails() {
     document.getElementById('total-amount').innerText = `RM ${stayPrice + additionalCharges}`;
 }
 
-function submitForm(event) {
+function validateForm(event) {
     const form = document.getElementById('booking-form');
+    const checkInDateValue = document.getElementById('check-in-date').value;
+    const checkOutDateValue = document.getElementById('check-out-date').value;
+    const phoneValue = document.getElementById('phone').value;
+
     if (!form.checkValidity()) {
         event.preventDefault(); 
         form.reportValidity(); 
-    } else {
-        form.submit(); 
+        return false;
     }
+
+    if (new Date(checkOutDateValue) <= new Date(checkInDateValue)) {
+        alert("Check-out date must be after the check-in date.");
+        event.preventDefault(); 
+        return false;
+    }
+
+    if (!isValidPhoneNumber(phoneValue)) {
+        alert("Please enter a valid phone number.");
+        event.preventDefault();
+        return false;
+    }
+
+    form.submit(); 
+}
+
+function isValidPhoneNumber(phone) {
+    const phoneRegex = /^[0-9]{8,11}$/;
+    return phoneRegex.test(phone);
 }
 
 function toggleCarPlateField(selectElement) {
@@ -363,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             if (value.includes('e')) {
                 const parts = value.split('e');
-                if (parts.length !== 2 or isNaN(parts[1])) {
+                if (parts.length !== 2 || isNaN(parts[1])) {
                     this.value = ''; 
                     return;
                 }
@@ -376,3 +403,8 @@ function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
+
+const roomType = "<?php echo isset($_GET['roomType']) ? $_GET['roomType'] : 'Default Room'; ?>";
+document.addEventListener('DOMContentLoaded', function() {
+    fetchRoomDetails(roomType);
+});

@@ -49,7 +49,7 @@
     <?php include 'header.php'; ?>
     <!--Room-->
     <div class="room-header">
-        <span class="header" id="roomtype">Deluxe Room</span>
+        <span class="header" id="roomType">Deluxe Room</span>
     </div>
     <div id="roomDetails"></div>
     
@@ -59,7 +59,7 @@
     
     <script>
     document.addEventListener("DOMContentLoaded", function() {
-        var roomtype = document.getElementById('roomtype').textContent;
+        var roomType = document.getElementById('roomType').textContent;
 
         // Make an AJAX request to fetch room details
         var xhr = new XMLHttpRequest();
@@ -79,12 +79,12 @@
                     bookNowButton.textContent = 'Not Available';
                 } else {
                     bookNowButton.addEventListener('click', function() {
-                        window.location.href = 'booking.php?roomtype=' + encodeURIComponent(roomtype);
+                        window.location.href = 'booking.php?roomType=' + encodeURIComponent(roomType);
                     });
                 }
             }
         };
-        xhr.send('room_type=' + encodeURIComponent(roomtype) + '&response_type=html');
+        xhr.send('room_type=' + encodeURIComponent(roomType) + '&response_type=html');
     });
 
     function initSlideshow() {

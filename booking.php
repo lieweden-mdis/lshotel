@@ -14,6 +14,7 @@
     
     <title>L's HOTEL - BOOKING</title>
     <link rel="icon" href="img/icon.jpg">
+    
 </head>
 <body>
     <?php include 'header.php'; ?>   
@@ -102,16 +103,12 @@
 
                             <div class="column" id="bed-selection">
                                 <label for="bed">Bed Selection</label>
-                                <select name="bed" id="bed" required>
-                                    <option value="" selected disabled hidden></option>
-                                </select>
+                                <select name="bed" id="bed" required></select>
                             </div>
 
                             <div class="column" id="smoke-selection">
                                 <label for="smoke">Smoke?</label>
-                                <select name="smoke" id="smoke" required>
-                                    <option value="" selected disabled hidden></option>
-                                </select>
+                                <select name="smoke" id="smoke" required></select>
                             </div>
                         </div>
                     </div>
@@ -199,8 +196,10 @@
     <footer>
         <p>&copy;2024 L's Hotel  All Right Reserved.</p>
     </footer>
-
+    
     <script>
+        let roomPrice = <?php echo $price; ?>; // Get the price from PHP
+
         function fetchRoomDetails(roomType) {
             const xhr = new XMLHttpRequest();
             xhr.open('POST', 'fetch-room-details.php', true);
@@ -224,6 +223,7 @@
             document.getElementById('room-price').textContent = 'RM ' + roomDetails.price + ' per Room per Night';
             document.getElementById('room-size').textContent = roomDetails.size;
             document.getElementById('room-image').src = roomDetails.image;
+            roomPrice = roomDetails.price; // Update the roomPrice variable
 
             const featuresContainer = document.getElementById('room-features');
             featuresContainer.innerHTML = ''; // Clear previous entries
@@ -268,7 +268,7 @@
             const checkOutDate = new Date(checkOutDateValue);
 
             if (checkOutDate < checkInDate) {
-                alert("Check-out date must be after or the same as the check-in date.");
+                alert("Check-out date must be after the check-in date.");
                 document.getElementById('check-out-date').value = '';
                 document.getElementById('day').value = '';
                 return;
@@ -307,7 +307,7 @@
                 
                         <div class="column">
                             <label for="bedquantity-${i}">Extra Bed Quantity</label>
-                            <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" placeholder="Select extra bed option" disabled>
+                            <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" required placeholder="Select extra bed option" disabled>
                         </div>
                 
                         <div class="column">
@@ -321,7 +321,7 @@
                 
                         <div class="column">
                             <label for="breakfastquantity-${i}">Breakfast Quantity</label>
-                            <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" placeholder="Select breakfast option" disabled>
+                            <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" required placeholder="Select breakfast option" disabled>
                         </div>
                     </div>
                     <div class="additional-request-remarks">
@@ -360,30 +360,14 @@
                 inputElement.style.color = "black";
             }
             updatePriceDetails(); // Update after toggle
-
-            inputElement.addEventListener('input', function() {
-                let value = this.value.trim();
-
-                if (parseFloat(value) < 0) {
-                    this.value = ''; 
-                    return;
-                }
-
-                if (value.includes('e')) {
-                    const parts = value.split('e');
-                    if (parts.length !== 2 || isNaN(parts[1])) {
-                        this.value = ''; 
-                        return;
-                    }
-                }
-            });
         }
 
         function updatePriceDetails() {
             const checkInDateValue = document.getElementById('check-in-date').value;
             const checkOutDateValue = document.getElementById('check-out-date').value;
+            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
 
-            if (!checkInDateValue || !checkOutDateValue) {
+            if (!checkInDateValue || !checkOutDateValue || roomQuantity === 0) {
                 document.getElementById('stay-duration').innerText = '';
                 document.getElementById('stay-price').innerText = '';
                 document.getElementById('additional-charges').style.display = 'none';
@@ -391,13 +375,7 @@
                 return;
             }
 
-            const roomType = document.getElementById('room-type-name').innerText.trim();
-            const roomPrice = roomPrices[roomType] || 0;
-            const extraBedPrice = 10;
-            const breakfastPrice = 35;
-
             const days = parseInt(document.getElementById('day').value) || 0;
-            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
 
             let extraBedTotal = 0;
             let breakfastTotal = 0;
@@ -408,19 +386,19 @@
                 const bedQuantityInput = document.getElementById(`bedquantity-${i}`);
                 const breakfastQuantityInput = document.getElementById(`breakfastquantity-${i}`);
 
-                if (addBedSelect.value === 'Yes') {
+                if (addBedSelect && addBedSelect.value === 'Yes') {
                     const bedQuantity = parseInt(bedQuantityInput.value) || 0;
                     extraBedTotal += bedQuantity;
                 }
 
-                if (addBreakfastSelect.value === 'Yes') {
+                if (addBreakfastSelect && addBreakfastSelect.value === 'Yes') {
                     const breakfastQuantity = parseInt(breakfastQuantityInput.value) || 0;
                     breakfastTotal += breakfastQuantity;
                 }
             }
 
             const stayPrice = roomPrice * roomQuantity * days;
-            const additionalCharges = (extraBedTotal * extraBedPrice) + (breakfastTotal * breakfastPrice);
+            const additionalCharges = (extraBedTotal * 10) + (breakfastTotal * 35);
 
             document.getElementById('stay-duration').innerText = `${roomQuantity} Room${roomQuantity !== 1 ? 's' : ''} @ ${days} Night${days !== 1 ? 's' : ''}`;
             document.getElementById('stay-price').innerText = `RM ${stayPrice}`;
@@ -443,14 +421,14 @@
             const phoneValue = document.getElementById('phone').value;
 
             if (!form.checkValidity()) {
-                event.preventDefault(); 
-                form.reportValidity(); 
+                event.preventDefault();
+                form.reportValidity();
                 return false;
             }
 
             if (new Date(checkOutDateValue) <= new Date(checkInDateValue)) {
                 alert("Check-out date must be after the check-in date.");
-                event.preventDefault(); 
+                event.preventDefault();
                 return false;
             }
 
@@ -460,7 +438,7 @@
                 return false;
             }
 
-            form.submit(); 
+            form.submit();
         }
 
         function isValidPhoneNumber(phone) {
@@ -509,7 +487,7 @@
             removeButton.innerText = 'Remove';
             removeButton.onclick = function() {
                 container.removeChild(row);
-                updateCarPlateButtonState(); 
+                updateCarPlateButtonState();
             };
             row.appendChild(removeButton);
 
@@ -563,42 +541,10 @@
 
             document.querySelectorAll('input[name^="bedquantity"]').forEach(input => {
                 input.addEventListener('input', updatePriceDetails);
-                input.addEventListener('input', function() {
-                    let value = this.value.trim();
-
-                    if (parseFloat(value) < 0) {
-                        this.value = ''; 
-                        return;
-                    }
-
-                    if (value.includes('e')) {
-                        const parts = value.split('e');
-                        if (parts.length !== 2 || isNaN(parts[1])) {
-                            this.value = ''; 
-                            return;
-                        }
-                    }
-                });
             });
 
             document.querySelectorAll('input[name^="breakfastquantity"]').forEach(input => {
                 input.addEventListener('input', updatePriceDetails);
-                input.addEventListener('input', function() {
-                    let value = this.value.trim();
-
-                    if (parseFloat(value) < 0) {
-                        this.value = ''; 
-                        return;
-                    }
-
-                    if (value.includes('e')) {
-                        const parts = value.split('e');
-                        if (parts.length !== 2 || isNaN(parts[1])) {
-                            this.value = ''; 
-                            return;
-                        }
-                    }
-                });
             });
         });
 
