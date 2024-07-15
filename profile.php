@@ -1,21 +1,37 @@
 <?php
-require 'header.php';
 require 'config.php'; // Include database connection
 
+// Start session
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
+
 // Check if the user is logged in
-if (!isset($_SESSION['user_id'])) {
+if (!isset($_SESSION['user']['id'])) {
     header("Location: login.php");
     exit;
 }
 
 // Fetch user details from the database
-$user_id = $_SESSION['user_id'];
+$user_id = $_SESSION['user']['id'];
+$conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE); // Ensure this matches your config.php settings
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 $stmt = $conn->prepare("SELECT first_name, last_name, email, phone_number FROM users WHERE id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$stmt->bind_result($firstName, $lastName, $email, $phone);
-$stmt->fetch();
-$stmt->close();
+if ($stmt) {
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->bind_result($firstName, $lastName, $email, $phone);
+    $stmt->fetch();
+    $stmt->close();
+} else {
+    echo "Error preparing statement: " . $conn->error;
+}
+
 $conn->close();
 ?>
 
@@ -39,7 +55,7 @@ $conn->close();
     <link rel="icon" href="img/icon.jpg">
 </head>
 <body>
-    <!--Header and Nav included through header.php-->
+    <?php include 'header.php'; ?> <!-- Include the header file -->
 
     <!--Profile-->
     <section class="account">
@@ -56,7 +72,7 @@ $conn->close();
         <div class="profile">
           <fieldset class="box">
             <legend>Name</legend>
-            <span><?php echo htmlspecialchars($lastName . ' ' . htmlspecialchars($firstName)); ?></span>
+            <span><?php echo htmlspecialchars($lastName . ' ' . $firstName); ?></span>
             <button type="button">Edit</button>
           </fieldset>
 

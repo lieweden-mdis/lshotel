@@ -1,3 +1,53 @@
+<?php
+session_start();
+require 'config.php'; // Include the database configuration file
+
+// Check if the user is logged in
+$user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
+$userDetails = [];
+
+if ($user) {
+    $sql = "SELECT first_name, last_name, email, phone_number FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param('i', $user['id']);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    if ($result->num_rows > 0) {
+        $userDetails = $result->fetch_assoc();
+    }
+    $stmt->close();
+}
+
+$room_type = isset($_GET['roomType']) ? $_GET['roomType'] : 'Default Room';
+
+// Fetch room details from the database
+$sql = "SELECT * FROM rooms WHERE room_type = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param('s', $room_type);
+$stmt->execute();
+$result = $stmt->get_result();
+
+if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $price = $row['room_price'];
+    $features = explode(',', $row['room_features']);
+    $size = $row['room_size'];
+    $availability = $row['room_availability'];
+    $images = explode(',', $row['room_images']);
+    $image = isset($images[1]) ? 'img/room-image/' . strtolower(str_replace(' ', '-', $room_type)) . '/' . htmlspecialchars(trim($images[1])) : 'img/room-image/default-room.jpg';
+} else {
+    $room_type = 'Default Room';
+    $price = 'xxx';
+    $features = [];
+    $size = 'N/A';
+    $availability = 0;
+    $image = 'img/room-image/default-room.jpg';
+}
+
+$stmt->close();
+$conn->close();
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,41 +64,24 @@
     
     <title>L's HOTEL - BOOKING</title>
     <link rel="icon" href="img/icon.jpg">
-    
 </head>
-<body>
-    <?php include 'header.php'; ?>   
-
-    <?php
-    include 'config.php'; // Include the database configuration file
-
-    $room_type = isset($_GET['roomType']) ? $_GET['roomType'] : 'Default Room';
-
-    // Fetch room details from the database
-    $sql = "SELECT * FROM rooms WHERE room_type = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param('s', $room_type);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-        $price = $row['room_price'];
-        $features = explode(',', $row['room_features']);
-        $size = $row['room_size'];
-        $images = explode(',', $row['room_images']);
-        $image = isset($images[1]) ? 'img/room-image/' . strtolower(str_replace(' ', '-', $room_type)) . '/' . htmlspecialchars(trim($images[1])) : 'img/room-image/default-room.jpg';
-    } else {
-        $room_type = 'Default Room';
-        $price = 'xxx';
-        $features = [];
-        $size = 'N/A';
-        $image = 'img/room-image/default-room.jpg';
+<style>
+    .room-type-box img#room-image {
+        width: 15em;
+        height: 15em;
     }
 
-    $stmt->close();
-    $conn->close();
-    ?>   
+    .room-type-box .room-price-card {
+        color: black;
+        font-weight: bold;
+        font-size: 1.5em;
+        margin: 0 2% 0 2%;
+        display: flex;
+        flex-direction: column;
+    }
+</style>
+<body>
+    <?php include 'header.php'; ?>   
 
     <!-- Booking -->
     <div class="booking-header">
@@ -66,6 +99,7 @@
                     </div>
                     <div class="room-price-card">
                         <span id="room-price">RM <?php echo $price; ?> per Room per Night</span>
+                        <span id="room-availability">Room Availability: <?php echo $availability; ?></span>
                     </div>
                     <div class="room-features" id="room-features">
                         <?php
@@ -85,20 +119,20 @@
                         <div class="booking-info">
                             <div class="column" id="checkindate">
                                 <label for="check-in-date">Check In Date</label>
-                                <input type="date" id="check-in-date" name="check-in-date" required onchange="calculateDays()">
+                                <input type="date" id="check-in-date" name="check-in-date" required>
                             </div>
                             <div class="column" id="checkoutdate">
                                 <label for="check-out-date">Check Out Date</label>
-                                <input type="date" id="check-out-date" name="check-out-date" required onchange="calculateDays()">
+                                <input type="date" id="check-out-date" name="check-out-date" required>
                             </div>
                             <div class="column" id="dayofstay">
                                 <label for="day">Day of Stay</label>
-                                <input type="number" id="day" name="day" readonly>
+                                <input type="number" id="day" name="day" readonly min="1">
                             </div>
 
                             <div class="column" id="room-quantity">
                                 <label for="room-quantity-input">Room Quantity</label>
-                                <input type="number" id="room-quantity-input" name="room-quantity" required onchange="generateRoomOptions()">
+                                <input type="number" id="room-quantity-input" name="room-quantity" required min="1">
                             </div>
 
                             <div class="column" id="bed-selection">
@@ -199,6 +233,7 @@
     
     <script>
         let roomPrice = <?php echo $price; ?>; // Get the price from PHP
+        const userDetails = <?php echo json_encode($userDetails); ?>; // Pass user details to JavaScript
 
         function fetchRoomDetails(roomType) {
             const xhr = new XMLHttpRequest();
@@ -221,6 +256,7 @@
         function updateRoomDetails(roomDetails) {
             document.getElementById('room-type-name').textContent = roomDetails.name;
             document.getElementById('room-price').textContent = 'RM ' + roomDetails.price + ' per Room per Night';
+            document.getElementById('room-availability').textContent = 'Room Availability: ' + roomDetails.availability; // Add this line
             document.getElementById('room-size').textContent = roomDetails.size;
             document.getElementById('room-image').src = roomDetails.image;
             roomPrice = roomDetails.price; // Update the roomPrice variable
@@ -285,8 +321,30 @@
             updatePriceDetails();
         }
 
+        function validateRoomQuantity() {
+            const roomQuantityInput = document.getElementById('room-quantity-input');
+            const roomQuantity = parseInt(roomQuantityInput.value) || 0;
+            const roomAvailability = parseInt(document.getElementById('room-availability').textContent.split(' ')[2]) || 0; // Fetch room availability
+
+            if (roomQuantity === 0) {
+                alert("You must at least book for 1 room.");
+                roomQuantityInput.value = ''; // Clear the room quantity input
+                return;
+            }
+
+            if (roomQuantity > roomAvailability) {
+                alert(`You can only book up to ${roomAvailability} rooms.`);
+                roomQuantityInput.value = ''; // Clear the room quantity input
+                return;
+            }
+
+            generateRoomOptions(); // Proceed to generate room options if valid
+        }
+
         function generateRoomOptions() {
-            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
+            const roomQuantityInput = document.getElementById('room-quantity-input');
+            const roomQuantity = parseInt(roomQuantityInput.value) || 0;
+
             const container = document.getElementById('additional-requests-container');
             container.innerHTML = ''; // Clear previous entries
 
@@ -307,7 +365,7 @@
                 
                         <div class="column">
                             <label for="bedquantity-${i}">Extra Bed Quantity</label>
-                            <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" required placeholder="Select extra bed option" disabled>
+                            <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" required placeholder="Select extra bed option" disabled min="0">
                         </div>
                 
                         <div class="column">
@@ -321,7 +379,7 @@
                 
                         <div class="column">
                             <label for="breakfastquantity-${i}">Breakfast Quantity</label>
-                            <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" required placeholder="Select breakfast option" disabled>
+                            <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" required placeholder="Select breakfast option" disabled min="0">
                         </div>
                     </div>
                     <div class="additional-request-remarks">
@@ -352,12 +410,14 @@
                 inputElement.placeholder = "Please enter quantity";
                 inputElement.style.backgroundColor = "";
                 inputElement.style.color = "";
+                inputElement.min = 1; // Set minimum value to 1
             } else {
                 inputElement.disabled = true;
                 inputElement.value = '';
                 inputElement.placeholder = "No quantity required";
                 inputElement.style.backgroundColor = "#CBCCCC";
                 inputElement.style.color = "black";
+                inputElement.min = 0; // Set minimum value to 0
             }
             updatePriceDetails(); // Update after toggle
         }
@@ -419,6 +479,26 @@
             const checkInDateValue = document.getElementById('check-in-date').value;
             const checkOutDateValue = document.getElementById('check-out-date').value;
             const phoneValue = document.getElementById('phone').value;
+            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
+
+            for (let i = 1; i <= roomQuantity; i++) {
+                const addBedSelect = document.getElementById(`add-bed-${i}`);
+                const addBreakfastSelect = document.getElementById(`add-breakfast-${i}`);
+                const bedQuantityInput = document.getElementById(`bedquantity-${i}`);
+                const breakfastQuantityInput = document.getElementById(`breakfastquantity-${i}`);
+
+                if (addBedSelect && addBedSelect.value === 'Yes' && bedQuantityInput.value < 1) {
+                    alert("You must add at least 1 bed.");
+                    event.preventDefault();
+                    return false;
+                }
+
+                if (addBreakfastSelect && addBreakfastSelect.value === 'Yes' && breakfastQuantityInput.value < 1) {
+                    alert("You must add at least 1 breakfast.");
+                    event.preventDefault();
+                    return false;
+                }
+            }
 
             if (!form.checkValidity()) {
                 event.preventDefault();
@@ -509,7 +589,25 @@
             }
         }
 
+        function ensurePositiveValues() {
+            document.querySelectorAll('input[type="number"]').forEach(input => {
+                input.addEventListener('input', function() {
+                    if (this.value < this.min) {
+                        this.value = this.min;
+                    }
+                });
+            });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
+            // Autofill guest information if user details are available
+            if (userDetails && Object.keys(userDetails).length > 0) {
+                document.getElementById('fname').value = userDetails.first_name || '';
+                document.getElementById('lname').value = userDetails.last_name || '';
+                document.getElementById('email').value = userDetails.email || '';
+                document.getElementById('phone').value = userDetails.phone_number || ''; // Changed to phone_number
+            }
+
             document.getElementById('car-1').addEventListener('change', function() {
                 toggleCarPlateField(this);
             });
@@ -519,11 +617,13 @@
             addCarPlateButton.classList.add('disabled');
 
             generateRoomOptions();
+            ensurePositiveValues();
 
             document.getElementById('check-in-date').addEventListener('change', calculateDays);
             document.getElementById('check-out-date').addEventListener('change', calculateDays);
 
-            document.getElementById('room-quantity-input').addEventListener('change', generateRoomOptions);
+            const roomQuantityInput = document.getElementById('room-quantity-input');
+            roomQuantityInput.addEventListener('change', validateRoomQuantity);
 
             document.querySelectorAll('select[name^="add-bed"]').forEach(select => {
                 select.addEventListener('change', function() {
@@ -546,16 +646,31 @@
             document.querySelectorAll('input[name^="breakfastquantity"]').forEach(input => {
                 input.addEventListener('input', updatePriceDetails);
             });
-        });
 
-        function isValidEmail(email) {
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return emailRegex.test(email);
-        }
+            // Autofill the form fields if URL parameters are present
+            const urlParams = new URLSearchParams(window.location.search);
 
-        const roomType = "<?php echo isset($_GET['roomType']) ? $_GET['roomType'] : 'Default Room'; ?>";
-        document.addEventListener('DOMContentLoaded', function() {
-            fetchRoomDetails(roomType);
+            const roomType = urlParams.get('roomType');
+            const roomQuantity = urlParams.get('roomQuantity');
+            const checkInDate = urlParams.get('checkInDate');
+            const checkOutDate = urlParams.get('checkOutDate');
+
+            if (roomType) {
+                document.getElementById('room-type-name').textContent = roomType;
+                fetchRoomDetails(roomType);
+            }
+            if (roomQuantity) {
+                document.getElementById('room-quantity-input').value = roomQuantity;
+                validateRoomQuantity();
+            }
+            if (checkInDate) {
+                document.getElementById('check-in-date').value = checkInDate;
+                calculateDays();
+            }
+            if (checkOutDate) {
+                document.getElementById('check-out-date').value = checkOutDate;
+                calculateDays();
+            }
         });
     </script>
 </body>

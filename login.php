@@ -1,5 +1,5 @@
 <?php
-require 'header.php';
+session_start();
 require 'config.php'; // Assuming you have a config.php for database connection
 
 $error = ""; // Initialize error variable
@@ -34,25 +34,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             if ($password !== $plainPassword) {
                 $error = "Login Unsuccessful, Staff ID/Email or Password error.";
+            } else {
+                $userType = 'staff';
             }
-            $userType = 'staff';
         } else {
             // No staff found, check users table (assuming hashed passwords)
             $stmt->close();
-            $stmt = $conn->prepare("SELECT id, password, first_name, last_name FROM users WHERE email = ?");
+            $stmt = $conn->prepare("SELECT id, password, first_name, last_name, email, phone_number FROM users WHERE email = ?");
             $stmt->bind_param("s", $emailStaffId);
             $stmt->execute();
             $stmt->store_result();
 
             if ($stmt->num_rows > 0) {
                 // User found, verify hashed password
-                $stmt->bind_result($id, $hashedPassword, $firstName, $lastName);
+                $stmt->bind_result($id, $hashedPassword, $firstName, $lastName, $email, $phone);
                 $stmt->fetch();
 
                 if (!password_verify($password, $hashedPassword)) {
                     $error = "Login Unsuccessful, Email or Password error.";
+                } else {
+                    $userType = 'user';
                 }
-                $userType = 'user';
             } else {
                 // No user found in users table
                 $error = "Login Unsuccessful, Email or Password error.";
@@ -61,16 +63,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Start session if login is successful
         if (empty($error)) {
-            session_start();
-            $_SESSION['user_id'] = $id;
-            $_SESSION['user_full_name'] = $lastName . " " . $firstName;
-            
+            $_SESSION['user'] = [
+                'id' => $id,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'user_type' => $userType,
+            ];
+
+            // Set the full name in the session
+            $_SESSION['user_full_name'] = $firstName . ' ' . $lastName;
+
+            if ($userType === 'user') {
+                $_SESSION['user']['email'] = $email;
+                $_SESSION['user']['phone_number'] = $phone;
+            }
+
             // Redirect based on the type of user
             if ($userType === 'staff') {
-                $_SESSION['user_type'] = 'staff';
                 header("Location: staff-dashboard.php"); // Redirect to staff dashboard
             } else {
-                $_SESSION['user_type'] = 'user';
                 header("Location: index.php"); // Redirect to user home page
             }
             exit;
@@ -90,30 +101,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="keywords" content="Hotel">
     
-    <!--Icon-->  
+    <!-- Icon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     
-    <!--Font Family-->
+    <!-- Font Family -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     
-    <!--CSS Stylesheet-->
+    <!-- CSS Stylesheet -->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/login.css">
     
     <title>L's HOTEL - LOGIN</title>
     <link rel="icon" href="img/icon.jpg">
+    <style>
+    .login-form span.error {
+        color: red;
+        text-align: center;
+        margin-top: 2%;
+        padding: 0.5%;
+        font-size: 1.1em;
+        font-weight: bold;
+    }
+    </style>
 </head>
 <body>
+    <?php include 'header.php'?>
     <div class="container">
-        <!--Login Form-->
+        <!-- Login Form -->
         <form action="login.php" method="POST">
             <div class="login-form">
                 <span class="form-header">User Login</span>
                 <?php
                     if (!empty($error)) {
-                        echo '<span class="error" style="color: red;">' . $error . '</span>';
+                        echo '<span class="error">' . $error . '</span>';
                     }
                 ?>
                 <div class="row">

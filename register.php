@@ -2,7 +2,7 @@
 require 'header.php';
 require 'config.php'; // Assuming you have a config.php for database connection
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     // Retrieve the submitted form data
     $firstName = $_POST['fname'];
     $lastName = $_POST['lname'];
@@ -42,6 +42,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn->close();
     }
 }
+
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['check_duplicate'])) {
+    // Database connection
+    $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    $email = $_POST['email'];
+    $phoneNumber = $_POST['phone'];
+
+    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR phone_number = ?");
+    $stmt->bind_param("ss", $email, $phoneNumber);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result->num_rows > 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Email or Phone Number already exists']);
+    } else {
+        echo json_encode(['status' => 'success']);
+    }
+
+    $stmt->close();
+    $conn->close();
+    exit;
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -67,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container"> 
         <!--Register Form-->
-        <form action="register.php" method="POST" onsubmit="return validatePasswords()">
+        <form action="register.php" method="POST" onsubmit="return validateForm()">
             <div class="register-form">
                 <span class="form-header">User Registration</span>
                 <div class="row">
@@ -101,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
                 <div class="button">
-                    <input type="submit" value="Register">
+                    <input type="submit" name="register" value="Register">
                     <span>Already have an account? Sign In <a href="login.php">Here</a>!</span>
                 </div>
             </div>
@@ -124,5 +152,34 @@ function validatePasswords() {
     }
     return true;
 }
+
+function checkDuplicates() {
+    var email = document.getElementById('email').value;
+    var phone = document.getElementById('phone-number').value;
+
+    if (email && phone) {
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'register.php', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onload = function() {
+            if (this.status == 200) {
+                var response = JSON.parse(this.responseText);
+                if (response.status == 'error') {
+                    alert(response.message);
+                    document.getElementById('email').value = '';
+                    document.getElementById('phone-number').value = '';
+                }
+            }
+        };
+        xhr.send('check_duplicate=true&email=' + encodeURIComponent(email) + '&phone=' + encodeURIComponent(phone));
+    }
+}
+
+function validateForm() {
+    return validatePasswords() && checkDuplicates();
+}
+
+document.getElementById('email').addEventListener('input', checkDuplicates);
+document.getElementById('phone-number').addEventListener('input', checkDuplicates);
 </script>
 </html>

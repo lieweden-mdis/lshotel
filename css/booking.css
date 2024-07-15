@@ -46,11 +46,6 @@ body {
 }
 
 /* Room Image */
-.room-type-box img#room-image {
-    width: 12em;
-    height: 12em;
-}
-
 .room-type-info {
     display: flex;
     flex-direction: column;
@@ -68,7 +63,7 @@ body {
 }
 
 .room-type-info .room-type-header span {
-    font-size: 2.5em;
+    font-size: 2em;
     font-weight: bold;
 }
 
@@ -107,12 +102,25 @@ body {
     color: red;
 }
 
-.room-price-card {
-    color: black;
-    font-weight: bold;
-    font-size: 1.5em;
-    margin: 0 2% 0 2%;
+    .room-price-card .room-price {
+        display: block; /* Ensure the price and availability are on separate lines */
+    }
+    
+    .room-price-card .room-availability {
+        font-size: 1.2em; /* Adjust the font size for availability */
+        color: green; /* Color for availability text */
+        display: block;
+        margin-top: 0.5em; /* Space between price and availability */
+    }
+
+    /* Room Features */
+.room-type-box .room-features {
+    display: flex;
+    margin-bottom: 0.5em;
+    justify-content: flex-start;
+    width: 100%;
 }
+
 .feature-item, #room-size {
     color: black;
     font-weight: bold;
