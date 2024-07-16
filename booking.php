@@ -2,9 +2,15 @@
 session_start();
 require 'config.php'; // Include the database configuration file
 
+// Function to sanitize input data
+function sanitizeInput($data) {
+    return htmlspecialchars(trim($data));
+}
+
 // Check if the user is logged in
 $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 $userDetails = [];
+$user_email = '';
 
 if ($user) {
     $sql = "SELECT first_name, last_name, email, phone_number FROM users WHERE id = ?";
@@ -14,11 +20,12 @@ if ($user) {
     $result = $stmt->get_result();
     if ($result->num_rows > 0) {
         $userDetails = $result->fetch_assoc();
+        $user_email = $userDetails['email'];
     }
     $stmt->close();
 }
 
-$room_type = isset($_GET['roomType']) ? $_GET['roomType'] : 'Default Room';
+$room_type = isset($_GET['roomType']) ? sanitizeInput($_GET['roomType']) : 'Default Room';
 
 // Fetch room details from the database
 $sql = "SELECT * FROM rooms WHERE room_type = ?";
@@ -33,14 +40,16 @@ if ($result->num_rows > 0) {
     $features = explode(',', $row['room_features']);
     $size = $row['room_size'];
     $availability = $row['room_availability'];
+    $bed_options = isset($row['bed_options']) ? explode(',', $row['bed_options']) : []; // Ensure bed_options is set
     $images = explode(',', $row['room_images']);
-    $image = isset($images[1]) ? 'img/room-image/' . strtolower(str_replace(' ', '-', $room_type)) . '/' . htmlspecialchars(trim($images[1])) : 'img/room-image/default-room.jpg';
+    $image = isset($images[0]) ? 'img/room-image/' . strtolower(str_replace(' ', '-', $room_type)) . '/' . htmlspecialchars(trim($images[0])) : 'img/room-image/default-room.jpg';
 } else {
     $room_type = 'Default Room';
     $price = 'xxx';
     $features = [];
     $size = 'N/A';
     $availability = 0;
+    $bed_options = []; // No bed options available for default room
     $image = 'img/room-image/default-room.jpg';
 }
 
@@ -49,57 +58,54 @@ $conn->close();
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="Hotel">
-    
-    <!-- Icon -->  
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!-- CSS Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/booking.css">
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - BOOKING</title>
     <link rel="icon" href="img/icon.jpg">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="stylesheet" type="text/css" href="css/booking.css">
+    <style>
+        .booking-container {
+            display: flex;
+            margin-left: 2%;
+            margin-right: 2%;
+}
+        .room-type-box img#room-image {
+            width: 15em;
+            height: 15em;
+        }
+
+        .room-type-box .room-price-card {
+            color: black;
+            font-weight: bold;
+            font-size: 1.5em;
+            margin: 0 2% 0 2%;
+            display: flex;
+            flex-direction: column;
+        }
+    </style>
 </head>
-<style>
-    .room-type-box img#room-image {
-        width: 15em;
-        height: 15em;
-    }
-
-    .room-type-box .room-price-card {
-        color: black;
-        font-weight: bold;
-        font-size: 1.5em;
-        margin: 0 2% 0 2%;
-        display: flex;
-        flex-direction: column;
-    }
-</style>
 <body>
-    <?php include 'header.php'; ?>   
+    <?php include 'header.php'; ?>
 
-    <!-- Booking -->
     <div class="booking-header">
         <span>Booking Page</span>
     </div>
-    
-    <!-- Container for flex -->
+
     <div class="booking-container">
         <div class="roomtype-card">
             <div class="room-type-box">
                 <img id="room-image" src="<?php echo $image; ?>" alt="Room Image"/>
                 <div class="room-type-info">
                     <div class="room-type-header">
-                        <span id="room-type-name"><?php echo $room_type; ?></span>
+                        <span id="room-type-name"><?php echo htmlspecialchars($room_type); ?></span>
                     </div>
                     <div class="room-price-card">
-                        <span id="room-price">RM <?php echo $price; ?> per Room per Night</span>
-                        <span id="room-availability">Room Availability: <?php echo $availability; ?></span>
+                        <span id="room-price">RM <?php echo htmlspecialchars($price); ?> per Room per Night</span>
+                        <span id="room-availability">Room Availability: <?php echo htmlspecialchars($availability); ?></span>
                     </div>
                     <div class="room-features" id="room-features">
                         <?php
@@ -108,11 +114,13 @@ $conn->close();
                         }
                         ?>
                     </div>
-                    <span class="size" id="room-size"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> <?php echo $size; ?></span>
+                    <span class="size" id="room-size"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> <?php echo htmlspecialchars($size); ?></span>
                     <span class="refund">Not Refundable</span>
                 </div>
             </div>
             <form id="booking-form" action="process_booking.php" method="post" onsubmit="validateForm(event)">
+                <input type="hidden" name="room_type" value="<?php echo htmlspecialchars($room_type); ?>">
+                <input type="hidden" name="total-amount" id="hidden-total-amount">
                 <div class="form-content">
                     <div class="booking-card">
                         <span class="form-header">Booking Information</span>
@@ -137,12 +145,23 @@ $conn->close();
 
                             <div class="column" id="bed-selection">
                                 <label for="bed">Bed Selection</label>
-                                <select name="bed" id="bed" required></select>
+                                <select name="bed" id="bed" required>
+                                    <option value="" selected disabled hidden></option>
+                                    <?php
+                                    foreach ($bed_options as $option) {
+                                        echo '<option value="' . htmlspecialchars($option) . '">' . htmlspecialchars($option) . '</option>';
+                                    }
+                                    ?>
+                                </select>
                             </div>
 
                             <div class="column" id="smoke-selection">
                                 <label for="smoke">Smoke?</label>
-                                <select name="smoke" id="smoke" required></select>
+                                <select name="smoke" id="smoke" required>
+                                    <option value="" selected disabled hidden></option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -154,22 +173,22 @@ $conn->close();
                         <div class="row">
                             <div class="column">
                                 <label for="fname">First Name</label>
-                                <input type="text" name="fname" id="fname" required maxlength="128" placeholder="This is same with given name">
+                                <input type="text" name="fname" id="fname" required maxlength="128" placeholder="This is same with given name" value="<?php echo isset($userDetails['first_name']) ? htmlspecialchars($userDetails['first_name']) : ''; ?>">
                             </div>
                             <div class="column">
                                 <label for="lname">Last Name</label>
-                                <input type="text" name="lname" id="lname" required maxlength="128" placeholder="This is your surname">
+                                <input type="text" name="lname" id="lname" required maxlength="128" placeholder="This is your surname" value="<?php echo isset($userDetails['last_name']) ? htmlspecialchars($userDetails['last_name']) : ''; ?>">
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="column">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" placeholder="Please key in your email (If have)">
+                                <input type="email" name="email" id="email" placeholder="Please key in your email" value="<?php echo htmlspecialchars($user_email); ?>" <?php echo $user_email ? 'readonly' : ''; ?>>
                             </div>
                             <div class="column">
                                 <label for="phone">Phone Number</label>
-                                <input type="text" name="phone" id="phone" required minlength="8" maxlength="11" placeholder="Example:0123456789">
+                                <input type="text" name="phone" id="phone" required minlength="8" maxlength="15" placeholder="Example:0123456789" value="<?php echo isset($userDetails['phone_number']) ? htmlspecialchars($userDetails['phone_number']) : ''; ?>">
                             </div>
                         </div>
 
@@ -230,9 +249,9 @@ $conn->close();
     <footer>
         <p>&copy;2024 L's Hotel  All Right Reserved.</p>
     </footer>
-    
+
     <script>
-        let roomPrice = <?php echo $price; ?>; // Get the price from PHP
+        let roomPrice = <?php echo json_encode($price); ?>; // Get the price from PHP
         const userDetails = <?php echo json_encode($userDetails); ?>; // Pass user details to JavaScript
 
         function fetchRoomDetails(roomType) {
@@ -256,20 +275,19 @@ $conn->close();
         function updateRoomDetails(roomDetails) {
             document.getElementById('room-type-name').textContent = roomDetails.name;
             document.getElementById('room-price').textContent = 'RM ' + roomDetails.price + ' per Room per Night';
-            document.getElementById('room-availability').textContent = 'Room Availability: ' + roomDetails.availability; // Add this line
+            document.getElementById('room-availability').textContent = 'Room Availability: ' + roomDetails.availability;
             document.getElementById('room-size').textContent = roomDetails.size;
             document.getElementById('room-image').src = roomDetails.image;
-            roomPrice = roomDetails.price; // Update the roomPrice variable
+            roomPrice = roomDetails.price;
 
             const featuresContainer = document.getElementById('room-features');
-            featuresContainer.innerHTML = ''; // Clear previous entries
+            featuresContainer.innerHTML = '';
             roomDetails.features.forEach(feature => {
                 const featureElement = document.createElement('span');
                 featureElement.textContent = feature;
                 featuresContainer.appendChild(featureElement);
             });
 
-            // Populate bed options
             const bedSelect = document.getElementById('bed');
             bedSelect.innerHTML = '<option value="" selected disabled hidden></option>';
             roomDetails.bed_options.forEach(bed => {
@@ -279,7 +297,6 @@ $conn->close();
                 bedSelect.appendChild(option);
             });
 
-            // Populate smoking options
             const smokeSelect = document.getElementById('smoke');
             smokeSelect.innerHTML = '<option value="" selected disabled hidden></option>';
             roomDetails.smoking_options.forEach(smoke => {
@@ -297,7 +314,7 @@ $conn->close();
             const checkOutDateValue = document.getElementById('check-out-date').value;
 
             if (!checkInDateValue || !checkOutDateValue) {
-                return; // Exit function if either date is not selected
+                return;
             }
 
             const checkInDate = new Date(checkInDateValue);
@@ -314,7 +331,7 @@ $conn->close();
             let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
 
             if (dayDiff === 0) {
-                dayDiff = 1; // If check-in date is the same as check-out date, treat as one day stay
+                dayDiff = 1;
             }
 
             document.getElementById('day').value = dayDiff;
@@ -324,21 +341,21 @@ $conn->close();
         function validateRoomQuantity() {
             const roomQuantityInput = document.getElementById('room-quantity-input');
             const roomQuantity = parseInt(roomQuantityInput.value) || 0;
-            const roomAvailability = parseInt(document.getElementById('room-availability').textContent.split(' ')[2]) || 0; // Fetch room availability
+            const roomAvailability = parseInt(document.getElementById('room-availability').textContent.split(' ')[2]) || 0;
 
             if (roomQuantity === 0) {
                 alert("You must at least book for 1 room.");
-                roomQuantityInput.value = ''; // Clear the room quantity input
+                roomQuantityInput.value = '';
                 return;
             }
 
             if (roomQuantity > roomAvailability) {
                 alert(`You can only book up to ${roomAvailability} rooms.`);
-                roomQuantityInput.value = ''; // Clear the room quantity input
+                roomQuantityInput.value = '';
                 return;
             }
 
-            generateRoomOptions(); // Proceed to generate room options if valid
+            generateRoomOptions();
         }
 
         function generateRoomOptions() {
@@ -346,7 +363,7 @@ $conn->close();
             const roomQuantity = parseInt(roomQuantityInput.value) || 0;
 
             const container = document.getElementById('additional-requests-container');
-            container.innerHTML = ''; // Clear previous entries
+            container.innerHTML = '';
 
             for (let i = 1; i <= roomQuantity; i++) {
                 const roomDiv = document.createElement('div');
@@ -388,7 +405,6 @@ $conn->close();
                 `;
                 container.appendChild(roomDiv);
 
-                // Add event listeners for the newly created elements
                 document.getElementById(`add-bed-${i}`).addEventListener('change', function() {
                     toggleFieldState(this, `bedquantity-${i}`);
                 });
@@ -399,8 +415,8 @@ $conn->close();
                 document.getElementById(`breakfastquantity-${i}`).addEventListener('input', updatePriceDetails);
             }
 
-            updatePriceDetails(); // Ensure initial update after generating options
-            updateCarPlateButtonState(); // Update car plate button state
+            updatePriceDetails();
+            updateCarPlateButtonState();
         }
 
         function toggleFieldState(selectElement, inputId) {
@@ -410,16 +426,16 @@ $conn->close();
                 inputElement.placeholder = "Please enter quantity";
                 inputElement.style.backgroundColor = "";
                 inputElement.style.color = "";
-                inputElement.min = 1; // Set minimum value to 1
+                inputElement.min = 1;
             } else {
                 inputElement.disabled = true;
                 inputElement.value = '';
                 inputElement.placeholder = "No quantity required";
                 inputElement.style.backgroundColor = "#CBCCCC";
                 inputElement.style.color = "black";
-                inputElement.min = 0; // Set minimum value to 0
+                inputElement.min = 0;
             }
-            updatePriceDetails(); // Update after toggle
+            updatePriceDetails();
         }
 
         function updatePriceDetails() {
@@ -476,6 +492,10 @@ $conn->close();
 
         function validateForm(event) {
             const form = document.getElementById('booking-form');
+            const totalAmount = document.getElementById('total-amount').innerText.replace('RM ', '');
+
+            document.getElementById('hidden-total-amount').value = totalAmount;
+
             const checkInDateValue = document.getElementById('check-in-date').value;
             const checkOutDateValue = document.getElementById('check-out-date').value;
             const phoneValue = document.getElementById('phone').value;
@@ -518,11 +538,20 @@ $conn->close();
                 return false;
             }
 
+            const carPlateInputs = document.querySelectorAll('#car-plate-container input[type="text"]');
+            carPlateInputs.forEach(input => {
+                if (!input.value.trim()) {
+                    alert("Please enter all car plate numbers.");
+                    event.preventDefault();
+                    return false;
+                }
+            });
+
             form.submit();
         }
 
         function isValidPhoneNumber(phone) {
-            const phoneRegex = /^[0-9]{8,11}$/;
+            const phoneRegex = /^[0-9]{8,15}$/;
             return phoneRegex.test(phone);
         }
 
@@ -558,6 +587,7 @@ $conn->close();
 
             const input = document.createElement('input');
             input.type = 'text';
+            input.name = `car_plate_${carPlateCount + 1}`; // Add name attribute for form submission
             input.placeholder = 'Enter Car Plate Number';
             input.required = true;
             row.appendChild(input);
@@ -600,12 +630,11 @@ $conn->close();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Autofill guest information if user details are available
             if (userDetails && Object.keys(userDetails).length > 0) {
                 document.getElementById('fname').value = userDetails.first_name || '';
                 document.getElementById('lname').value = userDetails.last_name || '';
                 document.getElementById('email').value = userDetails.email || '';
-                document.getElementById('phone').value = userDetails.phone_number || ''; // Changed to phone_number
+                document.getElementById('phone').value = userDetails.phone_number || '';
             }
 
             document.getElementById('car-1').addEventListener('change', function() {
@@ -647,7 +676,6 @@ $conn->close();
                 input.addEventListener('input', updatePriceDetails);
             });
 
-            // Autofill the form fields if URL parameters are present
             const urlParams = new URLSearchParams(window.location.search);
 
             const roomType = urlParams.get('roomType');

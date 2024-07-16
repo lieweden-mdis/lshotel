@@ -37,7 +37,7 @@ if (session_status() == PHP_SESSION_NONE) {
 <body>
     <header>
         <div>
-            <img src="img/logo.png" alt="Logo">
+            <a href="index.php"><img src="img/logo.png" alt="Logo"></a>
         </div>
         <div class="user-links">
             <?php if (isset($_SESSION['user_full_name'])): ?>

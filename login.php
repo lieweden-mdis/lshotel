@@ -33,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $stmt->fetch();
 
             if ($password !== $plainPassword) {
-                $error = "Login Unsuccessful, Staff ID/Email or Password error.";
+                $error = "Login Unsuccessful";
             } else {
                 $userType = 'staff';
             }
@@ -51,13 +51,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $stmt->fetch();
 
                 if (!password_verify($password, $hashedPassword)) {
-                    $error = "Login Unsuccessful, Email or Password error.";
+                    $error = "Login Unsuccessful";
                 } else {
                     $userType = 'user';
                 }
             } else {
                 // No user found in users table
-                $error = "Login Unsuccessful, Email or Password error.";
+                $error = "Login Unsuccessful";
             }
         }
 
@@ -117,12 +117,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="icon" href="img/icon.jpg">
     <style>
     .login-form span.error {
-        color: red;
         text-align: center;
-        margin-top: 2%;
-        padding: 0.5%;
-        font-size: 1.1em;
+        font-size: 1em;
         font-weight: bold;
+        margin:1em auto 0 auto;
+        padding: 2%;
+        width: 80%;
+        border-radius: 0.5em;
+        background-color: rgba(251, 171, 171, 0.9);
     }
     </style>
 </head>

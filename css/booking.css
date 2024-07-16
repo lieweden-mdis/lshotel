@@ -20,14 +20,6 @@ body {
     font-weight: bold;
 }
 
-.booking-container {
-    display: flex;
-    margin-left: 5%;
-    margin-right: 5%;
-    flex-wrap: wrap;
-    gap: 20px; /* Added gap for better spacing */
-}
-
 /* Room Type */
 .booking-container .roomtype-card {
     display: flex;
@@ -52,7 +44,7 @@ body {
     width: 100%;
 }
 
-.room-price-card .room-price{
+.room-price-card .room-price {
     color: black;
     font-weight: bold;
 }
@@ -70,6 +62,7 @@ body {
 /* Room Features */
 .room-type-box .room-features {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 0.5em;
     justify-content: flex-start;
     width: 100%;
@@ -102,20 +95,21 @@ body {
     color: red;
 }
 
-    .room-price-card .room-price {
-        display: block; /* Ensure the price and availability are on separate lines */
-    }
-    
-    .room-price-card .room-availability {
-        font-size: 1.2em; /* Adjust the font size for availability */
-        color: green; /* Color for availability text */
-        display: block;
-        margin-top: 0.5em; /* Space between price and availability */
-    }
+.room-price-card .room-price {
+    display: block; /* Ensure the price and availability are on separate lines */
+}
 
-    /* Room Features */
+.room-price-card .room-availability {
+    font-size: 1.2em; /* Adjust the font size for availability */
+    color: green; /* Color for availability text */
+    display: block;
+    margin-top: 0.5em; /* Space between price and availability */
+}
+
+/* Room Features */
 .room-type-box .room-features {
     display: flex;
+    flex-wrap: wrap;
     margin-bottom: 0.5em;
     justify-content: flex-start;
     width: 100%;
@@ -192,8 +186,8 @@ body {
     font-weight: bold;
 }
 
-.booking-info input[type="date"], 
-.booking-info input[type="number"], 
+.booking-info input[type="date"],
+.booking-info input[type="number"],
 .booking-info select {
     flex: 1;
     height: 3em;
@@ -283,7 +277,7 @@ body {
     font-weight: bold;
 }
 
-.request-info input[type="number"], 
+.request-info input[type="number"],
 .request-info select {
     flex: 1;
     height: 3em;
@@ -303,7 +297,7 @@ body {
     justify-content: space-around;
 }
 
-.additional-request-card span#additional-charges-remarks-text{
+.additional-request-card span#additional-charges-remarks-text {
     color: red;
     font-size: 1.2em;
     font-weight: bold;

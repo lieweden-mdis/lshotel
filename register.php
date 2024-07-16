@@ -1,9 +1,30 @@
 <?php
 require 'header.php';
-require 'config.php'; // Assuming you have a config.php for database connection
+require 'config.php';
+
+function checkDuplicateEmail($conn, $email) {
+    $stmt = $conn->prepare("SELECT email FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
+    $stmt->execute();
+    $stmt->store_result();
+    $isDuplicate = $stmt->num_rows > 0;
+    $stmt->close();
+    return $isDuplicate;
+}
+
+function checkDuplicatePhone($conn, $phoneNumber) {
+    $stmt = $conn->prepare("SELECT phone_number FROM users WHERE phone_number = ?");
+    $stmt->bind_param("s", $phoneNumber);
+    $stmt->execute();
+    $stmt->store_result();
+    $isDuplicate = $stmt->num_rows > 0;
+    $stmt->close();
+    return $isDuplicate;
+}
+
+$errorMessage = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
-    // Retrieve the submitted form data
     $firstName = $_POST['fname'];
     $lastName = $_POST['lname'];
     $email = $_POST['email'];
@@ -11,121 +32,101 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmpassword'];
 
-    // Basic validation
     if ($password != $confirmPassword) {
-        echo "<script>alert('Passwords do not match. Please try again.');</script>";
+        $errorMessage = "Passwords do not match. Please try again.";
     } else {
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $duplicateEmail = checkDuplicateEmail($conn, $email);
+        $duplicatePhone = checkDuplicatePhone($conn, $phoneNumber);
 
-        // Database connection
-        $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, phone_number, password) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $firstName, $lastName, $email, $phoneNumber, $hashedPassword);
-
-        // Execute the query
-        if ($stmt->execute()) {
-            echo "<script>alert('Registration successful!');</script>";
+        if ($duplicateEmail && $duplicatePhone) {
+            $errorMessage = "Both email and phone number are registered with our record, please try again.";
+            $email = ""; // Clear email input
+            $phoneNumber = ""; // Clear phone number input
+        } elseif ($duplicateEmail) {
+            $errorMessage = "Email is registered with our record, please try another email.";
+            $email = ""; // Clear email input
+        } elseif ($duplicatePhone) {
+            $errorMessage = "Phone number is registered with our record, please try another phone number.";
+            $phoneNumber = ""; // Clear phone number input
         } else {
-            echo "<script>alert('Registration unsuccessful. Please try again.');</script>";
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $conn->prepare("INSERT INTO users (first_name, last_name, email, phone_number, password) VALUES (?, ?, ?, ?, ?)");
+            $stmt->bind_param("sssss", $firstName, $lastName, $email, $phoneNumber, $hashedPassword);
+
+            if ($stmt->execute()) {
+                header("Location: login.php");
+                exit();
+            } else {
+                $errorMessage = "Registration unsuccessful. Please try again.";
+            }
+
+            $stmt->close();
         }
-
-        // Close statement and connection
-        $stmt->close();
-        $conn->close();
     }
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['check_duplicate'])) {
-    // Database connection
-    $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-
-    $email = $_POST['email'];
-    $phoneNumber = $_POST['phone'];
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? OR phone_number = ?");
-    $stmt->bind_param("ss", $email, $phoneNumber);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        echo json_encode(['status' => 'error', 'message' => 'Email or Phone Number already exists']);
-    } else {
-        echo json_encode(['status' => 'success']);
-    }
-
-    $stmt->close();
-    $conn->close();
-    exit;
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="keywords" content="Hotel">
-    
-    <!--Icon-->  
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
-    <!--Font Family-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <!--CSS Stylesheet-->
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" type="text/css" href="css/register.css">
-    
-    <title>L's HOTEL - REGISTER</title>
-    <link rel="icon" href="img/icon.jpg">
+    <style>
+        .message {
+            text-align: center;
+            font-size: 1em;
+            font-weight: bold;
+            margin: 10px auto;
+            padding: 2%;
+            width: 80%;
+            border-radius: 0.8em;
+        }
+        .error-message {
+            background-color: rgba(251, 171, 171, 0.9);
+            color: black;
+        }
+    </style>
 </head>
 <body>
     <div class="container"> 
-        <!--Register Form-->
-        <form action="register.php" method="POST" onsubmit="return validateForm()">
+        <form action="" method="POST" id="registerForm">
             <div class="register-form">
                 <span class="form-header">User Registration</span>
-                <div class="row">
+                <?php if (!empty($errorMessage)): ?>
+                    <div class="message error-message"><?php echo $errorMessage; ?></div>
+                <?php endif; ?>
+                             <div class="row">
                     <div class="input-data">
                         <label for="fname">First Name<i class="fa-solid fa-address-card"></i></label>
-                        <input type="text" id="first-name" name="fname" placeholder="Enter your First Name" required>
+                        <input type="text" id="first-name" name="fname" placeholder="Enter your First Name" value="<?php echo isset($firstName) ? $firstName : ''; ?>" required>
                     </div>
                     <div class="input-data">
                         <label for="lname">Last Name<i class="fa-solid fa-address-card"></i></label>
-                        <input type="text" id="last-name" name="lname" placeholder="Enter your Last Name" required>
+                        <input type="text" id="last-name" name="lname" placeholder="Enter your Last Name" value="<?php echo isset($lastName) ? $lastName : ''; ?>" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-data">
                         <label for="email">Email<i class="fa-solid fa-envelope"></i></label>
-                        <input type="email" id="email" name="email" placeholder="Enter your Email" required>
+                        <input type="email" id="email" name="email" placeholder="Enter your Email" value="<?php echo isset($email) ? $email : ''; ?>" required>
                     </div>
                     <div class="input-data">
                         <label for="phone">Phone Number<i class="fa-solid fa-phone"></i></label>
-                        <input type="text" id="phone-number" name="phone" placeholder="Enter your Phone Number" required>
+                        <input type="text" id="phone-number" name="phone" placeholder="Enter your Phone Number" value="<?php echo isset($phoneNumber) ? $phoneNumber : ''; ?>" required pattern="\d{8,11}" title="Phone number should be 8 to 11 digits">
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-data">
                         <label for="password">Password<i class="fa-solid fa-key"></i></label>
-                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required pattern=".{8,}" title="Password must be at least 8 characters long">
                     </div>
                     <div class="input-data">
                         <label for="confirm">Confirm Password<i class="fa-solid fa-key"></i></label>
-                        <input type="password" id="confirm-password" name="confirmpassword" placeholder="Confirm your password" required>
+                        <input type="password" id="confirm-password" name="confirmpassword" placeholder="Confirm your password" required pattern=".{8,}" title="Password must be at least 8 characters long">
                     </div>
                 </div>
                 <div class="button">
@@ -134,52 +135,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['check_duplicate'])) {
                 </div>
             </div>
         </form>
-    </div> 
-    <!--Footer-->
+    </div>
+    
+    <!-- Footer -->
     <footer>
-        <p>&copy;2024 L's Hotel  All Right Reserved.</p>
+        <p>&copy;2024 L's Hotel All Right Reserved.</p>
     </footer>
+    
 </body>
-<!--Javascript-->
-<script src="script/register.js" type="text/javascript"></script>
-<script>
-function validatePasswords() {
-    var password = document.getElementById('password').value;
-    var confirmPassword = document.getElementById('confirm-password').value;
-    if (password != confirmPassword) {
-        alert('Passwords do not match. Please try again.');
-        return false;
-    }
-    return true;
-}
-
-function checkDuplicates() {
-    var email = document.getElementById('email').value;
-    var phone = document.getElementById('phone-number').value;
-
-    if (email && phone) {
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'register.php', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onload = function() {
-            if (this.status == 200) {
-                var response = JSON.parse(this.responseText);
-                if (response.status == 'error') {
-                    alert(response.message);
-                    document.getElementById('email').value = '';
-                    document.getElementById('phone-number').value = '';
-                }
-            }
-        };
-        xhr.send('check_duplicate=true&email=' + encodeURIComponent(email) + '&phone=' + encodeURIComponent(phone));
-    }
-}
-
-function validateForm() {
-    return validatePasswords() && checkDuplicates();
-}
-
-document.getElementById('email').addEventListener('input', checkDuplicates);
-document.getElementById('phone-number').addEventListener('input', checkDuplicates);
-</script>
 </html>
