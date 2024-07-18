@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - ABOUT</title>
     <link rel="icon" href="img/icon.jpg">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/about.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/about.css?v=<?php echo time(); ?>">
 </head>
 <body>
         <?php include 'header.php'; ?>

@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - FACILITIES</title>
-    <link rel="icon" href="img/icon.jpg">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <link rel="icon" href="img/icon.jpg" >
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/facility.css">
 </head>
+      
 <body>
-        <?php include 'header.php'; ?>
+<?php include 'header.php' ?>
+
     <div class="facilities">
         <h2>FACILITIES</h2>
         <div class="facility">
@@ -29,14 +31,14 @@
         <div class="facility">
             <img src="img/gym-icon.png" alt="Gym">
             <div class="facility-details">
-                <h3>Gym</h3>
+                <h3>Gym（Floor 3）</h3>
                 <p>Modern fitness facilities, open 24 hours a day.</p>
             </div>
         </div>
         <div class="facility">
             <img src="img/pool-icon.png" alt="Swimming pool">
             <div class="facility-details">
-                <h3>Swimming pool</h3>
+                <h3>Swimming pool  （Floor 3 ）</h3>
                 <p>Indoor and outdoor swimming pools, with swimming equipment rentals available.</p>
             </div>
         </div>
@@ -45,5 +47,6 @@
     <footer>
         <p>&copy;2024 L's Hotel All Right Reserved.</p>
     </footer>
+
 </body>
 </html>

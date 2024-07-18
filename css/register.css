@@ -118,3 +118,17 @@ html, body {
     text-decoration: none;
     color: red;
 }
+
+.message {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 10px auto;
+    padding: 2%;
+    width: 80%;
+    border-radius: 0.8em;
+}
+.error-message {
+    background-color: rgba(251, 171, 171, 0.9);
+    color: black;
+}

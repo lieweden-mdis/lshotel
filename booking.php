@@ -65,27 +65,9 @@ $conn->close();
     <title>L's HOTEL - BOOKING</title>
     <link rel="icon" href="img/icon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/booking.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/booking.css?v=<?php echo time(); ?>">
     <style>
-        .booking-container {
-            display: flex;
-            margin-left: 2%;
-            margin-right: 2%;
-}
-        .room-type-box img#room-image {
-            width: 15em;
-            height: 15em;
-        }
-
-        .room-type-box .room-price-card {
-            color: black;
-            font-weight: bold;
-            font-size: 1.5em;
-            margin: 0 2% 0 2%;
-            display: flex;
-            flex-direction: column;
-        }
     </style>
 </head>
 <body>

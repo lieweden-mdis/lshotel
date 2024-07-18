@@ -1,80 +1,116 @@
-/* payment.css */
-
-/* Styles for payment page */
-.payment-header {
-    text-align: center;
-    margin-top: 20px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
 }
 
-.payment-container {
+body {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: azure;
+}
+
+.container {
+    width: 750px;
+    height: auto;
+    border: 1px solid #999;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 40px;
+    justify-content: space-around;
+}
+
+.container h1 {
+    text-align: center;
+}
+
+.card-row, .owner-row, .date-row {
+    display: flex;
+    margin-bottom: 20px;
+    align-items: center;
+}
+
+.card-number, .owner {
+    flex-grow: 2;
+}
+
+.cvv {
+    flex-grow: 1;
+    margin-left: 20px;
+}
+
+.input-field, .card-number-field, .date {
+    display: flex;
+    border: 1px solid #999;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.input-field input, .card-number-field input, .date input {
+    width: 100%;
+    border: none;
+    outline: none;
+    padding: 10px;
+    text-align: center;
+}
+
+.card-number-field input {
+    width: 25%;
+    border-right: 1px solid #999;
+}
+
+.card-number-field input:last-child {
+    border-right: none;
+}
+
+.cvv .input-field {
+    width: 100px;
+}
+
+.date .input-field {
+    display: flex;
+    align-items: center;
+}
+
+.date input {
+    width: 50px;
+    text-align: center;
+}
+
+.date span {
+    margin: 0 5px;
+}
+
+.cards {
     display: flex;
     justify-content: space-between;
-    margin: 20px;
+    align-items: center;
+    margin-left: 20px;
 }
 
-.payment-form {
-    flex: 1;
-    margin-right: 20px;
+.cards img {
+    width: 60px;
+    margin-left: 10px;
 }
 
-.form-header {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.payment-info .column {
-    margin-bottom: 10px;
-}
-
-.payment-info label {
-    font-weight: bold;
-    color: #555;
-    display: block;
-    margin-bottom: 5px;
-}
-
-.payment-info input {
-    width: 100%;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
-.payment-button {
-    margin-top: 20px;
-    text-align: center;
-}
-
-#pay-btn {
-    background-color: #4CAF50;
+button {
+    background-color: blueviolet;
     color: white;
-    padding: 10px 20px;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 15px;
+    font-size: 18px;
+    transition: 0.5s;
     border: none;
-    border-radius: 4px;
+    border-radius: 5px;
     cursor: pointer;
 }
 
-#pay-btn:hover {
-    background-color: #45a049;
-}
-
-.price-summary {
-    flex: 1;
-}
-
-.price-title {
-    font-size: 20px;
-    font-weight: bold;
-    color: #333;
-    display: block;
-    margin-bottom: 10px;
-}
-
-.summary .column {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
+button:hover {
+    background-color: dodgerblue;
 }

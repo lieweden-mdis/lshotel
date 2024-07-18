@@ -114,3 +114,14 @@ html, body {
     text-decoration: none;
     color: red;
 }
+
+.login-form span.error {
+    text-align: center;
+    font-size: 1em;
+    font-weight: bold;
+    margin:1em auto 0 auto;
+    padding: 2%;
+    width: 80%;
+    border-radius: 0.5em;
+    background-color: rgba(251, 171, 171, 0.9);
+}

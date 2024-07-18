@@ -5,46 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - STANDARD ROOM</title>
     <link rel="icon" href="img/icon.jpg">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/room-details.css">
-    <style>
-        .room-description {
-            display: flex;
-            flex-direction: column;
-            height: fit-content;
-            margin: 1% 2% 2% 2%;
-            padding: 1%;
-            border-radius: 0.5em;
-            box-shadow: rgba(187, 201, 211, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
-        }
-
-        .room-description .description-header {
-            font-size: 2em;
-            font-weight: bold;
-        }
-
-        .room-description .description-content {
-            font-size: 1.1em;
-            line-height: 1.5;
-        }
-
-        .book-now-btn {
-            margin-top: 10px;
-            padding: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-        }
-
-        .book-now-btn:disabled {
-            background-color: #ccc;
-            cursor: not-allowed;
-        }
-    </style>
-</head>
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/room-details.css?v=<?php echo time(); ?>">
+    </head>
 <body>
     <?php include 'header.php'; ?>
     <!--Room-->

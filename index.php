@@ -23,47 +23,8 @@ $conn->close();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - INDEX</title>
     <link rel="icon" href="img/icon.jpg">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/index.css">
-    <style>
-        .availability {
-            color: green;
-            margin-top: 5px;
-            font-weight: bold;
-        }
-        .modal {
-            display: none; 
-            position: fixed; 
-            z-index: 1; 
-            left: 0;
-            top: 0;
-            width: 100%; 
-            height: 100%; 
-            overflow: auto; 
-            background-color: rgb(0,0,0); 
-            background-color: rgba(0,0,0,0.4); 
-            padding-top: 60px;
-        }
-        .modal-content {
-            background-color: #fefefe;
-            margin: 5% auto; 
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-        }
-        .close:hover,
-        .close:focus {
-            color: black;
-            text-decoration: none;
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/index.css?=<?php echo time(); ?>">
 </head>
 <body>
     <section class="banner">

@@ -24,6 +24,25 @@ header img {
   height: 50px;
 }
 
+header .user-links {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+header .user-links a,
+header.user-links .username-link {
+  color: white;
+  margin: 0 1em;
+  text-decoration: none;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+header.user-links .username-link {
+  padding: 0.5em 1em;
+}
+
 nav {
   display: flex;
   justify-content: center;

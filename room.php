@@ -20,8 +20,8 @@ function getRoomPrice($conn, $roomType) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>L's HOTEL - ROOM</title>
     <link rel="icon" href="img/icon.jpg">
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/room.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/room.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <?php include 'header.php'; ?>

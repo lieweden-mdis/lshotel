@@ -110,23 +110,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     
     <!-- CSS Stylesheet -->
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/login.css">
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/login.css?v=<?php echo time(); ?>">
     
     <title>L's HOTEL - LOGIN</title>
     <link rel="icon" href="img/icon.jpg">
-    <style>
-    .login-form span.error {
-        text-align: center;
-        font-size: 1em;
-        font-weight: bold;
-        margin:1em auto 0 auto;
-        padding: 2%;
-        width: 80%;
-        border-radius: 0.5em;
-        background-color: rgba(251, 171, 171, 0.9);
-    }
-    </style>
 </head>
 <body>
     <?php include 'header.php'?>

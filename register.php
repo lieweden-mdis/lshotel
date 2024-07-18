@@ -73,23 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     <title>User Registration</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="css/style.css">
-    <link rel="stylesheet" type="text/css" href="css/register.css">
-    <style>
-        .message {
-            text-align: center;
-            font-size: 1em;
-            font-weight: bold;
-            margin: 10px auto;
-            padding: 2%;
-            width: 80%;
-            border-radius: 0.8em;
-        }
-        .error-message {
-            background-color: rgba(251, 171, 171, 0.9);
-            color: black;
-        }
-    </style>
+    <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" type="text/css" href="css/register.css?v=<?php echo time(); ?>">
 </head>
 <body>
     <div class="container"> 
