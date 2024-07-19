@@ -42,7 +42,7 @@
                 <div class="input-field">
                     <input type="text" maxlength="2" placeholder="MM" id="month">
                     <span>/</span>
-                    <input type="text" maxlength="2" placeholder="YY" id="year">
+                    <input type="text" maxlength="4" placeholder="YYYY" id="year">
                 </div>
             </div>
             <div class="cards">
@@ -51,6 +51,7 @@
                 <img src="img/pp.png" alt="PayPal">
             </div>
         </div>
+        <input type="hidden" id="booking_id" value="<?php echo $_GET['booking_id']; ?>">
         <button onclick="confirmPayment()">Confirm</button>
     </div>
     <script src="script/payment.js"></script>

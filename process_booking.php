@@ -21,11 +21,8 @@ $email = sanitizeInput($_POST['email']);
 $phone_number = sanitizeInput($_POST['phone']);
 $bring_car = sanitizeInput($_POST['car-1']);
 $total_amount = sanitizeInput($_POST['total-amount']);
-$payment_status = 'pending';
-
-// Debug logs
-error_log("Received bed selection: " . $bed_selection);
-error_log("Sanitized bed selection: " . $bed_selection);
+$payment_status = 'Pending';
+$booking_status = 'Pending'; // Initial booking status
 
 // Collect car plates
 $car_plates = [];
@@ -70,22 +67,12 @@ if ($result->num_rows > 0) {
 }
 $stmt->close();
 
-// Debug log before insert
-error_log("Prepared to insert: email=$email, room_id=$room_id, check_in_date=$check_in_date, check_out_date=$check_out_date, days=$days, number_of_rooms=$number_of_rooms, bed_selection=$bed_selection, smoke=$smoke, first_name=$first_name, last_name=$last_name, phone_number=$phone_number, bring_car=$bring_car, additional_requests=$additional_requests_json, total_amount=$total_amount, car_plates=$car_plates_string, payment_status=$payment_status");
-
 // Insert booking data into the database
-$sql = "INSERT INTO bookings (email, room_id, check_in_date, check_out_date, days, number_of_rooms, bed_selection, smoke, first_name, last_name, phone_number, bring_car, additional_requests, total_amount, car_plates, payment_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+$sql = "INSERT INTO bookings (email, room_id, check_in_date, check_out_date, days, number_of_rooms, bed_selection, smoke, first_name, last_name, phone_number, bring_car, additional_requests, total_amount, car_plates, booking_status, payment_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param('sissiisssssssdss', $email, $room_id, $check_in_date, $check_out_date, $days, $number_of_rooms, $bed_selection, $smoke, $first_name, $last_name, $phone_number, $bring_car, $additional_requests_json, $total_amount, $car_plates_string, $payment_status);
-
-// Debug log before execution
-error_log("SQL query: " . $sql);
-error_log("Bed selection before insert: " . $bed_selection);
+$stmt->bind_param('sissiisssssssdsss', $email, $room_id, $check_in_date, $check_out_date, $days, $number_of_rooms, $bed_selection, $smoke, $first_name, $last_name, $phone_number, $bring_car, $additional_requests_json, $total_amount, $car_plates_string, $booking_status, $payment_status);
 
 if ($stmt->execute()) {
-    // Debug log after successful execution
-    error_log("Booking inserted successfully. Bed selection: " . $bed_selection);
-    
     // Redirect to payment page
     header('Location: payment.php?booking_id=' . $stmt->insert_id);
     exit();

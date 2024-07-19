@@ -22,14 +22,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         // Check if it's a staff login (using staff ID or email)
-        $stmt = $conn->prepare("SELECT id, password, first_name, last_name FROM staff WHERE (staff_id = ? OR email = ?)");
+        $stmt = $conn->prepare("SELECT id, staff_id, password, first_name, last_name, email, phone_number, role FROM staff WHERE (staff_id = ? OR email = ?)");
         $stmt->bind_param("ss", $emailStaffId, $emailStaffId);
         $stmt->execute();
         $stmt->store_result();
 
         if ($stmt->num_rows > 0) {
             // Staff found, verify plain text password
-            $stmt->bind_result($id, $plainPassword, $firstName, $lastName);
+            $stmt->bind_result($id, $staffId, $plainPassword, $firstName, $lastName, $email, $phoneNumber, $role);
             $stmt->fetch();
 
             if ($password !== $plainPassword) {
@@ -64,10 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Start session if login is successful
         if (empty($error)) {
             $_SESSION['user'] = [
-                'id' => $id,
+                'id' => $staffId ?? $id,
+                'staff_id' => $staffId ?? '', // Ensure staff_id is stored in session
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'user_type' => $userType,
+                'role' => $role ?? '' // Add role to the session, if it exists
             ];
 
             // Set the full name in the session
@@ -76,11 +78,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($userType === 'user') {
                 $_SESSION['user']['email'] = $email;
                 $_SESSION['user']['phone_number'] = $phone;
+            } else {
+                $_SESSION['user']['email'] = $email;
+                $_SESSION['user']['phone_number'] = $phoneNumber;
             }
 
             // Redirect based on the type of user
             if ($userType === 'staff') {
-                header("Location: staff-dashboard.php"); // Redirect to staff dashboard
+                header("Location: staff/staff_dashboard.php"); // Redirect to staff dashboard
             } else {
                 header("Location: index.php"); // Redirect to user home page
             }

@@ -25,19 +25,27 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     yearInput.addEventListener('input', () => {
-        if (yearInput.value.length > 2) {
-            yearInput.value = yearInput.value.slice(0, 2);
+        if (yearInput.value.length > 4) {
+            yearInput.value = yearInput.value.slice(0, 4);
         }
     });
 });
 
 function confirmPayment() {
+    const month = document.getElementById('month').value;
     const year = document.getElementById('year').value;
-    const fullYear = parseInt("20" + year);
+    const fullYear = parseInt(year);
+    const bookingId = document.getElementById('booking_id').value;
 
-    if (fullYear >= 2024) {
-        window.location.href = "payment_success.html";
+    // Get current date
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1; // getMonth() returns month index from 0-11
+    const currentYear = currentDate.getFullYear();
+
+    // Validate the expiration date
+    if (fullYear > currentYear || (fullYear === currentYear && month >= currentMonth)) {
+        window.location.href = `payment_success.php?booking_id=${bookingId}`;
     } else {
-        window.location.href = "payment_failure.html";
+        window.location.href = `payment_failure.php?booking_id=${bookingId}`;
     }
 }

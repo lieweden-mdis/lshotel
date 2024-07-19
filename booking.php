@@ -26,6 +26,12 @@ if ($user) {
 }
 
 $room_type = isset($_GET['roomType']) ? sanitizeInput($_GET['roomType']) : 'Default Room';
+$price = 'xxx';
+$features = [];
+$size = 'N/A';
+$availability = 0;
+$bed_options = []; // No bed options available for default room
+$image = 'img/room-image/default-room.jpg';
 
 // Fetch room details from the database
 $sql = "SELECT * FROM rooms WHERE room_type = ?";
@@ -40,17 +46,9 @@ if ($result->num_rows > 0) {
     $features = explode(',', $row['room_features']);
     $size = $row['room_size'];
     $availability = $row['room_availability'];
-    $bed_options = isset($row['bed_options']) ? explode(',', $row['bed_options']) : []; // Ensure bed_options is set
+    $bed_options = isset($row['bed_options']) ? explode(',', $row['bed_options']) : [];
     $images = explode(',', $row['room_images']);
     $image = isset($images[0]) ? 'img/room-image/' . strtolower(str_replace(' ', '-', $room_type)) . '/' . htmlspecialchars(trim($images[0])) : 'img/room-image/default-room.jpg';
-} else {
-    $room_type = 'Default Room';
-    $price = 'xxx';
-    $features = [];
-    $size = 'N/A';
-    $availability = 0;
-    $bed_options = []; // No bed options available for default room
-    $image = 'img/room-image/default-room.jpg';
 }
 
 $stmt->close();
@@ -67,8 +65,6 @@ $conn->close();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
     <link rel="stylesheet" type="text/css" href="css/booking.css?v=<?php echo time(); ?>">
-    <style>
-    </style>
 </head>
 <body>
     <?php include 'header.php'; ?>
@@ -201,8 +197,12 @@ $conn->close();
                         <span id="stay-price">RM 0</span>
                     </div>
                     <div id="additional-charges-container" class="column">
-                        <span>Additional Charges</span>
-                        <span id="additional-charges">RM 0</span>
+                        <span>Extra Bed Charges</span>
+                        <span id="extra-bed-charges">RM 0</span>
+                    </div>
+                    <div id="additional-charges-container" class="column">
+                        <span>Breakfast Charges</span>
+                        <span id="breakfast-charges">RM 0</span>
                     </div>
                     <hr>
                     <div class="column">
@@ -232,456 +232,495 @@ $conn->close();
         <p>&copy;2024 L's Hotel  All Right Reserved.</p>
     </footer>
 
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <p id="modal-message"></p>
+        </div>
+    </div>
+
     <script>
-        let roomPrice = <?php echo json_encode($price); ?>; // Get the price from PHP
-        const userDetails = <?php echo json_encode($userDetails); ?>; // Pass user details to JavaScript
+let roomPrice = <?php echo json_encode($price); ?>; // Get the price from PHP
+const userDetails = <?php echo json_encode($userDetails); ?>; // Pass user details to JavaScript
 
-        function fetchRoomDetails(roomType) {
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', 'fetch-room-details.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xhr.onload = function() {
-                if (xhr.status >= 200 && xhr.status < 300) {
-                    const roomDetails = JSON.parse(xhr.responseText);
-                    updateRoomDetails(roomDetails);
-                } else {
-                    console.error('Failed to fetch room details: ' + xhr.statusText);
-                }
-            };
-            xhr.onerror = function() {
-                console.error('Error during the AJAX request.');
-            };
-            xhr.send('room_type=' + encodeURIComponent(roomType) + '&response_type=json');
+function showModal(message) {
+    document.getElementById('modal-message').innerText = message;
+    document.getElementById('modal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+}
+
+window.onclick = function(event) {
+    if (event.target === document.getElementById('modal')) {
+        closeModal();
+    }
+}
+
+function fetchRoomDetails(roomType) {
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', 'fetch-room-details.php', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            const roomDetails = JSON.parse(xhr.responseText);
+            updateRoomDetails(roomDetails);
+        } else {
+            console.error('Failed to fetch room details: ' + xhr.statusText);
+        }
+    };
+    xhr.onerror = function() {
+        console.error('Error during the AJAX request.');
+    };
+    xhr.send('room_type=' + encodeURIComponent(roomType) + '&response_type=json');
+}
+
+function updateRoomDetails(roomDetails) {
+    document.getElementById('room-type-name').textContent = roomDetails.name;
+    document.getElementById('room-price').textContent = 'RM ' + roomDetails.price + ' per Room per Night';
+    document.getElementById('room-availability').textContent = 'Room Availability: ' + roomDetails.availability;
+    document.getElementById('room-size').textContent = roomDetails.size;
+    document.getElementById('room-image').src = roomDetails.image;
+    roomPrice = roomDetails.price;
+
+    const featuresContainer = document.getElementById('room-features');
+    featuresContainer.innerHTML = '';
+    roomDetails.features.forEach(feature => {
+        const featureElement = document.createElement('span');
+        featureElement.textContent = feature;
+        featuresContainer.appendChild(featureElement);
+    });
+
+    const bedSelect = document.getElementById('bed');
+    bedSelect.innerHTML = '<option value="" selected disabled hidden></option>';
+    roomDetails.bed_options.forEach(bed => {
+        const option = document.createElement('option');
+        option.value = bed;
+        option.textContent = bed;
+        bedSelect.appendChild(option);
+    });
+
+    const smokeSelect = document.getElementById('smoke');
+    smokeSelect.innerHTML = '<option value="" selected disabled hidden></option>';
+    roomDetails.smoking_options.forEach(smoke => {
+        const option = document.createElement('option');
+        option.value = smoke;
+        option.textContent = smoke;
+        smokeSelect.appendChild(option);
+    });
+
+    updatePriceDetails();
+}
+
+function calculateDays() {
+    const checkInDateValue = document.getElementById('check-in-date').value;
+    const checkOutDateValue = document.getElementById('check-out-date').value;
+
+    if (!checkInDateValue || !checkOutDateValue) {
+        return;
+    }
+
+    const checkInDate = new Date(checkInDateValue);
+    const checkOutDate = new Date(checkOutDateValue);
+
+    if (checkOutDate < checkInDate) {
+        showModal("Check-out date must be after the check-in date.");
+        document.getElementById('check-out-date').value = '';
+        document.getElementById('day').value = '';
+        return;
+    }
+
+    const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
+    let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+
+    if (dayDiff === 0) {
+        dayDiff = 1;
+    }
+
+    document.getElementById('day').value = dayDiff;
+    updatePriceDetails();
+}
+
+function validateRoomQuantity() {
+    const roomQuantityInput = document.getElementById('room-quantity-input');
+    const roomQuantity = parseInt(roomQuantityInput.value) || 0;
+    const roomAvailability = parseInt(document.getElementById('room-availability').textContent.split(' ')[2]) || 0;
+
+    if (roomQuantity === 0) {
+        showModal("You must at least book for 1 room.");
+        roomQuantityInput.value = '';
+        return;
+    }
+
+    if (roomQuantity > roomAvailability) {
+        showModal(`You can only book up to ${roomAvailability} rooms.`);
+        roomQuantityInput.value = '';
+        return;
+    }
+
+    generateRoomOptions();
+}
+
+function generateRoomOptions() {
+    const roomQuantityInput = document.getElementById('room-quantity-input');
+    const roomQuantity = parseInt(roomQuantityInput.value) || 0;
+
+    const container = document.getElementById('additional-requests-container');
+    container.innerHTML = '';
+
+    for (let i = 1; i <= roomQuantity; i++) {
+        const roomDiv = document.createElement('div');
+        roomDiv.classList.add('additional-request-card');
+        roomDiv.innerHTML = `
+            <span class="form-header">Room ${i} - Additional Requests</span>
+            <div class="request-info">
+                <div class="column">
+                    <label for="add-bed-${i}">Extra Bed</label>
+                    <select name="add-bed-${i}" id="add-bed-${i}" required>
+                        <option value="" selected disabled hidden></option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+        
+                <div class="column">
+                    <label for="bedquantity-${i}">Extra Bed Quantity</label>
+                    <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" required placeholder="Select extra bed option" disabled min="0">
+                </div>
+        
+                <div class="column">
+                    <label for="add-breakfast-${i}">Add Breakfast</label>
+                    <select name="add-breakfast-${i}" id="add-breakfast-${i}" required>
+                        <option value="" selected disabled hidden></option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+        
+                <div class="column">
+                    <label for="breakfastquantity-${i}">Breakfast Quantity</label>
+                    <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" required placeholder="Select breakfast option" disabled min="0">
+                </div>
+            </div>
+            <div class="additional-request-remarks">
+                <span id="additional-charges-remarks-text">Extra Bed: RM 10 per unit. Breakfast: RM 35 per person.</span>
+            </div>
+        `;
+        container.appendChild(roomDiv);
+
+        document.getElementById(`add-bed-${i}`).addEventListener('change', function() {
+            toggleFieldState(this, `bedquantity-${i}`);
+        });
+        document.getElementById(`add-breakfast-${i}`).addEventListener('change', function() {
+            toggleFieldState(this, `breakfastquantity-${i}`);
+        });
+        document.getElementById(`bedquantity-${i}`).addEventListener('input', updatePriceDetails);
+        document.getElementById(`breakfastquantity-${i}`).addEventListener('input', updatePriceDetails);
+    }
+
+    updatePriceDetails();
+    updateCarPlateButtonState();
+}
+
+function toggleFieldState(selectElement, inputId) {
+    const inputElement = document.getElementById(inputId);
+    if (selectElement.value === 'Yes') {
+        inputElement.disabled = false;
+        inputElement.placeholder = "Please enter quantity";
+        inputElement.style.backgroundColor = "";
+        inputElement.style.color = "";
+        inputElement.min = 1;
+    } else {
+        inputElement.disabled = true;
+        inputElement.value = '';
+        inputElement.placeholder = "No quantity required";
+        inputElement.style.backgroundColor = "#CBCCCC";
+        inputElement.style.color = "black";
+        inputElement.min = 0;
+    }
+    updatePriceDetails();
+}
+
+function updatePriceDetails() {
+    const checkInDateValue = document.getElementById('check-in-date').value;
+    const checkOutDateValue = document.getElementById('check-out-date').value;
+    const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
+
+    if (!checkInDateValue || !checkOutDateValue || roomQuantity === 0) {
+        document.getElementById('stay-duration').innerText = '';
+        document.getElementById('stay-price').innerText = '';
+        document.getElementById('extra-bed-charges').style.display = 'none';
+        document.getElementById('breakfast-charges').style.display = 'none';
+        document.getElementById('total-amount').innerText = '';
+        return;
+    }
+
+    const days = parseInt(document.getElementById('day').value) || 0;
+
+    let extraBedTotal = 0;
+    let breakfastTotal = 0;
+
+    for (let i = 1; i <= roomQuantity; i++) {
+        const addBedSelect = document.getElementById(`add-bed-${i}`);
+        const addBreakfastSelect = document.getElementById(`add-breakfast-${i}`);
+        const bedQuantityInput = document.getElementById(`bedquantity-${i}`);
+        const breakfastQuantityInput = document.getElementById(`breakfastquantity-${i}`);
+
+        if (addBedSelect && addBedSelect.value === 'Yes') {
+            const bedQuantity = parseInt(bedQuantityInput.value) || 0;
+            extraBedTotal += bedQuantity;
         }
 
-        function updateRoomDetails(roomDetails) {
-            document.getElementById('room-type-name').textContent = roomDetails.name;
-            document.getElementById('room-price').textContent = 'RM ' + roomDetails.price + ' per Room per Night';
-            document.getElementById('room-availability').textContent = 'Room Availability: ' + roomDetails.availability;
-            document.getElementById('room-size').textContent = roomDetails.size;
-            document.getElementById('room-image').src = roomDetails.image;
-            roomPrice = roomDetails.price;
+        if (addBreakfastSelect && addBreakfastSelect.value === 'Yes') {
+            const breakfastQuantity = parseInt(breakfastQuantityInput.value) || 0;
+            breakfastTotal += breakfastQuantity;
+        }
+    }
 
-            const featuresContainer = document.getElementById('room-features');
-            featuresContainer.innerHTML = '';
-            roomDetails.features.forEach(feature => {
-                const featureElement = document.createElement('span');
-                featureElement.textContent = feature;
-                featuresContainer.appendChild(featureElement);
-            });
+    const stayPrice = roomPrice * roomQuantity * days;
+    const additionalBedCharges = extraBedTotal * 10;
+    const additionalBreakfastCharges = breakfastTotal * 35;
 
-            const bedSelect = document.getElementById('bed');
-            bedSelect.innerHTML = '<option value="" selected disabled hidden></option>';
-            roomDetails.bed_options.forEach(bed => {
-                const option = document.createElement('option');
-                option.value = bed;
-                option.textContent = bed;
-                bedSelect.appendChild(option);
-            });
+    document.getElementById('stay-duration').innerText = `${roomQuantity} Room${roomQuantity !== 1 ? 's' : ''} @ ${days} Night${days !== 1 ? 's' : ''}`;
+    document.getElementById('stay-price').innerText = `RM ${stayPrice}`;
 
-            const smokeSelect = document.getElementById('smoke');
-            smokeSelect.innerHTML = '<option value="" selected disabled hidden></option>';
-            roomDetails.smoking_options.forEach(smoke => {
-                const option = document.createElement('option');
-                option.value = smoke;
-                option.textContent = smoke;
-                smokeSelect.appendChild(option);
-            });
+    const extraBedChargesElement = document.getElementById('extra-bed-charges');
+    if (additionalBedCharges > 0) {
+        extraBedChargesElement.style.display = 'block';
+        extraBedChargesElement.innerText = `RM ${additionalBedCharges}`;
+    } else {
+        extraBedChargesElement.style.display = 'none';
+    }
 
-            updatePriceDetails();
+    const breakfastChargesElement = document.getElementById('breakfast-charges');
+    if (additionalBreakfastCharges > 0) {
+        breakfastChargesElement.style.display = 'block';
+        breakfastChargesElement.innerText = `RM ${additionalBreakfastCharges}`;
+    } else {
+        breakfastChargesElement.style.display = 'none';
+    }
+
+    document.getElementById('total-amount').innerText = `RM ${stayPrice + additionalBedCharges + additionalBreakfastCharges}`;
+}
+
+function validateForm(event) {
+    const form = document.getElementById('booking-form');
+    const totalAmount = document.getElementById('total-amount').innerText.replace('RM ', '');
+
+    document.getElementById('hidden-total-amount').value = totalAmount;
+
+    const checkInDateValue = document.getElementById('check-in-date').value;
+    const checkOutDateValue = document.getElementById('check-out-date').value;
+    const phoneValue = document.getElementById('phone').value;
+    const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
+
+    for (let i = 1; i <= roomQuantity; i++) {
+        const addBedSelect = document.getElementById(`add-bed-${i}`);
+        const addBreakfastSelect = document.getElementById(`add-breakfast-${i}`);
+        const bedQuantityInput = document.getElementById(`bedquantity-${i}`);
+        const breakfastQuantityInput = document.getElementById(`breakfastquantity-${i}`);
+
+        if (addBedSelect && addBedSelect.value === 'Yes' && bedQuantityInput.value < 1) {
+            showModal("You must add at least 1 bed.");
+            event.preventDefault();
+            return false;
         }
 
-        function calculateDays() {
-            const checkInDateValue = document.getElementById('check-in-date').value;
-            const checkOutDateValue = document.getElementById('check-out-date').value;
-
-            if (!checkInDateValue || !checkOutDateValue) {
-                return;
-            }
-
-            const checkInDate = new Date(checkInDateValue);
-            const checkOutDate = new Date(checkOutDateValue);
-
-            if (checkOutDate < checkInDate) {
-                alert("Check-out date must be after the check-in date.");
-                document.getElementById('check-out-date').value = '';
-                document.getElementById('day').value = '';
-                return;
-            }
-
-            const timeDiff = checkOutDate.getTime() - checkInDate.getTime();
-            let dayDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
-
-            if (dayDiff === 0) {
-                dayDiff = 1;
-            }
-
-            document.getElementById('day').value = dayDiff;
-            updatePriceDetails();
+        if (addBreakfastSelect && addBreakfastSelect.value === 'Yes' && breakfastQuantityInput.value < 1) {
+            showModal("You must add at least 1 breakfast.");
+            event.preventDefault();
+            return false;
         }
+    }
 
-        function validateRoomQuantity() {
-            const roomQuantityInput = document.getElementById('room-quantity-input');
-            const roomQuantity = parseInt(roomQuantityInput.value) || 0;
-            const roomAvailability = parseInt(document.getElementById('room-availability').textContent.split(' ')[2]) || 0;
+    if (!form.checkValidity()) {
+        event.preventDefault();
+        form.reportValidity();
+        return false;
+    }
 
-            if (roomQuantity === 0) {
-                alert("You must at least book for 1 room.");
-                roomQuantityInput.value = '';
-                return;
-            }
+    if (new Date(checkOutDateValue) <= new Date(checkInDateValue)) {
+        showModal("Check-out date must be after the check-in date.");
+        event.preventDefault();
+        return false;
+    }
 
-            if (roomQuantity > roomAvailability) {
-                alert(`You can only book up to ${roomAvailability} rooms.`);
-                roomQuantityInput.value = '';
-                return;
-            }
+    if (!isValidPhoneNumber(phoneValue)) {
+        showModal("Please enter a valid phone number.");
+        event.preventDefault();
+        return false;
+    }
 
-            generateRoomOptions();
+    const bringCarSelect = document.getElementById('car-1').value;
+    const carPlateInputs = document.querySelectorAll('#car-plate-container input[type="text"]');
+    if (bringCarSelect === 'Yes' && carPlateInputs.length === 0) {
+        showModal("Please add and fill in the car plate input.");
+        event.preventDefault();
+        return false;
+    }
+    carPlateInputs.forEach(input => {
+        if (!input.value.trim()) {
+            showModal("Please enter all car plate numbers.");
+            event.preventDefault();
+            return false;
         }
+    });
 
-        function generateRoomOptions() {
-            const roomQuantityInput = document.getElementById('room-quantity-input');
-            const roomQuantity = parseInt(roomQuantityInput.value) || 0;
+    form.submit();
+}
 
-            const container = document.getElementById('additional-requests-container');
-            container.innerHTML = '';
+function isValidPhoneNumber(phone) {
+    const phoneRegex = /^[0-9]{8,15}$/;
+    return phoneRegex.test(phone);
+}
 
-            for (let i = 1; i <= roomQuantity; i++) {
-                const roomDiv = document.createElement('div');
-                roomDiv.classList.add('additional-request-card');
-                roomDiv.innerHTML = `
-                    <span class="form-header">Room ${i} - Additional Requests</span>
-                    <div class="request-info">
-                        <div class="column">
-                            <label for="add-bed-${i}">Extra Bed</label>
-                            <select name="add-bed-${i}" id="add-bed-${i}" required>
-                                <option value="" selected disabled hidden></option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                
-                        <div class="column">
-                            <label for="bedquantity-${i}">Extra Bed Quantity</label>
-                            <input type="number" id="bedquantity-${i}" name="bedquantity-${i}" required placeholder="Select extra bed option" disabled min="0">
-                        </div>
-                
-                        <div class="column">
-                            <label for="add-breakfast-${i}">Add Breakfast</label>
-                            <select name="add-breakfast-${i}" id="add-breakfast-${i}" required>
-                                <option value="" selected disabled hidden></option>
-                                <option value="Yes">Yes</option>
-                                <option value="No">No</option>
-                            </select>
-                        </div>
-                
-                        <div class="column">
-                            <label for="breakfastquantity-${i}">Breakfast Quantity</label>
-                            <input type="number" id="breakfastquantity-${i}" name="breakfastquantity-${i}" required placeholder="Select breakfast option" disabled min="0">
-                        </div>
-                    </div>
-                    <div class="additional-request-remarks">
-                        <span id="additional-charges-remarks-text">Extra Bed: RM 10 per unit. Breakfast: RM 35 per person.</span>
-                    </div>
-                `;
-                container.appendChild(roomDiv);
+function toggleCarPlateField(selectElement) {
+    const addCarPlateButton = document.getElementById('add-car-plate-btn');
+    if (selectElement.value === 'Yes') {
+        addCarPlateButton.disabled = false;
+        addCarPlateButton.classList.remove('disabled');
+    } else {
+        addCarPlateButton.disabled = true;
+        addCarPlateButton.classList.add('disabled');
+        document.getElementById('car-plate-container').innerHTML = '';
+    }
+}
 
-                document.getElementById(`add-bed-${i}`).addEventListener('change', function() {
-                    toggleFieldState(this, `bedquantity-${i}`);
-                });
-                document.getElementById(`add-breakfast-${i}`).addEventListener('change', function() {
-                    toggleFieldState(this, `breakfastquantity-${i}`);
-                });
-                document.getElementById(`bedquantity-${i}`).addEventListener('input', updatePriceDetails);
-                document.getElementById(`breakfastquantity-${i}`).addEventListener('input', updatePriceDetails);
-            }
+function addCarPlateField() {
+    const container = document.getElementById('car-plate-container');
+    const carPlateCount = container.childElementCount;
+    const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
 
-            updatePriceDetails();
-            updateCarPlateButtonState();
-        }
+    if (carPlateCount >= roomQuantity) {
+        updateCarPlateButtonState();
+        return;
+    }
 
-        function toggleFieldState(selectElement, inputId) {
-            const inputElement = document.getElementById(inputId);
-            if (selectElement.value === 'Yes') {
-                inputElement.disabled = false;
-                inputElement.placeholder = "Please enter quantity";
-                inputElement.style.backgroundColor = "";
-                inputElement.style.color = "";
-                inputElement.min = 1;
-            } else {
-                inputElement.disabled = true;
-                inputElement.value = '';
-                inputElement.placeholder = "No quantity required";
-                inputElement.style.backgroundColor = "#CBCCCC";
-                inputElement.style.color = "black";
-                inputElement.min = 0;
-            }
-            updatePriceDetails();
-        }
+    const row = document.createElement('div');
+    row.className = 'car-plate-row';
 
-        function updatePriceDetails() {
-            const checkInDateValue = document.getElementById('check-in-date').value;
-            const checkOutDateValue = document.getElementById('check-out-date').value;
-            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
+    const label = document.createElement('label');
+    label.className = 'car-plate-label';
+    label.innerText = `Car Plate Number ${carPlateCount + 1}`;
+    row.appendChild(label);
 
-            if (!checkInDateValue || !checkOutDateValue || roomQuantity === 0) {
-                document.getElementById('stay-duration').innerText = '';
-                document.getElementById('stay-price').innerText = '';
-                document.getElementById('additional-charges').style.display = 'none';
-                document.getElementById('total-amount').innerText = '';
-                return;
-            }
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = `car_plate_${carPlateCount + 1}`; // Add name attribute for form submission
+    input.placeholder = 'Enter Car Plate Number';
+    input.required = true;
+    row.appendChild(input);
 
-            const days = parseInt(document.getElementById('day').value) || 0;
+    const removeButton = document.createElement('button');
+    removeButton.type = 'button';
+    removeButton.innerText = 'Remove';
+    removeButton.onclick = function() {
+        container.removeChild(row);
+        updateCarPlateButtonState();
+    };
+    row.appendChild(removeButton);
 
-            let extraBedTotal = 0;
-            let breakfastTotal = 0;
+    container.appendChild(row);
+    updateCarPlateButtonState();
+}
 
-            for (let i = 1; i <= roomQuantity; i++) {
-                const addBedSelect = document.getElementById(`add-bed-${i}`);
-                const addBreakfastSelect = document.getElementById(`add-breakfast-${i}`);
-                const bedQuantityInput = document.getElementById(`bedquantity-${i}`);
-                const breakfastQuantityInput = document.getElementById(`breakfastquantity-${i}`);
+function updateCarPlateButtonState() {
+    const bringCarSelect = document.getElementById('car-1');
+    const addCarPlateButton = document.getElementById('add-car-plate-btn');
+    const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
+    const carPlateCount = document.getElementById('car-plate-container').childElementCount;
 
-                if (addBedSelect && addBedSelect.value === 'Yes') {
-                    const bedQuantity = parseInt(bedQuantityInput.value) || 0;
-                    extraBedTotal += bedQuantity;
-                }
+    if (bringCarSelect.value === 'Yes' && carPlateCount < roomQuantity) {
+        addCarPlateButton.disabled = false;
+        addCarPlateButton.classList.remove('disabled');
+    } else {
+        addCarPlateButton.disabled = true;
+        addCarPlateButton.classList.add('disabled');
+    }
+}
 
-                if (addBreakfastSelect && addBreakfastSelect.value === 'Yes') {
-                    const breakfastQuantity = parseInt(breakfastQuantityInput.value) || 0;
-                    breakfastTotal += breakfastQuantity;
-                }
-            }
-
-            const stayPrice = roomPrice * roomQuantity * days;
-            const additionalCharges = (extraBedTotal * 10) + (breakfastTotal * 35);
-
-            document.getElementById('stay-duration').innerText = `${roomQuantity} Room${roomQuantity !== 1 ? 's' : ''} @ ${days} Night${days !== 1 ? 's' : ''}`;
-            document.getElementById('stay-price').innerText = `RM ${stayPrice}`;
-
-            const additionalChargesElement = document.getElementById('additional-charges');
-            if (additionalCharges > 0) {
-                additionalChargesElement.style.display = 'block';
-                additionalChargesElement.innerText = `RM ${additionalCharges}`;
-            } else {
-                additionalChargesElement.style.display = 'none';
-            }
-
-            document.getElementById('total-amount').innerText = `RM ${stayPrice + additionalCharges}`;
-        }
-
-        function validateForm(event) {
-            const form = document.getElementById('booking-form');
-            const totalAmount = document.getElementById('total-amount').innerText.replace('RM ', '');
-
-            document.getElementById('hidden-total-amount').value = totalAmount;
-
-            const checkInDateValue = document.getElementById('check-in-date').value;
-            const checkOutDateValue = document.getElementById('check-out-date').value;
-            const phoneValue = document.getElementById('phone').value;
-            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
-
-            for (let i = 1; i <= roomQuantity; i++) {
-                const addBedSelect = document.getElementById(`add-bed-${i}`);
-                const addBreakfastSelect = document.getElementById(`add-breakfast-${i}`);
-                const bedQuantityInput = document.getElementById(`bedquantity-${i}`);
-                const breakfastQuantityInput = document.getElementById(`breakfastquantity-${i}`);
-
-                if (addBedSelect && addBedSelect.value === 'Yes' && bedQuantityInput.value < 1) {
-                    alert("You must add at least 1 bed.");
-                    event.preventDefault();
-                    return false;
-                }
-
-                if (addBreakfastSelect && addBreakfastSelect.value === 'Yes' && breakfastQuantityInput.value < 1) {
-                    alert("You must add at least 1 breakfast.");
-                    event.preventDefault();
-                    return false;
-                }
-            }
-
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                form.reportValidity();
-                return false;
-            }
-
-            if (new Date(checkOutDateValue) <= new Date(checkInDateValue)) {
-                alert("Check-out date must be after the check-in date.");
-                event.preventDefault();
-                return false;
-            }
-
-            if (!isValidPhoneNumber(phoneValue)) {
-                alert("Please enter a valid phone number.");
-                event.preventDefault();
-                return false;
-            }
-
-            const carPlateInputs = document.querySelectorAll('#car-plate-container input[type="text"]');
-            carPlateInputs.forEach(input => {
-                if (!input.value.trim()) {
-                    alert("Please enter all car plate numbers.");
-                    event.preventDefault();
-                    return false;
-                }
-            });
-
-            form.submit();
-        }
-
-        function isValidPhoneNumber(phone) {
-            const phoneRegex = /^[0-9]{8,15}$/;
-            return phoneRegex.test(phone);
-        }
-
-        function toggleCarPlateField(selectElement) {
-            const addCarPlateButton = document.getElementById('add-car-plate-btn');
-            if (selectElement.value === 'Yes') {
-                addCarPlateButton.disabled = false;
-                addCarPlateButton.classList.remove('disabled');
-            } else {
-                addCarPlateButton.disabled = true;
-                addCarPlateButton.classList.add('disabled');
-                document.getElementById('car-plate-container').innerHTML = '';
-            }
-        }
-
-        function addCarPlateField() {
-            const container = document.getElementById('car-plate-container');
-            const carPlateCount = container.childElementCount;
-            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
-
-            if (carPlateCount >= roomQuantity) {
-                alert(`You can only add up to ${roomQuantity} car plates.`);
-                return;
-            }
-
-            const row = document.createElement('div');
-            row.className = 'car-plate-row';
-
-            const label = document.createElement('label');
-            label.className = 'car-plate-label';
-            label.innerText = `Car Plate Number ${carPlateCount + 1}`;
-            row.appendChild(label);
-
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.name = `car_plate_${carPlateCount + 1}`; // Add name attribute for form submission
-            input.placeholder = 'Enter Car Plate Number';
-            input.required = true;
-            row.appendChild(input);
-
-            const removeButton = document.createElement('button');
-            removeButton.type = 'button';
-            removeButton.innerText = 'Remove';
-            removeButton.onclick = function() {
-                container.removeChild(row);
-                updateCarPlateButtonState();
-            };
-            row.appendChild(removeButton);
-
-            container.appendChild(row);
-        }
-
-        function updateCarPlateButtonState() {
-            const bringCarSelect = document.getElementById('car-1');
-            const addCarPlateButton = document.getElementById('add-car-plate-btn');
-            const roomQuantity = parseInt(document.getElementById('room-quantity-input').value) || 0;
-            const carPlateCount = document.getElementById('car-plate-container').childElementCount;
-
-            if (bringCarSelect.value === 'Yes' && carPlateCount < roomQuantity) {
-                addCarPlateButton.disabled = false;
-                addCarPlateButton.classList.remove('disabled');
-            } else {
-                addCarPlateButton.disabled = true;
-                addCarPlateButton.classList.add('disabled');
-            }
-        }
-
-        function ensurePositiveValues() {
-            document.querySelectorAll('input[type="number"]').forEach(input => {
-                input.addEventListener('input', function() {
-                    if (this.value < this.min) {
-                        this.value = this.min;
-                    }
-                });
-            });
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            if (userDetails && Object.keys(userDetails).length > 0) {
-                document.getElementById('fname').value = userDetails.first_name || '';
-                document.getElementById('lname').value = userDetails.last_name || '';
-                document.getElementById('email').value = userDetails.email || '';
-                document.getElementById('phone').value = userDetails.phone_number || '';
-            }
-
-            document.getElementById('car-1').addEventListener('change', function() {
-                toggleCarPlateField(this);
-            });
-
-            const addCarPlateButton = document.getElementById('add-car-plate-btn');
-            addCarPlateButton.disabled = true;
-            addCarPlateButton.classList.add('disabled');
-
-            generateRoomOptions();
-            ensurePositiveValues();
-
-            document.getElementById('check-in-date').addEventListener('change', calculateDays);
-            document.getElementById('check-out-date').addEventListener('change', calculateDays);
-
-            const roomQuantityInput = document.getElementById('room-quantity-input');
-            roomQuantityInput.addEventListener('change', validateRoomQuantity);
-
-            document.querySelectorAll('select[name^="add-bed"]').forEach(select => {
-                select.addEventListener('change', function() {
-                    const roomId = select.id.split('-')[2];
-                    toggleFieldState(this, `bedquantity-${roomId}`);
-                });
-            });
-
-            document.querySelectorAll('select[name^="add-breakfast"]').forEach(select => {
-                select.addEventListener('change', function() {
-                    const roomId = select.id.split('-')[2];
-                    toggleFieldState(this, `breakfastquantity-${roomId}`);
-                });
-            });
-
-            document.querySelectorAll('input[name^="bedquantity"]').forEach(input => {
-                input.addEventListener('input', updatePriceDetails);
-            });
-
-            document.querySelectorAll('input[name^="breakfastquantity"]').forEach(input => {
-                input.addEventListener('input', updatePriceDetails);
-            });
-
-            const urlParams = new URLSearchParams(window.location.search);
-
-            const roomType = urlParams.get('roomType');
-            const roomQuantity = urlParams.get('roomQuantity');
-            const checkInDate = urlParams.get('checkInDate');
-            const checkOutDate = urlParams.get('checkOutDate');
-
-            if (roomType) {
-                document.getElementById('room-type-name').textContent = roomType;
-                fetchRoomDetails(roomType);
-            }
-            if (roomQuantity) {
-                document.getElementById('room-quantity-input').value = roomQuantity;
-                validateRoomQuantity();
-            }
-            if (checkInDate) {
-                document.getElementById('check-in-date').value = checkInDate;
-                calculateDays();
-            }
-            if (checkOutDate) {
-                document.getElementById('check-out-date').value = checkOutDate;
-                calculateDays();
+function ensurePositiveValues() {
+    document.querySelectorAll('input[type="number"]').forEach(input => {
+        input.addEventListener('input', function() {
+            if (this.value < this.min) {
+                this.value = this.min;
             }
         });
+    });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (userDetails && Object.keys(userDetails).length > 0) {
+        document.getElementById('fname').value = userDetails.first_name || '';
+        document.getElementById('lname').value = userDetails.last_name || '';
+        document.getElementById('email').value = userDetails.email || '';
+        document.getElementById('phone').value = userDetails.phone_number || '';
+    }
+
+    document.getElementById('car-1').addEventListener('change', function() {
+        toggleCarPlateField(this);
+    });
+
+    const addCarPlateButton = document.getElementById('add-car-plate-btn');
+    addCarPlateButton.disabled = true;
+    addCarPlateButton.classList.add('disabled');
+
+    generateRoomOptions();
+    ensurePositiveValues();
+
+    document.getElementById('check-in-date').addEventListener('change', calculateDays);
+    document.getElementById('check-out-date').addEventListener('change', calculateDays);
+
+    const roomQuantityInput = document.getElementById('room-quantity-input');
+    roomQuantityInput.addEventListener('change', validateRoomQuantity);
+
+    document.querySelectorAll('select[name^="add-bed"]').forEach(select => {
+        select.addEventListener('change', function() {
+            const roomId = select.id.split('-')[2];
+            toggleFieldState(this, `bedquantity-${roomId}`);
+        });
+    });
+
+    document.querySelectorAll('select[name^="add-breakfast"]').forEach(select => {
+        select.addEventListener('change', function() {
+            const roomId = select.id.split('-')[2];
+            toggleFieldState(this, `breakfastquantity-${roomId}`);
+        });
+    });
+
+    document.querySelectorAll('input[name^="bedquantity"]').forEach(input => {
+        input.addEventListener('input', updatePriceDetails);
+    });
+
+    document.querySelectorAll('input[name^="breakfastquantity"]').forEach(input => {
+        input.addEventListener('input', updatePriceDetails);
+    });
+
+    const urlParams = new URLSearchParams(window.location.search);
+
+    const roomType = urlParams.get('roomType');
+    const roomQuantity = urlParams.get('roomQuantity');
+    const checkInDate = urlParams.get('checkInDate');
+    const checkOutDate = urlParams.get('checkOutDate');
+
+    if (roomType) {
+        document.getElementById('room-type-name').textContent = roomType;
+        fetchRoomDetails(roomType);
+    }
+    if (roomQuantity) {
+        document.getElementById('room-quantity-input').value = roomQuantity;
+        validateRoomQuantity();
+    }
+    if (checkInDate) {
+        document.getElementById('check-in-date').value = checkInDate;
+        calculateDays();
+    }
+    if (checkOutDate) {
+        document.getElementById('check-out-date').value = checkOutDate;
+        calculateDays();
+    }
+});
     </script>
 </body>
 </html>

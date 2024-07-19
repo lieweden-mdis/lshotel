@@ -72,6 +72,12 @@ body {
     width: 100px;
 }
 
+.date h3{
+    display: flex;
+    align-items: center;
+    padding: 1%;
+    white-space: nowrap;
+}
 .date .input-field {
     display: flex;
     align-items: center;
