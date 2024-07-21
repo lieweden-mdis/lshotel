@@ -87,10 +87,11 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="message payment-success">
-        <h1>Payment Success</h1>
-        <p>Your payment was successful. Thank you!</p>
-        <a href="index.php"><button>Go to Homepage</button></a>
-    </div>
+<div class="message payment-success">
+    <h1>Payment Success</h1>
+    <p>Your payment was successful. Thank you!</p>
+    <a href="index.php"><button>Go to Homepage</button></a>
+    <a href="invoice.php?booking_id=<?php echo $booking_id; ?>"><button>View Invoice</button></a>
+</div>
 </body>
 </html>

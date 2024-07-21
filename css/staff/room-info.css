@@ -19,12 +19,12 @@
     background-color: #e9ecef;
 }
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #218838;
+    border-color: #218838;
 }
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: #1e7e34;
+    border-color: #1e7e34;
 }
 .action-buttons {
     display: flex;
@@ -34,9 +34,6 @@
 .modal-header {
     background-color: #007bff;
     color: white;
-}
-.modal-footer {
-    background-color: #f8f9fa;
 }
 .modal-footer .btn-primary {
     background-color: #28a745;

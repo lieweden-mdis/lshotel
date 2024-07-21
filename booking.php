@@ -162,8 +162,8 @@ $conn->close();
                         <div class="row">
                             <div class="column">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" id="email" placeholder="Please key in your email" value="<?php echo htmlspecialchars($user_email); ?>" <?php echo $user_email ? 'readonly' : ''; ?>>
-                            </div>
+                                <input type="email" name="email" id="email" placeholder="Please key in your email" value="<?php echo htmlspecialchars($user_email); ?>">
+                                </div>
                             <div class="column">
                                 <label for="phone">Phone Number</label>
                                 <input type="text" name="phone" id="phone" required minlength="8" maxlength="15" placeholder="Example:0123456789" value="<?php echo isset($userDetails['phone_number']) ? htmlspecialchars($userDetails['phone_number']) : ''; ?>">

@@ -1,11 +1,13 @@
 html, body {
     margin: 0;
     padding: 0;
-  }
-  
-.container{
-    margin:2em;
+    background-color: #f0f8ff; /* Adjust the background color if needed */
+}
+
+.container {
+    margin: 2em;
     display: flex;
+    flex-direction: column; /* Ensure container can handle the message and form */
     align-items: center;
     justify-content: center;
 }
@@ -13,28 +15,30 @@ html, body {
 .login-form {
     display: flex;
     flex-direction: column;
-    border-radius: 40px;
     width: fit-content;
     height: fit-content;
-	background-color: transparent;	
+    border-radius: 0.8em;
+    background-color: white; /* Set a solid background color */
     box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
     z-index: 1;
-	font-family: "Inter", sans-serif;
-	font-optical-sizing: auto;
-	font-weight: 400;
-	font-style: normal;
-	font-variation-settings:
-		"slnt" 0;
+    font-family: "Inter", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings: "slnt" 0;
+    position: relative;
+    overflow: hidden; /* Ensure inner elements do not overflow */
 }
 
 .login-form .form-header {
     display: flex;
+    border-radius: 0.4em 0.4em 0 0;
     background-color: skyblue;
-    border-radius: 40px 40px 0 0;
     justify-content: center;
     align-items: center;
     font-size: 2em;
-    padding: 2%;
+    padding: 0.2em; /* Adjust padding for alignment */
+    margin: 0; /* Remove margin to ensure alignment */
 }
 
 .login-form .row {
@@ -52,36 +56,34 @@ html, body {
 .login-form .input-data {
     display: flex;
     flex-direction: column;
-	margin-top: 1.5em;
+    margin-top: 1.5em;
 }
 
-.login-form .input-data i{
-	padding-left:2%;
+.login-form .input-data i {
+    padding-left: 2%;
 }
 
 .login-form input[type="text"],
-.login-form input[type="password"]
-{
-	outline: hidden;
-	border: 2px solid black;
+.login-form input[type="password"] {
+    outline: hidden;
+    border: 2px solid black;
     border-radius: 10px;
     padding: 1%;
     height: 3em;
     width: 20em;
-	padding-left: 0.5em;
+    padding-left: 0.5em;
 }
 
 .login-form input[type="text"]:focus,
-.login-form input[type="password"]:focus
-{
-	outline: none;
+.login-form input[type="password"]:focus {
+    outline: none;
     border-color: blue;
     border-width: 2px;
 }
 
 .login-form input[type="text"]::placeholder,
 .login-form input[type="password"]::placeholder {
-	font-size: 1em;
+    font-size: 1em;
 }
 
 .login-form .button {
@@ -119,9 +121,21 @@ html, body {
     text-align: center;
     font-size: 1em;
     font-weight: bold;
-    margin:1em auto 0 auto;
+    margin: 1em auto 0 auto;
     padding: 2%;
     width: 80%;
     border-radius: 0.5em;
     background-color: rgba(251, 171, 171, 0.9);
+}
+
+.update-message {
+    background-color: #e0f7fa; /* Slightly different background color */
+    color: #00796b;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    text-align: center;
+    width: fit-content; /* Ensure it doesn't stretch */
+    margin: 0 auto 20px auto; /* Center align and add space below */
+    box-shadow: rgb(38, 57, 77) 0px 10px 20px -10px; /* Optional shadow for emphasis */
 }

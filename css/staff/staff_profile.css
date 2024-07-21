@@ -1,11 +1,7 @@
-body {
-    font-family: Arial, sans-serif;
-}
-
 .profile-container {
     width: 50%;
-    margin: 3em auto;
-    padding: 20px;
+    margin: 0.5em auto;
+    padding: 1em;
     border-radius: 1em;
     background-color: #f9f9f9;
     box-shadow: rgba(0, 0, 0, 0.09) 0px 2px 1px, 
@@ -79,7 +75,7 @@ body {
 .btn {
     width: 48%;
     padding: 10px;
-    background-color: #007bff;
+    background-color: #218838;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -96,7 +92,7 @@ body {
 }
 
 .btn:hover {
-    background-color: #0056b3;
+    background-color: #1e7e34;
 }
 
 .btn-green:hover {

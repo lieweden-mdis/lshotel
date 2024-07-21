@@ -1,0 +1,121 @@
+.profile-page {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: stretch;
+    background: #f8f9fa;
+}
+
+.sidebar {
+    width: 220px;
+    background-color: #002244;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    color: white;
+    height: 100%;
+}
+
+.sidebar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.2em;
+    padding: 10px 15px;
+    background-color: #002244;
+    border-radius: 4px;
+    text-align: left;
+    transition: background 0.3s;
+}
+
+.sidebar a:hover {
+    background-color: #003366;
+}
+
+.content {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f8f9fa;
+    padding: 20px;
+}
+
+.profile-container-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 1em;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+}
+
+.profile-page h2 {
+    text-align: center;
+    font-size: 2em;
+    margin: 0;
+    padding-bottom: 0.3em;
+    color: #333333;
+}
+
+.profile-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.profile-field label {
+    font-size: 1.2em;
+    white-space: nowrap;
+    width: 10em;
+    color: #333333;
+}
+
+.profile-field input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1.2em;
+    flex-grow: 1;
+    color: #333333;
+}
+
+.edit-btn, .save-btn {
+    padding: 10px 20px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 1.2em;
+    transition: background 0.3s;
+    margin-left: 10px; /* Added margin for spacing */
+}
+
+.edit-btn:hover, .save-btn:hover {
+    background-color: #003366;
+}
+
+.message {
+    padding: 1em;
+    border-radius: 0.5em;
+    display: none;
+}
+.message.success {
+    background-color: lightgreen;
+    color: black;
+}
+.message.error {
+    background-color: rgba(251, 171, 171, 0.9);
+    color: black;
+}

@@ -1,11 +1,14 @@
 <?php
-// Start session (if not already started)
 session_start();
-
-// Destroy all session data
+$update_message = isset($_SESSION['update_message']) ? $_SESSION['update_message'] : '';
+session_unset();
 session_destroy();
 
-// Redirect to login page or any other page after logout
-header("Location: index.php");
-exit();
+session_start();
+if (!empty($update_message)) {
+    $_SESSION['update_message'] = $update_message;
+}
+
+header("Location: login.php");
+exit;
 ?>

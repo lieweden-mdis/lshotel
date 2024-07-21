@@ -1,0 +1,91 @@
+
+.main {
+  flex-grow: 1;
+  padding: 1em 2em;
+  background: #f0f2f5;
+}
+.section {
+  background: #fff;
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; /* Subtle shadow for better visual separation */
+  margin-top: 1.5em;
+}
+.section-title {
+  font-size: 1.8em;
+  font-weight: 700;
+  color: #007BFF; /* Accent color for section titles */
+  margin-bottom: 1em;
+  text-align: left; /* Align titles to the left */
+}
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 1em;
+}
+.card {
+  background: #fff;
+  padding: 1em;
+  border-radius: 1em;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px;
+  text-align: center;
+}
+.card h3 {
+  margin: 0;
+  font-size: 1.2em;
+  color: #555;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card p {
+  margin: 10px 0 0;
+  font-size: 2.2em;
+  color: #333;
+}
+.booking-overview-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1em;
+}
+.revenue-overview-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+.revenue-left {
+  display: grid;
+  grid-template-rows: 1fr 1fr;
+  gap: 1em;
+}
+.revenue-right {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1em;
+}
+.booking-item, .revenue-item {
+  text-align: center;
+}
+.card.booking-item:nth-child(2) { background: #e0f7fa; }
+.card.booking-item:nth-child(4) { background: #ffebee; }
+.card.revenue-item { background: #e8f5e9; }
+.card.revenue-item:nth-child(odd) { background: #fce4ec; }
+
+.filter-form {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+.filter-form select, .filter-form button {
+  padding: 0.5em;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 0.5em;
+}
+.filter-form button {
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  cursor: pointer;
+}

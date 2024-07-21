@@ -29,65 +29,100 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
 
-    // Check if the password fields are filled
-    if (!empty($old_password) || !empty($new_password) || !empty($confirm_password)) {
-        // Fetch the current password from the database
-        $stmt = $conn->prepare("SELECT password FROM staff WHERE staff_id = ?");
-        $stmt->bind_param('s', $staff_id);
-        $stmt->execute();
-        $stmt->store_result();
-        $stmt->bind_result($stored_password);
-        $stmt->fetch();
+    // Check for email duplication
+    $stmt = $conn->prepare("SELECT staff_id FROM staff WHERE email = ? AND staff_id != ?");
+    $stmt->bind_param('ss', $email, $staff_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $email_in_staff = $stmt->num_rows > 0;
+    $stmt->close();
 
-        // Check if the old password matches the current password
-        if ($stmt->num_rows == 0 || $old_password !== $stored_password) {
-            $message = "Old password is incorrect!";
-            $message_type = 'error';
-        } elseif ($new_password !== $confirm_password) {
-            $message = "New passwords do not match!";
-            $message_type = 'error';
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
+    $stmt->bind_param('s', $email);
+    $stmt->execute();
+    $stmt->store_result();
+    $email_in_users = $stmt->num_rows > 0;
+    $stmt->close();
+
+    // Check for phone number duplication
+    $stmt = $conn->prepare("SELECT staff_id FROM staff WHERE phone_number = ? AND staff_id != ?");
+    $stmt->bind_param('ss', $phone_number, $staff_id);
+    $stmt->execute();
+    $stmt->store_result();
+    $phone_in_staff = $stmt->num_rows > 0;
+    $stmt->close();
+
+    $stmt = $conn->prepare("SELECT id FROM users WHERE phone_number = ?");
+    $stmt->bind_param('s', $phone_number);
+    $stmt->execute();
+    $stmt->store_result();
+    $phone_in_users = $stmt->num_rows > 0;
+    $stmt->close();
+
+    if ($email_in_staff || $email_in_users) {
+        $message = "Duplicate Email Found, Please Use another email.";
+        $message_type = 'error';
+    } elseif ($phone_in_staff || $phone_in_users) {
+        $message = "Duplicate Phone Number Found, Please Use another phone number.";
+        $message_type = 'error';
+    } else {
+        // Check if the password fields are filled
+        if (!empty($old_password) || !empty($new_password) || !empty($confirm_password)) {
+            // Fetch the current password from the database
+            $stmt = $conn->prepare("SELECT password FROM staff WHERE staff_id = ?");
+            $stmt->bind_param('s', $staff_id);
+            $stmt->execute();
+            $stmt->store_result();
+            $stmt->bind_result($stored_password);
+            $stmt->fetch();
+
+            // Check if the old password matches the current password
+            if ($stmt->num_rows == 0 || $old_password !== $stored_password) {
+                $message = "Old password is incorrect!";
+                $message_type = 'error';
+            } elseif ($new_password !== $confirm_password) {
+                $message = "New passwords do not match!";
+                $message_type = 'error';
+            } else {
+                // Update the user's information and password if provided
+                $stmt = $conn->prepare("UPDATE staff SET first_name = ?, last_name = ?, email = ?, phone_number = ?, password = ? WHERE staff_id = ?");
+                $stmt->bind_param('ssssss', $first_name, $last_name, $email, $phone_number, $new_password, $staff_id);
+
+                if ($stmt->execute()) {
+                    // Set session variable for the login page
+                    $_SESSION['update_message'] = "Profile updated successfully. Please log in again.";
+
+                    // Close session and redirect to logout
+                    session_write_close();
+                    header("Location: ../logout.php");
+                    exit;
+                } else {
+                    $message = "Failed to update profile.";
+                    $message_type = 'error';
+                }
+            }
+            // Close statement
+            $stmt->close();
         } else {
-            // Update the user's information and password if provided
-            $stmt = $conn->prepare("UPDATE staff SET first_name = ?, last_name = ?, email = ?, phone_number = ?, password = ? WHERE staff_id = ?");
-            $stmt->bind_param('ssssss', $first_name, $last_name, $email, $phone_number, $new_password, $staff_id);
+            // Update the user's information without changing the password
+            $stmt = $conn->prepare("UPDATE staff SET first_name = ?, last_name = ?, email = ?, phone_number = ? WHERE staff_id = ?");
+            $stmt->bind_param('sssss', $first_name, $last_name, $email, $phone_number, $staff_id);
 
             if ($stmt->execute()) {
-                // Update the session variables
-                $_SESSION['user']['first_name'] = $first_name;
-                $_SESSION['user']['last_name'] = $last_name;
-                $_SESSION['user']['email'] = $email;
-                $_SESSION['user']['phone_number'] = $phone_number;
-                $_SESSION['user']['password'] = $new_password; // Update password in session as well
+                // Set session variable for the login page
+                $_SESSION['update_message'] = "Profile updated successfully. Please log in again.";
 
-                $message = "Profile updated successfully!";
-                $message_type = 'success';
+                // Close session and redirect to logout
+                session_write_close();
+                header("Location: ../logout.php");
+                exit;
             } else {
                 $message = "Failed to update profile.";
                 $message_type = 'error';
             }
+            // Close statement
+            $stmt->close();
         }
-        // Close statement
-        $stmt->close();
-    } else {
-        // Update the user's information without changing the password
-        $stmt = $conn->prepare("UPDATE staff SET first_name = ?, last_name = ?, email = ?, phone_number = ? WHERE staff_id = ?");
-        $stmt->bind_param('sssss', $first_name, $last_name, $email, $phone_number, $staff_id);
-
-        if ($stmt->execute()) {
-            // Update the session variables
-            $_SESSION['user']['first_name'] = $first_name;
-            $_SESSION['user']['last_name'] = $last_name;
-            $_SESSION['user']['email'] = $email;
-            $_SESSION['user']['phone_number'] = $phone_number;
-
-            $message = "Profile updated successfully!";
-            $message_type = 'success';
-        } else {
-            $message = "Failed to update profile.";
-            $message_type = 'error';
-        }
-        // Close statement
-        $stmt->close();
     }
 
     // Store message in session to be displayed after redirect

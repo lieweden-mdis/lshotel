@@ -13,9 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($emailStaffId) || empty($password)) {
         $error = "Please fill in all fields.";
     } else {
-        // Database connection
-        $conn = new mysqli(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_DATABASE);
-
         // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
@@ -74,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Set the full name in the session
             $_SESSION['user_full_name'] = $firstName . ' ' . $lastName;
+            $_SESSION['logged_in_staff_id'] = $staffId ?? ''; // Add this line to ensure the staff_id is available
 
             if ($userType === 'user') {
                 $_SESSION['user']['email'] = $email;
@@ -124,6 +122,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <?php include 'header.php'?>
     <div class="container">
+        <!-- Display update message if set -->
+        <?php if (isset($_SESSION['update_message'])): ?>
+            <div class="update-message">
+                <?php echo htmlspecialchars($_SESSION['update_message']); ?>
+                <?php unset($_SESSION['update_message']); // Clear the message after displaying it ?>
+            </div>
+        <?php endif; ?>
+
         <!-- Login Form -->
         <form action="login.php" method="POST">
             <div class="login-form">

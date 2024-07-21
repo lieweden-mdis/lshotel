@@ -1,88 +1,158 @@
-.staff-container {
-    display: flex;
+/* Adjustments for modal titles */
+.modal-title {
+    font-size: 2em;
+    margin-top: 1em;
+    margin-bottom: 0.5em; /* Reduce space below the title */
 }
 
-.staff-container .main {
-    flex: 1;
-    padding: 1%; /* Adjust the padding to reduce whitespace */
+/* Adjust the gap above the confirm password label */
+#addPasswordFields label[for="addConfirmPassword"] {
+    margin-top: 20px;
 }
 
-.staff-page-title {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 20px;
+.main {
+    padding: 20px;
 }
-
-.table {
-    width: 100%;
-    margin-bottom: 20px;
+.container {
+    width: 96%;
+    margin: 2em auto;
     background-color: #fff;
-    border: 1px solid #343a40; /* Adjust border color */
+    border-radius: 0.8em;
+    padding: 20px;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
-
-.table th {
-    background-color: #007bff; /* Adjust header background color */
-    color: white; /* Header text color */
-    font-weight: bold;
+table {
+    width: 100%;
+    border-collapse: collapse;
 }
-
-.table td {
-    border-top: 1px solid #dee2e6;
+table, th, td {
+    border: 1px solid #ddd;
 }
-
-.table tbody tr:nth-child(even) {
-    background-color: #f2f2f2;
+th, td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
 }
-
-.table tbody tr:hover {
-    background-color: #e9ecef;
-}
-
-.btn-primary {
-    background-color: #007bff;
+th {
+    background-color: #007BFF;
     color: white;
 }
-
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 14px;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
 .btn-warning {
-    background-color: #ffc107;
-    color: black;
+    background-color: #218838;
+    font-size: 16px;
+}
+
+.btn-warning:hover{
+    background-color:#1e7e34;
 }
 
 .btn-danger {
-    background-color: #dc3545;
-    color: white;
+    background-color: #ef2c3f;
+}
+.btn-primary {
+    background-color: #218838;
+    margin-bottom: 20px;
+    font-size: 16px;
 }
 
-.btn-primary:hover,
-.btn-warning:hover,
-.btn-danger:hover {
-    opacity: 0.8;
+.btn-primary:hover{
+    background-color: #1e7e34;
 }
 
-.modal-header {
-    background-color: #007bff;
-    color: white;
+.btn-danger:hover{
+    background-color: rgb(254, 26, 26);
 }
 
-.modal-title {
-    font-size: 20px;
+.btn-disabled {
+    background-color: #666;
 }
 
-.modal-body .form-group {
-    margin-bottom: 15px;
+.btn-disabled:hover {
+    background-color: #090808a6;
+    color: #ffffff;
+    cursor: not-allowed;
 }
-
-.modal-body .form-group label {
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+}
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 10px;
+}
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+.form-group {
+    margin-bottom: 1em;
+}
+.form-group label {
     display: block;
     margin-bottom: 5px;
 }
-
-.modal-body .form-group input,
-.modal-body .form-group select {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 8px;
     box-sizing: border-box;
-    border: 1px solid #ced4da;
-    border-radius: 4px;
 }
-
+.form-group input[readonly] {
+    background-color: #e9ecef;
+    color: #495057;
+}
+.actions {
+    display: flex;
+    gap: 5px;
+}
+.actions .btn {
+    flex: 1;
+}
+.message {
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+    transition: opacity 0.5s ease;
+    opacity: 1;
+}
+.message.success {
+    background-color: #1e7e34;
+}
+.message.error {
+    background-color: #ef2c3f;
+}
