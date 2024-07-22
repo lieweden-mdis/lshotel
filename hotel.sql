@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2024 at 08:56 PM
+-- Generation Time: Jul 22, 2024 at 08:27 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -54,15 +54,9 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`booking_id`, `email`, `room_id`, `check_in_date`, `check_out_date`, `days`, `number_of_rooms`, `bed_selection`, `smoke`, `first_name`, `last_name`, `phone_number`, `bring_car`, `additional_requests`, `total_amount`, `created_at`, `car_plates`, `payment_status`, `booking_status`) VALUES
-(1, 'lieweden03@gmail.com', 1, '2024-07-18', '2024-07-19', 1, 1, '2 Single Beds', 'Non-Smoking', 'Eden', 'Liew', '01128220633', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"No\",\"breakfast_quantity\":0}]', 310.00, '2024-08-17 22:45:09', 'JJX 4042', 'Success', 'Complete'),
-(2, 'lieweden03@gmail.com', 1, '2024-07-08', '2024-07-09', 1, 1, '2 Single Beds', 'Non-Smoking', 'Eden', 'Liew', '01128220633', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 345.00, '2024-07-17 22:54:17', 'JUY 9155', 'Success', 'Pending'),
-(3, 'liewdaphne07@gmail.com', 1, '2024-07-18', '2024-07-19', 1, 2, '1 Double Bed', 'Non-Smoking', 'Daphne', 'Liew', '0177820611', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"},{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 690.00, '2024-07-19 16:33:08', 'JUY9155,JJX4042', 'Success', 'Pending'),
-(4, 'jackliew4466@gmail.com', 1, '2024-07-08', '2024-07-09', 1, 2, '2 Single Beds', 'Non-Smoking', 'Jack', 'Liew', '01128220633', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"},{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 690.00, '2024-07-20 07:53:01', 'JJX 4042,JUY 9155', 'Refunded', 'Cancelled'),
-(5, 'lieweden05@gmail.com', 2, '2024-07-09', '2024-07-10', 1, 1, '2 Single Bed', 'Non-Smoking', 'Eden', 'Liew', '01128220633', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 385.00, '2024-07-21 13:19:14', 'JJX 4042', 'Success', 'Pending'),
-(6, 'liewjoanne05@gmail.com', 2, '2024-07-15', '2024-07-16', 1, 1, '1 Queen Bed', 'Non-Smoking', 'Joanne', 'Liew', '0177820611', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 385.00, '2024-07-21 13:35:39', 'JUY 9155', 'Success', 'Pending'),
-(7, 'liewjoanne05@gmail.com', 1, '2024-07-07', '2024-07-09', 2, 2, '2 Single Beds', 'Non-Smoking', 'Joanne', 'Liew', '0177820611', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"},{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"No\",\"breakfast_quantity\":0}]', 1255.00, '2024-07-21 13:47:26', 'JSQ 9155,JUY 9155', 'Success', 'Pending'),
-(8, 'liewjoanne05@gmail.com', 1, '2024-07-21', '2024-07-23', 2, 1, '2 Single Beds', 'Smoking', 'Joanne', 'Liew', '0177820611', 'No', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 645.00, '2024-07-21 15:26:27', '', 'Success', 'Pending'),
-(9, 'liewjoanne05@gmail.com', 1, '2024-07-22', '2024-07-24', 2, 1, '2 Single Beds', 'Non-Smoking', 'Joanne', 'Liew', '0177820611', 'No', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 645.00, '2024-07-21 16:01:38', '', 'Success', 'Pending');
+(1, 'lieweden03@gmail.com', 1, '2024-07-01', '2024-07-03', 2, 2, '2 Single Beds', 'Non-Smoking', 'Eden', 'Liew', '0197100430', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"},{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 1290.00, '2024-07-22 04:10:51', 'JSQ 9155,JUY 9155', 'Success', 'Success'),
+(2, 'lieweden03@gmail.com', 2, '2024-07-02', '2024-07-04', 2, 1, '2 Single Bed', 'Non-Smoking', 'Eden', 'Liew', '0197100430', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 725.00, '2024-07-22 07:24:57', 'JSQ 9155', 'Success', 'Pending'),
+(3, 'liewjoanne05@gmail.com', 1, '2024-07-15', '2024-07-16', 1, 1, '2 Single Beds', 'Non-Smoking', 'Joanne', 'Liew', '0177820611', 'Yes', '[{\"extra_bed\":\"Yes\",\"bed_quantity\":\"1\",\"add_breakfast\":\"Yes\",\"breakfast_quantity\":\"1\"}]', 345.00, '2024-07-22 10:05:53', 'JJX 4042', 'Success', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -85,10 +79,8 @@ CREATE TABLE `invoices` (
 --
 
 INSERT INTO `invoices` (`id`, `invoice_id`, `booking_id`, `amount`, `payment_status`, `generate_time`, `email`) VALUES
-(1, 'INV00006', 6, 385.00, 'Success', '2024-07-21 13:38:14', 'liewjoanne05@gmail.com'),
-(2, 'INV00007', 7, 1255.00, 'Success', '2024-07-21 13:47:42', 'liewjoanne05@gmail.com'),
-(3, 'INV00003', 8, 645.00, 'Success', '2024-07-21 15:26:48', 'liewjoanne05@gmail.com'),
-(4, 'INV00004', 9, 645.00, 'Success', '2024-07-21 16:01:55', 'liewjoanne05@gmail.com');
+(1, 'INV00001', 1, 1290.00, 'Success', '2024-07-22 04:11:19', 'lieweden03@gmail.com'),
+(2, 'INV00002', 2, 725.00, 'Success', '2024-07-22 07:25:27', 'lieweden03@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -114,10 +106,25 @@ CREATE TABLE `rooms` (
 --
 
 INSERT INTO `rooms` (`room_id`, `room_type`, `room_level`, `room_price`, `room_features`, `room_facilities`, `room_size`, `room_availability`, `room_description`, `room_images`) VALUES
-(1, 'Standard Room', 7, 300.00, '2 Single Beds, Smoking, Non-Smoking, 1 Double Bed', 'Hair Dryer, Private Bathroom, Toiletries, Towels, Telephone, Fan, Satellite/cable channels, Air Conditioning, Blackout curtains, Slippers, Mineral Water, Refrigerator, Desk, Window, Closet, Clothes Rack, Ironing Facilities, Safety Box', '19 m²/205 ft²', 6, 'Discover comfort and convenience in our Standard Room, ideal for both leisure and business travelers. This room features your choice of 1 double bed or 2 single beds, available in smoking and non-smoking options to suit your preference. Enjoy essential amenities and a welcoming ambiance, ensuring a relaxing stay whether you\'re here for a short visit or an extended stay.', 'standard1.webp,standard2.jpg,standard3.jpg,standard4.webp,standard5.jpg'),
-(2, 'Deluxe Room', 6, 340.00, 'Smoking, Non-Smoking, 1 Queen Bed, 2 Single Bed', 'Hair Dryer, Private Bathroom, Toiletries, Towels, Telephone, Fan, Satellite/cable channels, Blackout curtains, Slippers, Refrigerator, Desk, Safety Box, Electric Kettle, Air conditioning, Free Mineral Water, Ironing facilities', '17 m²/183 ft²', 8, 'Experience the perfect blend of comfort and luxury in our Deluxe Room, designed to cater to both leisure and business travelers. This spacious room offers the choice of a queen bed or two single beds, along with smoking and non-smoking options to suit your preference. Enjoy modern amenities and a cozy atmosphere, making your stay both convenient and relaxing. Whether you are here for a short stay or an extended visit, our Deluxe Room provides the ideal setting for a memorable stay.', 'deluxe1.webp,deluxe2.jpg,deluxe3.jpg,deluxe4.jpg,deluxe5.webp'),
+(1, 'Standard Room', 7, 300.00, '2 Single Beds, Smoking, Non-Smoking, 1 Double Bed', 'Hair Dryer, Private Bathroom, Toiletries, Towels, Telephone, Fan, Satellite/cable channels, Air Conditioning, Blackout curtains, Slippers, Mineral Water, Refrigerator, Desk, Window, Closet, Clothes Rack, Ironing Facilities, Safety Box', '19 m²/205 ft²', 7, 'Discover comfort and convenience in our Standard Room, ideal for both leisure and business travelers. This room features your choice of 1 double bed or 2 single beds, available in smoking and non-smoking options to suit your preference. Enjoy essential amenities and a welcoming ambiance, ensuring a relaxing stay whether you\'re here for a short visit or an extended stay.', 'standard1.webp,standard2.jpg,standard3.jpg,standard4.webp,standard5.jpg'),
+(2, 'Deluxe Room', 6, 340.00, 'Smoking, Non-Smoking, 1 Queen Bed, 2 Single Bed', 'Hair Dryer, Private Bathroom, Toiletries, Towels, Telephone, Fan, Satellite/cable channels, Blackout curtains, Slippers, Refrigerator, Desk, Safety Box, Electric Kettle, Air conditioning, Free Mineral Water, Ironing facilities', '17 m²/183 ft²', 9, 'Experience the perfect blend of comfort and luxury in our Deluxe Room, designed to cater to both leisure and business travelers. This spacious room offers the choice of a queen bed or two single beds, along with smoking and non-smoking options to suit your preference. Enjoy modern amenities and a cozy atmosphere, making your stay both convenient and relaxing. Whether you are here for a short stay or an extended visit, our Deluxe Room provides the ideal setting for a memorable stay.', 'deluxe1.webp,deluxe2.jpg,deluxe3.jpg,deluxe4.jpg,deluxe5.webp'),
 (3, 'Triple Room', 5, 500.00, '1 Queen Bed, 1 Single Bed, Smoking, Non-Smoking', 'Mobility accessibility, Hair dryer, Private bathroom, Toiletries, Towels, Satellite/cable channels, Telephone, Fan, Slippers, Air conditioning, Coffee/tea maker, Mineral Water, Refrigerator, Daily housekeeping, Desk, Window, Closet, Ironing facilities, Safety Box', '17 m²/183 ft²', 10, 'Experience comfort and convenience in our well-appointed Triple Room, designed to cater to the needs of small groups or families. This room offers a perfect blend of functionality and style, ensuring a pleasant and memorable stay.', 'triple1.jpg,triple2.jpg,triple3.webp,triple4.jpg'),
 (4, 'Family Suite Room', 4, 1000.00, '3 Queen Beds, Outdoor View, Free Wi-Fi, Smoking, Non-Smoking', 'Hair Dryer, Private Bathroom, Toiletries, Towels, Telephone, Fan, Satellite/cable channels, Slippers, Wake-up service, Air conditioning, Mineral Water, Refrigerator, Desk, Window, Baby Cot (Upon Request), Safety Box, Safety/security feature', '29 m²/312 ft²', 5, 'Experience unparalleled luxury and comfort in our Family Suite Room, designed to cater to all your needs and provide an unforgettable stay. Perfect for families, this spacious suite offers a harmonious blend of modern amenities and elegant decor.', 'family-suite1.webp,family-suite2.webp,family-suite3.webp,family-suite4.webp,family-suite5.jpg,family-suite6.webp');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `room_assignments`
+--
+
+CREATE TABLE `room_assignments` (
+  `assignment_id` int(11) NOT NULL,
+  `booking_id` int(11) NOT NULL,
+  `room_level` int(11) NOT NULL,
+  `room_number` varchar(10) NOT NULL,
+  `extra_bed` int(11) DEFAULT 0,
+  `breakfast` int(11) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -167,8 +174,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `phone_number`, `password`) VALUES
-(2, 'Eden', 'Liew', 'lieweden03@gmail.com', '0197100430', '$2y$10$iI6CHYiunvZklqHXn/cp6.njuXLh26d.pVZfEJFVdLnRMrXf2OTpq'),
-(3, 'Joanne', 'Liew', 'liewjoanne05@gmail.com', '0177820611', '$2y$10$3Wc/yhpGdhVdRrNFhSpXt.NZeAbpihcoJ0v54mbKD9T/MP3eSX5uS');
+(2, 'Eden', 'Liew', 'lieweden03@gmail.com', '0197100430', '$2y$10$/FKZZyVcNglqdB8MSC/L.OsXFDRS3YL3brBtX2B8HrqEEUu9e1Ac.'),
+(3, 'Joanne', 'Liew', 'liewjoanne05@gmail.com', '0177820611', '$2y$10$4ihdjbawvPS/2vTbhX0yJOavZy82yevRWsxxIqBILKogSr05FBHzq');
 
 --
 -- Indexes for dumped tables
@@ -196,6 +203,13 @@ ALTER TABLE `rooms`
   ADD PRIMARY KEY (`room_id`);
 
 --
+-- Indexes for table `room_assignments`
+--
+ALTER TABLE `room_assignments`
+  ADD PRIMARY KEY (`assignment_id`),
+  ADD KEY `booking_id` (`booking_id`);
+
+--
 -- Indexes for table `staff`
 --
 ALTER TABLE `staff`
@@ -219,19 +233,25 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `invoices`
 --
 ALTER TABLE `invoices`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
   MODIFY `room_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `room_assignments`
+--
+ALTER TABLE `room_assignments`
+  MODIFY `assignment_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `staff`
@@ -260,6 +280,12 @@ ALTER TABLE `bookings`
 --
 ALTER TABLE `invoices`
   ADD CONSTRAINT `invoices_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`);
+
+--
+-- Constraints for table `room_assignments`
+--
+ALTER TABLE `room_assignments`
+  ADD CONSTRAINT `room_assignments_ibfk_1` FOREIGN KEY (`booking_id`) REFERENCES `bookings` (`booking_id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

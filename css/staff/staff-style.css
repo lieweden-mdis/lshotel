@@ -1,14 +1,16 @@
-body{
+body {
   margin: 0;
+  font-family: Arial, sans-serif;
 }
 
 .staff-container {
   display: flex;
+  min-height: 100vh;
   flex: 1;
 }
 
 .sidenav {
-  height: fit-content;
+  height: 100vh; /* Full viewport height */
   width: 20%;
   background-color: #80abd6;
   padding-top: 0.5%;
@@ -17,6 +19,9 @@ body{
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   display: flex;
   flex-direction: column;
+  position: sticky;
+  top: 0; /* Sticks to the top */
+  overflow-y: auto; /* Enables scrolling within the sidebar */
 }
 
 .sidenav .logo {
@@ -154,6 +159,7 @@ hr {
   width: 80%;
   padding: 2%;
   background-color: #ffffff;
+  overflow-y: auto;
 }
 
 .main .staff-page-title {

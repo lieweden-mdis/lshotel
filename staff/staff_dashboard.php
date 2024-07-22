@@ -31,7 +31,7 @@
 
         $filter_year = $_GET['year'] ?? $current_year;
         $filter_month = $_GET['month'] ?? $current_month;
-        $filter_month_year = $months[$filter_month] . ' ' . $filter_year;
+        $filter_month_year = $months[str_pad($filter_month, 2, '0', STR_PAD_LEFT)] . ' ' . $filter_year;
 
         // Ensure the month and year are treated as integers
         $filter_month = intval($filter_month);
@@ -51,7 +51,7 @@
                 <select name="month">
                     <?php
                     foreach ($months as $key => $name) {
-                        echo "<option value=\"$key\" " . ($key == $filter_month ? 'selected' : '') . ">$name</option>";
+                        echo "<option value=\"$key\" " . ($key == str_pad($filter_month, 2, '0', STR_PAD_LEFT) ? 'selected' : '') . ">$name</option>";
                     }
                     ?>
                 </select>
@@ -67,72 +67,29 @@
 
             <!-- Room Availability -->
             <div class="section">
-                <div class="section-title">Room Availability</div>
+                <div class="section-title">Room Availability - <?php echo $filter_month_year; ?></div>
                 <div class="grid-container" id="room-availability-container">
                     <?php
-                    // Fetch room availability from database
-                    $query = "SELECT room_type, SUM(room_availability) as available FROM rooms GROUP BY room_type";
-                    $result = $conn->query($query);
+                    // Fetch room availability from database based on selected month and year
+                    $room_availability_query = "
+                        SELECT r.room_type, SUM(r.total_rooms - IFNULL(b.booked_rooms, 0)) as available
+                        FROM rooms r
+                        LEFT JOIN (
+                            SELECT room_id, COUNT(*) as booked_rooms
+                            FROM bookings
+                            WHERE MONTH(check_in_date) = $filter_month AND YEAR(check_in_date) = $filter_year
+                            GROUP BY room_id
+                        ) b ON r.room_id = b.room_id
+                        GROUP BY r.room_type";
+                    $room_availability_result = $conn->query($room_availability_query);
                     
-                    while ($row = $result->fetch_assoc()) {
+                    while ($row = $room_availability_result->fetch_assoc()) {
                         echo "<div class='card'>
                                 <h3>{$row['room_type']}</h3>
                                 <p>{$row['available']}</p>
                               </div>";
                     }
                     ?>
-                </div>
-            </div>
-
-            <!-- Booking Overview -->
-            <div class="section">
-                <div class="section-title">Booking Overview - <?php echo $filter_month_year; ?></div>
-                <div class="booking-overview-container">
-                    <?php
-                    // Initialize booking counts
-                    $total_bookings = $completed_bookings = $pending_bookings = $cancelled_bookings = 0;
-
-                    // Fetch all bookings and filter by check-in date
-                    $all_bookings_query = "
-                        SELECT booking_status, COUNT(*) as total 
-                        FROM bookings 
-                        WHERE MONTH(check_in_date) = $filter_month 
-                        AND YEAR(check_in_date) = $filter_year
-                        GROUP BY booking_status";
-                    $all_bookings_result = $conn->query($all_bookings_query);
-
-                    if ($all_bookings_result) {
-                        while ($row = $all_bookings_result->fetch_assoc()) {
-                            $status = $row['booking_status'];
-                            $count = $row['total'];
-                            if ($status == 'completed') {
-                                $completed_bookings = $count;
-                            } elseif ($status == 'pending') {
-                                $pending_bookings = $count;
-                            } elseif ($status == 'cancelled') {
-                                $cancelled_bookings = $count;
-                            }
-                            $total_bookings += $count;
-                        }
-                    }
-                    ?>
-
-                    <div class="card booking-item">
-                        <h3>Total Bookings</h3>
-                        <p id="total-bookings"><?php echo $total_bookings; ?></p>
-                    </div>
-                    <div class="card booking-item">
-                        <h3>Pending Bookings</h3>
-                        <p id="pending-bookings"><?php echo $pending_bookings; ?></p>
-                    </div>
-                    <div class="card booking-item">
-                        <h3>Completed Bookings</h3>
-                        <p id="completed-bookings"><?php echo $completed_bookings; ?></p>
-                    </div>
-                    <div class="card booking-item">
-                        <h3>Cancelled Bookings</h3>
-                        <p id="cancelled-bookings"><?php echo $cancelled_bookings; ?></p>
-                    </div>
                 </div>
             </div>
 

@@ -1,150 +1,283 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-}
-
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: skyblue;
-    padding: 20px 40px;
-    color: white;
-}
-
-header img {
-    max-width: 150px;
-}
-
-.user-links a {
-    color: white;
-    margin: 0 15px;
-    font-size: 1.2em;
-}
-
-nav {
-    display: flex;
-    justify-content: center;
-    background-color: skyblue;
-    padding: 15px 0;
-}
-
-nav a {
-    color: white;
-    margin: 0 20px;
-    text-decoration: none;
-    font-size: 1.2em;
-}
-
+/* Reservation Page */
 .reservation-page {
-    display: flex;
+  display: flex;
 }
 
 .sidebar {
-    width: 200px;
-    background-color: skyblue;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+  width: 10em;
+  background-color: #002244;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  color: white;
+  height: 70vh;
 }
 
 .sidebar a {
-    color: white;
-    text-decoration: none;
-    font-size: 1.2em;
-    padding: 10px;
-    background-color: #0a2544;
-    border-radius: 4px;
-    text-align: center;
+  text-decoration: none;
+  color: white;
+  font-size: 1.5em;
+  line-height: 1.5;
+  padding: 2%;
 }
 
 .sidebar a:hover {
-    background-color: #082039;
+  background-color: #003366;
 }
 
-.content {
-    flex: 1;
-    margin-left: 30px;
+.booking-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;  /* Adjust the gap between the cards */
+  margin-top: 0.5em;
+  width: 100%;
 }
 
-.reservation-grid h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 2em;
+.reservation-grid {
+  padding: 1%;
+  flex-grow: 1;
 }
 
-.grid-container {
+.booking-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+  max-width: 350px;
+}
+
+.booking-card img {
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  height: auto;
+  object-fit: cover;
+}
+
+.booking-card p {
+  margin: 8px 0;
+}
+
+.booking-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.booking-status.success {
+  background-color: #4CAF50;
+}
+
+.booking-status.pending {
+  background-color: #FF9800;
+}
+
+.booking-status.cancelled {
+  background-color: #F44336;
+}
+
+.booking-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 8px;
+}
+
+.booking-actions a {
+  text-decoration: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s, box-shadow 0.3s;
+  text-align: center;
+  white-space: nowrap;
+  flex-grow: 1;
+  margin: 0 5px;
+  font-size: 0.9em;
+}
+
+.booking-actions a.view-details {
+  background-color: #2196F3;
+}
+
+.booking-actions a.view-details:hover {
+  background-color: #1976D2;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.booking-actions a.view-receipt {
+  background-color: #4CAF50;
+}
+
+.booking-actions a.view-receipt:hover {
+  background-color: #388E3C;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1200px) {
+  .booking-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .booking-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .booking-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .booking-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Modal styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 800px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    animation: fadeIn 0.3s;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-section {
+    margin-bottom: 20px;
+}
+
+.modal-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
+    gap: 10px;
 }
 
-.grid-item {
-    background-color: #fff;
-    padding: 25px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    border-radius: 12px;
+.modal-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
 }
 
-.room-card {
+.modal-grid > div {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-.room-card img {
-    width: 100%;
-    height: auto;
-    border-radius: 12px;
+.modal-grid label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    white-space: nowrap;
 }
 
-.room-details {
-    margin-top: 15px;
-    text-align: center;
+.modal-grid input,
+.additional-requests-grid input {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #f9f9f9;
 }
 
-.room-details h3 {
-    margin-bottom: 15px;
-    color: #0c2f54;
-    font-size: 1.8em;
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
-.room-details p {
-    margin-bottom: 10px;
-    font-size: 1.2em;
-}
-
-.invoice-btn, .cancel-btn {
-    background-color: skyblue;
-    color: white;
-    padding: 12px 25px;
+.modal-actions button {
+    padding: 10px 20px;
+    background-color: #2196F3;
     border: none;
-    cursor: pointer;
-    border-radius: 8px;
-    margin-top: 15px;
-    font-size: 1.2em;
-}
-
-.invoice-btn:hover  {
-    background-color: black;
-}
-
-.cancel-btn:hover {
-    background-color: red;
-}
-
-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: skyblue;
+    border-radius: 4px;
     color: white;
-    margin-top: 0px;
-    font-size: 1.2em;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.modal-actions button:hover {
+    background-color: #1976D2;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.flex-container {
+    display: flex;
+    gap: 1em;
+}
+
+.charge-item {
+    border: 1px solid #ddd;
+    padding: 0.5em;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    flex: 1;
+    overflow: hidden; /* Prevent content from overflowing */
+}
+
+.charge-header {
+    margin-bottom: 10px;
+}
+
+.additional-requests-grid {
+    display: grid;
+    grid-template-columns: 2 1fr;
+    gap: 0.5em;
+}
+
+.additional-requests-grid div {
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-requests-grid label {
+    margin-bottom: 5px;
+    font-weight: bold;
 }

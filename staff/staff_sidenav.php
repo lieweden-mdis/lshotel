@@ -53,7 +53,6 @@ if (isset($conn)) {
     <div class="dropdown-container" style="max-height: 500px; padding-top: 0.5em; padding-bottom: 0.5em;">
         <a href="all_booking.php" target="_self"><i class="fa fa-list"></i> All Booking</a>
         <a href="pending_booking.php" target="_self" id="pending-booking-link"><i class="fa fa-clock-o"></i> Pending Booking <span class="notification"><?php echo $pendingCount; ?></span></a>
-        <a href="cancelled_booking.php" target="_self"><i class="fa fa-times-circle"></i> Cancelled Booking</a>
     </div>
 
     <div class="category dropdown-btn active">

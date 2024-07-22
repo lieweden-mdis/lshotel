@@ -1,34 +1,27 @@
-.profile-page {
+.profile-page{
     display: flex;
-    flex: 1;
-    justify-content: center;
-    align-items: stretch;
-    background: #f8f9fa;
-}
-
-.sidebar {
-    width: 220px;
+  }
+  
+  .sidebar{
+    width: 10em;
     background-color: #002244;
     padding: 20px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 2em;
     color: white;
-    height: 100%;
-}
-
-.sidebar a {
-    color: white;
+    height:70vh;
+  }
+  
+  .sidebar a{
     text-decoration: none;
-    font-size: 1.2em;
-    padding: 10px 15px;
-    background-color: #002244;
-    border-radius: 4px;
-    text-align: left;
-    transition: background 0.3s;
-}
-
-.sidebar a:hover {
+    color: white;
+    font-size: 1.5em;
+    line-height: 1.5;
+    padding: 2%;
+  }
+  
+  .sidebar a:hover {
     background-color: #003366;
 }
 
