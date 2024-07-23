@@ -91,7 +91,7 @@ try {
     <h1>Payment Success</h1>
     <p>Your payment was successful. Thank you!</p>
     <a href="index.php"><button>Go to Homepage</button></a>
-    <a href="invoice.php?booking_id=<?php echo $booking_id; ?>"><button>View Invoice</button></a>
-</div>
+    <a href="invoice.php?booking_id=<?php echo $booking_id; ?>" target="_blank"><button>View Invoice</button></a>
+    </div>
 </body>
 </html>

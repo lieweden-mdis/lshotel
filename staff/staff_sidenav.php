@@ -22,16 +22,20 @@ if (isset($conn)) {
 } else {
     $pendingCount = 0;
 }
+
+$staffName = isset($_SESSION['user_full_name']) ? $_SESSION['user_full_name'] : 'Unknown User';
+$staffId = isset($_SESSION['user']['id']) ? $_SESSION['user']['id'] : 'N/A';
+$staffRole = isset($_SESSION['user']['role']) ? $_SESSION['user']['role'] : 'N/A';
 ?>
 <div class="sidenav">
     <div class="logo">
         <img src="../img/logo.png" alt="logo" />
     </div>
     <div class="staff-info">
-        <span id="staff-name"><i class="fa fa-user"></i> <?php echo $_SESSION['user_full_name']; ?></span>
-        <span id="staff-id"><i class="fa fa-id-badge"></i> <?php echo $_SESSION['user']['id']; ?></span>
+        <span id="staff-name"><i class="fa fa-user"></i> <?php echo $staffName; ?></span>
+        <span id="staff-id"><i class="fa fa-id-badge"></i> <?php echo $staffId; ?></span>
         <div class="role-logout-container">
-            <span id="role" class="role"><i class="fa fa-briefcase"></i> <?php echo $_SESSION['user']['role']; ?></span>
+            <span id="role" class="role"><i class="fa fa-briefcase"></i> <?php echo $staffRole; ?></span>
             <a href="../logout.php" class="logout"><i class="fa fa-sign-out"></i> Logout</a>
         </div>
     </div>
@@ -60,7 +64,7 @@ if (isset($conn)) {
     </div>
     <div class="dropdown-container" style="max-height: 500px; padding-top: 0.5em; padding-bottom: 0.5em;">
         <a href="staff_profile.php" target="_self"><i class="fa fa-user"></i> Staff Profile</a>
-        <?php if ($_SESSION['user']['role'] === 'Admin'): ?>
+        <?php if ($staffRole === 'Admin'): ?>
             <a href="staff_management.php" target="_self"><i class="fa fa-cogs"></i> Staff User Management</a>
         <?php endif; ?>
     </div>

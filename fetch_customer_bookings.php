@@ -59,7 +59,7 @@ if ($result->num_rows > 0) {
             "additionalCharges" => $additional_charges
         ]);
 
-        echo "<div class='booking-card' onclick='openModal($booking_data)'>";
+        echo "<div class='booking-card'>";
         echo "<img src='" . $image . "' alt='Room Image'>";
         echo "<p><strong>Booking ID:</strong> " . $row["booking_id"] . "</p>";
         echo "<p><strong>Room Type:</strong> " . $room_type . "</p>";
@@ -68,7 +68,7 @@ if ($result->num_rows > 0) {
         echo "<p><strong>Total Amount Paid:</strong> RM " . $row["total_amount"] . "</p>";
         echo "<p><span class='booking-status " . $status_class . "'>" . $row["booking_status"] . "</span></p>";
         echo "<div class='booking-actions'>";
-        echo "<a class='view-details' href='javascript:void(0);' onclick='openModal($booking_data)'>View Details</a>";
+        echo "<a class='view-details' href='javascript:void(0);' data-booking-data='" . htmlspecialchars($booking_data, ENT_QUOTES, 'UTF-8') . "'>View Details</a>";
         echo "<a class='view-receipt' href='invoice.php?booking_id=" . $row["booking_id"] . "'>View Receipt</a>";
         echo "</div>";
         echo "</div>";

@@ -1,10 +1,16 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 include 'config.php';
 
-
-// Function to get room price
 function getRoomPrice($conn, $roomType) {
     $stmt = $conn->prepare("SELECT room_price FROM rooms WHERE room_type = ?");
+    if ($stmt === false) {
+        die('Prepare failed: ' . htmlspecialchars($conn->error));
+    }
+
     $stmt->bind_param("s", $roomType);
     $stmt->execute();
     $stmt->bind_result($room_price);
@@ -53,14 +59,19 @@ function getRoomPrice($conn, $roomType) {
 
         foreach ($rooms as $room) {
             $price = getRoomPrice($conn, $room['type']);
+            if ($price === null) {
+                echo '<p>Error: Could not retrieve price for ' . htmlspecialchars($room['type']) . '</p>';
+                continue;
+            }
+
             echo '<div class="room">';
-            echo '<img src="' . $room['image'] . '" alt="' . $room['type'] . '">';
+            echo '<img src="' . htmlspecialchars($room['image']) . '" alt="' . htmlspecialchars($room['type']) . '">';
             echo '<div class="room-details">';
-            echo '<h2>' . $room['type'] . '</h2>';
-            echo '<p>' . $room['description'] . '</p>';
-            echo '<p>Price: RM ' . $price . ' / Night</p>';
+            echo '<h2>' . htmlspecialchars($room['type']) . '</h2>';
+            echo '<p>' . htmlspecialchars($room['description']) . '</p>';
+            echo '<p>Price: RM ' . htmlspecialchars($price) . ' / Night</p>';
             echo '<div class="view-details">';
-            echo '<a href="' . strtolower(str_replace(' ', '-', $room['type'])) . '.php" target="_self">View Details</a>';
+            echo '<a href="' . htmlspecialchars(strtolower(str_replace(' ', '-', $room['type']))) . '.php" target="_self">View Details</a>';
             echo '</div>';
             echo '</div>';
             echo '</div>';

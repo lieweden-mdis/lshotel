@@ -50,7 +50,7 @@ if ($result->num_rows > 0) {
         if ($status_class !== 'cancelled') {
             echo "<a class='cancel' href='cancel.php?id=" . $row["booking_id"] . "'>Cancel</a>";
         }
-        echo "<a class='view-receipt' href='invoice.php?booking_id=" . $row["booking_id"] . "'>View Receipt</a>";
+        echo "<a class='view-receipt' href='../invoice.php?booking_id=" . $row["booking_id"] . "'>View Receipt</a>";
         echo "</div>";
         echo "</div>";
     }

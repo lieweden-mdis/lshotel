@@ -112,6 +112,7 @@ try {
 } catch (Exception $e) {
     die($e->getMessage());
 }
+$referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -225,6 +226,7 @@ try {
     <div class="text-center m-t-20 no-print">
         <button onclick="window.print();" class="btn btn-primary">Print</button>
         <button class="btn btn-secondary" onclick="generatePDF()">Download PDF</button>
+        <button id="back-button" class="btn btn-info" onclick="goBack()">Back</button>
     </div>
     <script>
         function generatePDF() {
@@ -336,6 +338,28 @@ try {
 
             pdfMake.createPdf(docDefinition).download('invoice.pdf');
         }
+
+        function goBack() {
+            const referrer = '<?php echo $referrer; ?>';
+            if (referrer) {
+                if (referrer.includes('payment_success.php')) {
+                    window.location.href = 'index.php';
+                } else {
+                    window.location.href = referrer;
+                }
+            } else {
+                window.location.href = 'index.php';
+            }
+        }
+
+        // Change the button text if coming from payment_success.php
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const referrer = '<?php echo $referrer; ?>';
+            const backButton = document.getElementById('back-button');
+            if (referrer && referrer.includes('payment_success.php')) {
+                backButton.innerText = 'Homepage';
+            }
+        });
     </script>
     <style>
         @media print {

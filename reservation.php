@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>L's HOTEL - MY RESERVATION</title>
+    <link rel="icon" href="img/icon.jpg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/style.css?v=<?php echo time(); ?>">
@@ -161,105 +162,130 @@
 
     <!-- Modal JavaScript -->
     <script>
-        // Get the modal
-        var modal = document.getElementById("bookingModal");
+// Get the modal
+var modal = document.getElementById("bookingModal");
 
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
-        var closeModal = document.getElementById("closeModal");
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+var closeModal = document.getElementById("closeModal");
 
-        // Function to open the modal
-        function openModal(bookingData) {
-            // Populate the modal fields with booking data
-            document.getElementById("booking-id").value = bookingData.bookingId;
-            document.getElementById("booking-date").value = bookingData.bookingDate;
-            document.getElementById("room-type").value = bookingData.roomType;
-            document.getElementById("check-in-date").value = bookingData.checkInDate;
-            document.getElementById("check-out-date").value = bookingData.checkOutDate;
-            document.getElementById("stay-days").value = bookingData.stayDays;
-            document.getElementById("room-quantity").value = bookingData.roomQuantity;
-            document.getElementById("bed-selection").value = bookingData.bedSelection;
-            document.getElementById("smoke").value = bookingData.smoke;
-            document.getElementById("total-amount").value = bookingData.totalAmount;
-            document.getElementById("customer-name").value = bookingData.customerName;
-            document.getElementById("email").value = bookingData.email;
-            document.getElementById("phone").value = bookingData.phone;
-            document.getElementById("bring-car").value = bookingData.bringCar;
-            document.getElementById("car-plate").value = bookingData.carPlate;
+// Variable to store the current booking data
+var currentBookingData = null;
 
-            // Populate additional charges
-            var additionalChargesContainer = document.getElementById("additional-charges");
-            additionalChargesContainer.innerHTML = ""; // Clear previous content
+// Function to open the modal
+function openModal(bookingData) {
+    // Check if the modal is already open
+    if (modal.style.display === "block") return;
 
-            bookingData.additionalCharges.forEach(function(charge, index) {
-                var chargeDiv = document.createElement("div");
-                chargeDiv.className = 'charge-item';
-                chargeDiv.innerHTML = `
-                    <div class="charge-header"><strong>Room ${index + 1} - Additional Requests</strong></div>
-                    <div class="additional-requests-grid">
-                        <div>
-                            <label>Extra Bed:</label>
-                            <input type="text" value="${charge.extraBed || 'N/A'}" readonly>
-                        </div>
-                        <div>
-                            <label>Extra Bed Quantity:</label>
-                            <input type="text" value="${charge.extraBedQuantity || 'N/A'}" readonly>
-                        </div>
-                        <div>
-                            <label>Add Breakfast:</label>
-                            <input type="text" value="${charge.addBreakfast || 'N/A'}" readonly>
-                        </div>
-                        <div>
-                            <label>Breakfast Quantity:</label>
-                            <input type="text" value="${charge.breakfastQuantity || 'N/A'}" readonly>
-                        </div>
-                    </div>`;
-                additionalChargesContainer.appendChild(chargeDiv);
-            });
+    currentBookingData = bookingData;
 
-            // Display the modal
-            modal.style.display = "block";
+    // Populate the modal fields with booking data
+    document.getElementById("booking-id").value = bookingData.bookingId;
+    document.getElementById("booking-date").value = bookingData.bookingDate;
+    document.getElementById("room-type").value = bookingData.roomType;
+    document.getElementById("check-in-date").value = bookingData.checkInDate;
+    document.getElementById("check-out-date").value = bookingData.checkOutDate;
+    document.getElementById("stay-days").value = bookingData.stayDays;
+    document.getElementById("room-quantity").value = bookingData.roomQuantity;
+    document.getElementById("bed-selection").value = bookingData.bedSelection;
+    document.getElementById("smoke").value = bookingData.smoke;
+    document.getElementById("total-amount").value = bookingData.totalAmount;
+    document.getElementById("customer-name").value = bookingData.customerName;
+    document.getElementById("email").value = bookingData.email;
+    document.getElementById("phone").value = bookingData.phone;
+    document.getElementById("bring-car").value = bookingData.bringCar;
+    document.getElementById("car-plate").value = bookingData.carPlate;
 
-            // Set the Room Details button link
-            var roomDetailsButton = document.getElementById("viewRoomDetails");
-            var roomDetailsPage;
-            switch (bookingData.roomType) {
-                case "Standard Room":
-                    roomDetailsPage = "standard-room.php";
-                    break;
-                case "Deluxe Room":
-                    roomDetailsPage = "deluxe-room.php";
-                    break;
-                case "Triple Room":
-                    roomDetailsPage = "triple-room.php";
-                    break;
-                case "Family Suite Room":
-                    roomDetailsPage = "family-suite-room.php";
-                    break;
-                default:
-                    roomDetailsPage = "#";
-                    break;
-            }
-            roomDetailsButton.onclick = function() {
-                window.location.href = roomDetailsPage;
-            }
-        }
+    // Populate additional charges
+    var additionalChargesContainer = document.getElementById("additional-charges");
+    additionalChargesContainer.innerHTML = ""; // Clear previous content
 
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
+    bookingData.additionalCharges.forEach(function(charge, index) {
+        var chargeDiv = document.createElement("div");
+        chargeDiv.className = 'charge-item';
+        chargeDiv.innerHTML = `
+            <div class="charge-header"><strong>Room ${index + 1} - Additional Requests</strong></div>
+            <div class="additional-requests-grid">
+                <div>
+                    <label>Extra Bed:</label>
+                    <input type="text" value="${charge.extraBed || 'N/A'}" readonly>
+                </div>
+                <div>
+                    <label>Extra Bed Quantity:</label>
+                    <input type="text" value="${charge.extraBedQuantity || 'N/A'}" readonly>
+                </div>
+                <div>
+                    <label>Add Breakfast:</label>
+                    <input type="text" value="${charge.addBreakfast || 'N/A'}" readonly>
+                </div>
+                <div>
+                    <label>Breakfast Quantity:</label>
+                    <input type="text" value="${charge.breakfastQuantity || 'N/A'}" readonly>
+                </div>
+            </div>`;
+        additionalChargesContainer.appendChild(chargeDiv);
+    });
 
-        closeModal.onclick = function() {
-            modal.style.display = "none";
-        }
+    // Display the modal
+    modal.style.display = "block";
 
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
+    // Set the Room Details button link
+    var roomDetailsButton = document.getElementById("viewRoomDetails");
+    var roomDetailsPage;
+    switch (bookingData.roomType) {
+        case "Standard Room":
+            roomDetailsPage = "standard-room.php";
+            break;
+        case "Deluxe Room":
+            roomDetailsPage = "deluxe-room.php";
+            break;
+        case "Triple Room":
+            roomDetailsPage = "triple-room.php";
+            break;
+        case "Family Suite Room":
+            roomDetailsPage = "family-suite-room.php";
+            break;
+        default:
+            roomDetailsPage = "#";
+            break;
+    }
+    roomDetailsButton.onclick = function() {
+        window.location.href = roomDetailsPage;
+    }
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+    modal.style.display = "none";
+    currentBookingData = null; // Clear booking data when modal is closed
+}
+
+closeModal.onclick = function() {
+    modal.style.display = "none";
+    currentBookingData = null; // Clear booking data when modal is closed
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+        currentBookingData = null; // Clear booking data when modal is closed
+    }
+}
+
+// Function to handle view details click
+function handleViewDetailsClick(event) {
+    var bookingData = JSON.parse(event.target.dataset.bookingData);
+    openModal(bookingData);
+}
+
+// Attach event listeners to view details links
+document.addEventListener('DOMContentLoaded', function() {
+    var viewDetailsLinks = document.querySelectorAll('.view-details');
+    viewDetailsLinks.forEach(function(link) {
+        link.addEventListener('click', handleViewDetailsClick);
+    });
+});
     </script>
 </body>
 </html>
