@@ -6,8 +6,10 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="../css/staff/staff-style.css?v=<?php echo time(); ?>">
 <link rel="stylesheet" href="../css/staff/staff-filters.css?v=<?php echo time(); ?>">
-<link rel="stylesheet" href="../css/staff/staff-booking-cards.css?v=<?php echo time(); ?>">
-<title>L's HOTEL - STAFF PROFILE</title>
+<link rel="stylesheet" href="../css/staff/staff-booking-table.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="../css/staff/cancel_modal.css?v=<?php echo time(); ?>">
+<link rel="stylesheet" href="../css/staff/booking_modal.css?v=<?php echo time(); ?>">
+<title>L's HOTEL - ALL BOOKING</title>
 <link rel="icon" href="../img/icon.jpg">
 </head>
 <body>
@@ -52,53 +54,41 @@
           <option value="Family Suite Room">Family Suite Room</option>
         </select>
       </label>
-      <button type="button" onclick="clearFilters()">Clear Filters</button>
+      <button id="clear-filters-button" type="button" onclick="clearFilters()">Clear Filters</button>
     </div>
 
     <!-- Fetch and display booking data -->
-    <div id="booking-cards" class="booking-cards">
-      <!-- Booking cards will be dynamically inserted here -->
+    <div id="booking-table" class="booking-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Booking ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Room Type</th>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="booking-rows">
+          <!-- Booking rows will be dynamically inserted here -->
+        </tbody>
+      </table>
     </div>
   </div>
 </div>
 <footer>
   <p>&copy;2024 L's Hotel All Right Reserved.</p>
 </footer>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const fetchBookings = () => {
-    const params = new URLSearchParams({
-      booking_id: document.getElementById('booking-id').value,
-      user_info: document.getElementById('user-info').value,
-      check_in_date: document.getElementById('check-in-date').value,
-      status: document.getElementById('booking-status').value,
-      room_type: document.getElementById('room-type').value,
-    });
 
-    fetch(`fetch_bookings.php?${params.toString()}`)
-      .then(response => response.text())
-      .then(data => document.getElementById('booking-cards').innerHTML = data)
-      .catch(error => console.error('Error fetching bookings:', error));
-  };
+<!-- Include the external modals -->
+<?php include 'cancel_modal.php'; ?>
+<?php include 'booking_modal.php'; ?>
 
-  const clearFilters = () => {
-    document.getElementById('booking-id').value = '';
-    document.getElementById('user-info').value = '';
-    document.getElementById('check-in-date').value = '';
-    document.getElementById('booking-status').value = '';
-    document.getElementById('room-type').value = '';
-    fetchBookings();
-  };
-
-  document.getElementById('booking-id').addEventListener('keyup', fetchBookings);
-  document.getElementById('user-info').addEventListener('keyup', fetchBookings);
-  document.getElementById('check-in-date').addEventListener('change', fetchBookings);
-  document.getElementById('booking-status').addEventListener('change', fetchBookings);
-  document.getElementById('room-type').addEventListener('change', fetchBookings);
-
-  fetchBookings();
-});
-</script>
-<script src="../script/staff.js"></script>
+<!-- Include the external JavaScript files -->
+<script src="../script/allbooking.js"></script>
+<script src="../script/booking_modal.js"></script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 include 'config.php'; // Include the database configuration file
 
 // Get the room type and response type from the POST request
-$room_type = $_POST['room_type'] ?? '';
+$room_type = $_POST['room_type'] ?? NULL;
 $response_type = $_POST['response_type'] ?? 'html'; // Default to 'html' if not provided
 
 if (empty($room_type)) {

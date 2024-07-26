@@ -2,8 +2,8 @@
 session_start();
 include '../config.php';
 
-$message = '';
-$messageType = ''; // 'success' or 'error'
+$message = NULL;
+$messageType = NULL; // 'success' or 'error'
 
 // Function to check if an email or phone number exists in both staff and user tables
 function isEmailOrPhoneDuplicate($conn, $email, $phoneNumber, $staffId = null) {
@@ -185,7 +185,7 @@ $loggedInStaffId = isset($_SESSION['logged_in_staff_id']) ? $_SESSION['logged_in
                         <td>
                             <div class="actions">
                                 <button class="btn btn-warning btn-sm editButton" data-id="<?php echo $row['staff_id']; ?>" data-firstname="<?php echo $row['first_name']; ?>" data-lastname="<?php echo $row['last_name']; ?>" data-email="<?php echo $row['email']; ?>" data-phonenumber="<?php echo $row['phone_number']; ?>" data-role="<?php echo $row['role']; ?>">Edit</button>
-                                <button class="btn btn-danger btn-sm deleteButton <?php echo $row['staff_id'] === $loggedInStaffId ? 'btn-disabled' : ''; ?>" data-id="<?php echo $row['staff_id']; ?>" <?php echo $row['staff_id'] === $loggedInStaffId ? 'disabled' : ''; ?>>Delete</button>
+                                <button class="btn btn-danger btn-sm deleteButton <?php echo $row['staff_id'] === $loggedInStaffId ? 'btn-disabled' : NULL; ?>" data-id="<?php echo $row['staff_id']; ?>" <?php echo $row['staff_id'] === $loggedInStaffId ? 'disabled' : NULL; ?>>Delete</button>
                             </div>
                         </td>
                     </tr>

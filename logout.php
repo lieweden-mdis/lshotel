@@ -1,6 +1,6 @@
 <?php
 session_start();
-$update_message = isset($_SESSION['update_message']) ? $_SESSION['update_message'] : '';
+$update_message = isset($_SESSION['update_message']) ? $_SESSION['update_message'] : NULL;
 session_unset();
 session_destroy();
 

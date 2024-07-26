@@ -1,27 +1,27 @@
 body {
+  font-family: "Lato", sans-serif;
   margin: 0;
-  font-family: Arial, sans-serif;
+  background-color: #ffffff; /* White background for the body */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Ensure the body takes the full viewport height */
 }
 
 .staff-container {
   display: flex;
-  min-height: 100vh;
   flex: 1;
 }
 
 .sidenav {
-  height: 100vh; /* Full viewport height */
-  width: 20%;
-  background-color: #80abd6;
-  padding-top: 0.5%;
+  height: 100%;
+  width: fit-content; /* Set a fixed width to ensure consistency */
+  background-color: #80abd6; /* Light blue background */
+  padding-top: 1%;
   box-sizing: border-box;
-  color: #ffffff;
+  color: #ffffff; /* White text color for sidebar */
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   display: flex;
   flex-direction: column;
-  position: sticky;
-  top: 0; /* Sticks to the top */
-  overflow-y: auto; /* Enables scrolling within the sidebar */
 }
 
 .sidenav .logo {
@@ -29,27 +29,27 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 }
 
 .logo img {
-  width: 60%;
-  height: 4em;
+  width: 60%; /* Reduce the width of the logo */
+  height: 5em; /* Maintain aspect ratio */
 }
 
 .staff-info {
   display: flex;
   flex-direction: column;
-  padding: 1em 1em 0.2em 1em;
-  background-color: #0d47a1;
+  padding: 1em 1em 0.2em 1em; /* Adjust padding to reduce space below */
+  background-color: #0d47a1; /* Darker blue for user info to contrast the logo */
   text-align: left;
-  line-height: 1.2em;
+  line-height: 1.2em; /* Reduce line-height to reduce whitespace */
   font-weight: bold;
   box-sizing: border-box;
 }
 
 .staff-info span {
-  padding: 0.5em;
+  padding: 0.5em; /* Adjust padding to reduce whitespace */
   font-size: 1.2em;
 }
 
@@ -57,11 +57,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 0.2em;
+  margin-top: 0.2em; /* Reduce margin to minimize whitespace */
 }
 
 .staff-info .role {
-  color: #ffffff;
+  color: #ffffff; /* White text color for role */
   display: flex;
   align-items: center;
 }
@@ -71,14 +71,14 @@ body {
 }
 
 .staff-info .logout {
-  color: #ffffff;
+  color: #ffffff; /* White text color for logout */
   text-decoration: none;
   width: fit-content;
   display: flex;
   align-items: center;
-  background-color: transparent;
-  padding: 0;
-  margin-left: auto;
+  background-color: transparent; /* Remove any background color */
+  padding: 0; /* Remove padding */
+  margin-left: auto; /* Push logout to the right */
 }
 
 .staff-info .logout i {
@@ -87,101 +87,156 @@ body {
 
 hr {
   width: 95%;
-  border: 2px solid white;
-  margin: 0.5em 0;
+  border: 2px solid white; /* Light blue border for the hr */
+  margin: 0.5em 0; /* Adjust space above and below the hr */
   background-color: #0d47a1;
 }
 
 .sidenav a, .category {
-  padding: 0 8px 0 16px;
-  height: 3em;
-  line-height: 3em;
+  padding: 0 8px 0 16px; /* Adjusted padding to fit the height */
+  height: 3em; /* Increased height */
+  line-height: 3em; /* Vertically center text */
   text-decoration: none;
   font-size: 1.2em;
-  color: #ffffff;
+  color: #ffffff; /* White text color for links */
   display: block;
-  width: 100%;
-  box-sizing: border-box;
+  width: 100%; /* Ensure the item fits the width of the sidenav */
+  box-sizing: border-box; /* Include padding in the width */
   border: none;
   text-align: left;
-  white-space: nowrap;
-  transition: background-color 0.3s, color 0.3s;
+  white-space: nowrap; /* Prevent text from wrapping */
+  transition: background-color 0.3s, color 0.3s; /* Transition for background and text color changes */
 }
 
 .sidenav a i, .category i, .staff-info i {
-  margin-right: 10px;
+  margin-right: 10px; /* Add some space between the icon and the text */
 }
 
 .category {
   font-weight: bold;
-  background-color: #0d47a1;
-  color: #ffffff;
+  background-color: #0d47a1; /* Darker blue for category headers */
+  color: #ffffff; /* White text color for category headers */
   font-size: 1.3em;
-  cursor: pointer;
+  cursor: pointer; /* Enable cursor for dropdown functionality */
 }
 
 .sidenav a:hover, .dropdown-btn:hover {
-  color: #ffeb3b;
-  text-decoration: none;
+  color: #ffeb3b; /* Yellow text color on hover */
 }
 
 .notification {
   background-color: red;
   color: white;
-  width: 20px;
+  width: 20px; /* Set the width and height to make it round */
   height: 20px;
-  border-radius: 50%;
-  text-align: center;
-  line-height: 20px;
+  border-radius: 50%; /* Make it perfectly round */
+  text-align: center; /* Center the text inside */
+  line-height: 20px; /* Center the text vertically */
   margin-left: 0.2em;
   font-size: 12px;
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: middle; /* Align the notification badge with the text */
 }
 
 .dropdown-container {
   max-height: 0;
   overflow: hidden;
-  background-color: #1976d2;
-  padding-left: 1.5em;
-  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out;
+  background-color: #1976d2; /* Match background color with nav items */
+  padding-left: 1.5em; /* Indent for nested items */
+  transition: max-height 0.3s ease-in-out, padding 0.3s ease-in-out; /* Transition for dropdown expansion */
   padding-top: 0;
   padding-bottom: 0;
 }
 
 .dropdown-container.open {
-  max-height: 1000px;
+  max-height: 1000px; /* Large value to allow for content expansion */
   padding-top: 0.5em;
   padding-bottom: 0.5em;
 }
 
 .main {
-  width: 80%;
+  width: 100%; /* Adjust width to match remaining space */
   padding: 2%;
-  background-color: #ffffff;
-  overflow-y: auto;
+  background-color: #ffffff; /* White background for the main content */
 }
 
 .main .staff-page-title {
   font-size: 2em;
   font-weight: bold;
   text-align: left;
-  color: #0d47a1;
+  color: #0d47a1; /* Dark blue text for the page title */
 }
 
 footer {
   width: 100%;
-  background-color: #0d47a1;
-  color: #ffffff;
-  position: relative;
+  background-color: #0d47a1; /* Dark blue background */
+  color: #ffffff; /* White text color */
   text-align: center;
-  padding: 1em;
-  font-size: 1em;
-  font-weight: bold;
+  padding: 1em; /* Padding for top and bottom */
+  font-size: 1em; /* Font size for the footer text */
+  font-weight: bold; /* Bold text for the footer */
   margin-top: auto;
-  bottom: 0;
 }
 
 footer p {
+  margin: 0; /* Remove default margins */
+}
+
+/* Bell Icon and Notification Popup */
+.bell-icon {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+.bell-icon .badge {
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  padding: 3px 7px;
+  font-size: 12px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  display: none; /* Initially hidden */
+}
+
+.notification-popup {
+  position: fixed;
+  top: 60px;
+  right: 20px;
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 15px;
+  border: 1px solid #f5c6cb;
+  border-radius: 5px;
+  display: none; /* Initially hidden */
+  z-index: 1000;
+}
+
+.notification-popup ul {
   margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.notification-popup li {
+  margin-bottom: 10px;
+}
+
+.clear-button {
+  display: block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.clear-button:hover {
+  background-color: #c9302c;
 }

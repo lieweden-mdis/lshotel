@@ -1,3 +1,7 @@
+* {
+    box-sizing: border-box;
+}
+
 .profile-container {
     width: 50%;
     margin: 0.5em auto;
@@ -32,7 +36,8 @@
 
 .profile-item input {
     padding: 10px;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Ensure box-sizing is set */
+    width: 100%; /* Ensure the input takes up the full width of its container */
 }
 
 .profile-item input[readonly] {

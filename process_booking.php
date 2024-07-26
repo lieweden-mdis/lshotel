@@ -36,9 +36,9 @@ $car_plates_string = implode(',', $car_plates);
 // Collect additional requests
 $additional_requests = [];
 for ($i = 1; $i <= $number_of_rooms; $i++) {
-    $extra_bed = isset($_POST["add-bed-$i"]) ? sanitizeInput($_POST["add-bed-$i"]) : '';
+    $extra_bed = isset($_POST["add-bed-$i"]) ? sanitizeInput($_POST["add-bed-$i"]) : NULL;
     $bed_quantity = isset($_POST["bedquantity-$i"]) ? sanitizeInput($_POST["bedquantity-$i"]) : 0;
-    $add_breakfast = isset($_POST["add-breakfast-$i"]) ? sanitizeInput($_POST["add-breakfast-$i"]) : '';
+    $add_breakfast = isset($_POST["add-breakfast-$i"]) ? sanitizeInput($_POST["add-breakfast-$i"]) : NULL;
     $breakfast_quantity = isset($_POST["breakfastquantity-$i"]) ? sanitizeInput($_POST["breakfastquantity-$i"]) : 0;
 
     $additional_requests[] = [

@@ -1,37 +1,39 @@
 <?php
-include '../config.php'; // Include your database connection file
+// Example PHP code to update booking details
 
-$booking_id = $_POST['booking_id'];
-$check_in_date = $_POST['check_in_date'];
-$check_out_date = $_POST['check_out_date'];
-$days = $_POST['days'];
-$bed_selection = $_POST['bed_selection'];
-$smoke = $_POST['smoke'];
-$customer_name = $_POST['customer_name'];
-$email = $_POST['email'];
-$phone = $_POST['phone'];
-$bring_car = $_POST['bring_car'];
-$car_plate = $_POST['car_plate'];
+// Get the booking ID
+$booking_id = $_GET['booking_id'];
 
-$query = "UPDATE bookings SET
-    check_in_date = '$check_in_date',
-    check_out_date = '$check_out_date',
-    days = '$days',
-    bed_selection = '$bed_selection',
-    smoke = '$smoke',
-    first_name = SUBSTRING_INDEX('$customer_name', ' ', 1),
-    last_name = SUBSTRING_INDEX('$customer_name', ' ', -1),
-    email = '$email',
-    phone_number = '$phone',
-    bring_car = '$bring_car',
-    car_plates = '$car_plate'
-    WHERE booking_id = '$booking_id'";
+// Get the JSON data from the request body
+$data = json_decode(file_get_contents('php://input'), true);
 
-if ($conn->query($query) === TRUE) {
-    echo "Booking updated successfully";
-} else {
-    echo "Error updating booking: " . $conn->error;
+// Database connection
+$conn = new mysqli('localhost', 'username', 'password', 'database');
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
+// Prepare and bind
+$stmt = $conn->prepare("UPDATE bookings SET bed_selection=?, smoke=?, customer_name=?, email=?, phone=?, bring_car=?, car_plate=? WHERE booking_id=?");
+$stmt->bind_param("sssssssi", $bed_selection, $smoke, $customer_name, $email, $phone, $bring_car, $car_plate, $booking_id);
+
+// Set parameters and execute
+$bed_selection = $data['bed_selection'];
+$smoke = $data['smoke'];
+$customer_name = $data['customer_name'];
+$email = $data['email'];
+$phone = $data['phone'];
+$bring_car = $data['bring_car'];
+$car_plate = $data['car_plate'];
+
+if ($stmt->execute()) {
+    echo json_encode(array("success" => true));
+} else {
+    echo json_encode(array("success" => false, "error" => $stmt->error));
+}
+
+$stmt->close();
 $conn->close();
 ?>

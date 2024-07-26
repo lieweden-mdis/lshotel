@@ -87,21 +87,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
                              <div class="row">
                     <div class="input-data">
                         <label for="fname">First Name<i class="fa-solid fa-address-card"></i></label>
-                        <input type="text" id="first-name" name="fname" placeholder="Enter your First Name" value="<?php echo isset($firstName) ? $firstName : ''; ?>" required>
+                        <input type="text" id="first-name" name="fname" placeholder="Enter your First Name" value="<?php echo isset($firstName) ? $firstName : NULL; ?>" required>
                     </div>
                     <div class="input-data">
                         <label for="lname">Last Name<i class="fa-solid fa-address-card"></i></label>
-                        <input type="text" id="last-name" name="lname" placeholder="Enter your Last Name" value="<?php echo isset($lastName) ? $lastName : ''; ?>" required>
+                        <input type="text" id="last-name" name="lname" placeholder="Enter your Last Name" value="<?php echo isset($lastName) ? $lastName : NULL; ?>" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-data">
                         <label for="email">Email<i class="fa-solid fa-envelope"></i></label>
-                        <input type="email" id="email" name="email" placeholder="Enter your Email" value="<?php echo isset($email) ? $email : ''; ?>" required>
+                        <input type="email" id="email" name="email" placeholder="Enter your Email" value="<?php echo isset($email) ? $email : NULL; ?>" required>
                     </div>
                     <div class="input-data">
                         <label for="phone">Phone Number<i class="fa-solid fa-phone"></i></label>
-                        <input type="text" id="phone-number" name="phone" placeholder="Enter your Phone Number" value="<?php echo isset($phoneNumber) ? $phoneNumber : ''; ?>" required pattern="\d{8,11}" title="Phone number should be 8 to 11 digits">
+                        <input type="text" id="phone-number" name="phone" placeholder="Enter your Phone Number" value="<?php echo isset($phoneNumber) ? $phoneNumber : NULL; ?>" required pattern="\d{8,11}" title="Phone number should be 8 to 11 digits">
                     </div>
                 </div>
                 <div class="row">

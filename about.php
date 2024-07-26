@@ -27,7 +27,15 @@
                 </div>
             </div>
         </div>
+
+        <div class="contact-info">
+            <h3>Contact Us</h3>
+            <p>Phone: 07-8691188</p>
+            <p>Email: info@lshotel.com</p>
+            <p>For any inquiries or reservations, please do not hesitate to contact us. Our team is available 24/7 to assist you with your needs.</p>
+        </div>
     </main>
+
 
     <footer>
         <p>&copy;2024 L's Hotel All Right Reserved.</p>

@@ -164,7 +164,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         function editField(fieldId) {
             document.getElementById(fieldId).disabled = false;
             if (fieldId === 'password') {
-                document.getElementById(fieldId).value = '';
+                document.getElementById(fieldId).value = NULL;
             }
         }
 
@@ -197,7 +197,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 password: document.getElementById('password').value
             };
 
-            fetch('', {
+            fetch(NULL, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded'
@@ -216,9 +216,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     // Clear the input fields if there is a duplicate error
                     if (result.message === 'Email or phone number already exists') {
                         if (result.duplicateField === 'email') {
-                            document.getElementById('email').value = '';
+                            document.getElementById('email').value = NULL;
                         } else if (result.duplicateField === 'phone') {
-                            document.getElementById('phone').value = '';
+                            document.getElementById('phone').value = NULL;
                         }
                     }
                 }

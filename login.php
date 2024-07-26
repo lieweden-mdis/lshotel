@@ -62,16 +62,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (empty($error)) {
             $_SESSION['user'] = [
                 'id' => $staffId ?? $id,
-                'staff_id' => $staffId ?? '', // Ensure staff_id is stored in session
+                'staff_id' => $staffId ?? NULL, // Ensure staff_id is stored in session
                 'first_name' => $firstName,
                 'last_name' => $lastName,
                 'user_type' => $userType,
-                'role' => $role ?? '' // Add role to the session, if it exists
+                'role' => $role ?? NULL // Add role to the session, if it exists
             ];
 
             // Set the full name in the session
             $_SESSION['user_full_name'] = $firstName . ' ' . $lastName;
-            $_SESSION['logged_in_staff_id'] = $staffId ?? ''; // Add this line to ensure the staff_id is available
+            $_SESSION['logged_in_staff_id'] = $staffId ?? NULL; // Add this line to ensure the staff_id is available
 
             if ($userType === 'user') {
                 $_SESSION['user']['email'] = $email;

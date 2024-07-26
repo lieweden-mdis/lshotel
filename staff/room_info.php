@@ -211,7 +211,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         function populateTable(roomData) {
             const tableBody = document.getElementById('roomTableBody');
-            tableBody.innerHTML = '';
+            tableBody.innerHTML = null;
 
             if (!roomData || roomData.length === 0) {
                 console.error("No room data found");
@@ -268,7 +268,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             // Display room images
             const roomImagePreview = document.getElementById('roomImagePreview');
-            roomImagePreview.innerHTML = '';
+            roomImagePreview.innerHTML = null;
             const images = room.room_images.split(',');
             images.forEach((image, index) => {
                 const imgElement = document.createElement('img');

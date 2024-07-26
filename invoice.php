@@ -291,7 +291,7 @@ $referrer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : null;
                         columns: [
                             {
                                 width: '*',
-                                text: ''
+                                text: null
                             },
                             {
                                 width: 'auto',

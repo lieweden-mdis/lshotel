@@ -1,79 +1,64 @@
-const roomDetails = {
-  bed_options: ["Single", "Double", "Queen", "King"],
-  smoking_options: ["Smoking", "Non-Smoking"]
-};
+document.addEventListener('DOMContentLoaded', () => {
+  window.openBookingModal = (bookingData) => {
+    const setModalValue = (id, value) => {
+      const element = document.getElementById(id);
+      if (element) {
+        element.value = value;
+      }
+    };
 
-// Function to enable dropdown for editing
-function enableDropdown(dropdownId) {
-  const dropdown = document.getElementById(dropdownId);
-  dropdown.disabled = false;
-  dropdown.focus();
-}
+    setModalValue('modal-booking-id', bookingData.booking_id);
+    setModalValue('modal-booking-date', bookingData.booking_date);
+    setModalValue('modal-room-type', bookingData.room_type);
+    setModalValue('modal-check-in-date', bookingData.check_in_date);
+    setModalValue('modal-check-out-date', bookingData.check_out_date);
+    setModalValue('modal-stay-days', bookingData.stay_days);
+    setModalValue('modal-room-quantity', bookingData.room_quantity);
+    setModalValue('modal-bed-selection', bookingData.bed_selection);
+    setModalValue('modal-smoke', bookingData.smoke);
+    setModalValue('modal-total-amount', bookingData.total_amount);
+    setModalValue('modal-customer-name', bookingData.customer_name);
+    setModalValue('modal-email', bookingData.email);
+    setModalValue('modal-phone', bookingData.phone);
+    setModalValue('modal-bring-car', bookingData.bring_car);
+    setModalValue('modal-car-plate', bookingData.car_plate);
 
-// Function to populate dropdowns
-function populateDropdowns() {
-  // Populate bed selection dropdown
-  const bedSelect = document.getElementById('bed-selection');
-  bedSelect.innerHTML = '<option value="" selected disabled hidden></option>';
-  roomDetails.bed_options.forEach(bed => {
-    const option = document.createElement('option');
-    option.value = bed;
-    option.textContent = bed;
-    bedSelect.appendChild(option);
-  });
+    document.getElementById('bookingModal').style.display = 'block';
+  };
 
-  // Populate smoke selection dropdown
-  const smokeSelect = document.getElementById('smoke');
-  smokeSelect.innerHTML = '<option value="" selected disabled hidden></option>';
-  roomDetails.smoking_options.forEach(smoke => {
-    const option = document.createElement('option');
-    option.value = smoke;
-    option.textContent = smoke;
-    smokeSelect.appendChild(option);
-  });
-}
+  window.closeBookingModal = () => {
+    document.getElementById('bookingModal').style.display = 'none';
+  };
 
-// Function to open the booking modal
-function openBookingModal(booking_id, booking_date, check_in_date, check_out_date, days, number_of_rooms, bed_selection, smoke, total_amount, additional_requests, first_name, last_name, email, phone_number, bring_car, car_plates, room_type) {
-  document.getElementById('booking-id').value = booking_id;
-  document.getElementById('booking-date').value = booking_date;
-  document.getElementById('check-in-date').value = check_in_date;
-  document.getElementById('check-out-date').value = check_out_date;
-  document.getElementById('stay-days').value = days;
-  document.getElementById('room-quantity').value = number_of_rooms;
-  document.getElementById('bed-selection').value = bed_selection;
-  document.getElementById('smoke').value = smoke;
-  document.getElementById('total-amount').value = `RM ${total_amount}`;
-  document.getElementById('customer-name').value = `${first_name} ${last_name}`;
-  document.getElementById('email').value = email;
-  document.getElementById('phone').value = phone_number;
-  document.getElementById('bring-car').value = bring_car;
-  document.getElementById('car-plate').value = car_plates;
-  document.getElementById('bookingModal').style.display = 'block';
+  window.saveBookingChanges = () => {
+    const bookingId = document.getElementById('modal-booking-id').value;
+    const updatedData = {
+      bed_selection: document.getElementById('modal-bed-selection').value,
+      smoke: document.getElementById('modal-smoke').value,
+      customer_name: document.getElementById('modal-customer-name').value,
+      email: document.getElementById('modal-email').value,
+      phone: document.getElementById('modal-phone').value,
+      bring_car: document.getElementById('modal-bring-car').value,
+      car_plate: document.getElementById('modal-car-plate').value,
+    };
 
-  populateDropdowns();
-}
-
-// Function to close the booking modal
-function closeModal() {
-  document.getElementById('bookingModal').style.display = 'none';
-}
-
-// Function to show the confirmation modal
-function confirmUpdate() {
-  document.getElementById('confirmModal').style.display = 'block';
-}
-
-// Function to close the confirmation modal
-function closeConfirmModal() {
-  document.getElementById('confirmModal').style.display = 'none';
-}
-
-// Function to update the booking
-function updateBooking() {
-  // Perform the update booking logic here
-  // After updating, display success message and close the modal
-  document.getElementById('successMessage').style.display = 'block';
-  closeConfirmModal();
-  closeModal();
-}
+    fetch(`update_booking.php?booking_id=${bookingId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(updatedData),
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Booking updated successfully');
+          closeBookingModal();
+          // Optionally refresh the booking data here
+        } else {
+          alert('Error updating booking');
+        }
+      })
+      .catch(error => console.error('Error updating booking:', error));
+  };
+});

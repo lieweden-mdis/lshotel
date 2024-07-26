@@ -1,0 +1,100 @@
+.booking-table {
+  width: 100%;
+  margin-top: 1em;
+  overflow-x: auto;
+}
+
+.booking-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.booking-table th, .booking-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.booking-table th {
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+.booking-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.booking-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.booking-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: bold;
+}
+
+.booking-status.success {
+  background-color: #4CAF50;
+}
+
+.booking-status.pending {
+  background-color: #FF9800;
+}
+
+.booking-status.cancelled {
+  background-color: #F44336;
+}
+
+.booking-actions {
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px; /* Space between buttons */
+}
+
+.booking-actions a {
+  text-decoration: none;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+  text-align: center; /* Ensure buttons are centered */
+}
+
+.booking-actions a.modify {
+  background-color: #007bff;
+}
+
+.booking-actions a.modify:hover {
+  background-color: #0056b3;
+}
+
+.booking-actions a.cancel {
+  background-color: #f44336;
+}
+
+.booking-actions a.cancel:hover {
+  background-color: #d32f2f;
+}
+
+.booking-actions a.view-receipt {
+  background-color: #4CAF50;
+}
+
+.booking-actions a.view-receipt:hover {
+  background-color: #388E3C;
+}
+
+@media (max-width: 1200px) {
+  .booking-table {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for medium screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .booking-table {
+    grid-template-columns: 1fr; /* 1 column for small screens */
+  }
+}

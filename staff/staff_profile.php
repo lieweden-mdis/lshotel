@@ -10,14 +10,14 @@ if (!isset($_SESSION['user']['staff_id'])) {
 }
 
 // Initialize variables with default values
-$staff_id = $_SESSION['user']['staff_id'] ?? '';
-$first_name = $_SESSION['user']['first_name'] ?? '';
-$last_name = $_SESSION['user']['last_name'] ?? '';
-$email = $_SESSION['user']['email'] ?? '';
-$phone_number = $_SESSION['user']['phone_number'] ?? '';
-$role = $_SESSION['user']['role'] ?? '';
-$message = '';
-$message_type = '';
+$staff_id = $_SESSION['user']['staff_id'] ?? NULL;
+$first_name = $_SESSION['user']['first_name'] ?? NULL;
+$last_name = $_SESSION['user']['last_name'] ?? NULL;
+$email = $_SESSION['user']['email'] ?? NULL;
+$phone_number = $_SESSION['user']['phone_number'] ?? NULL;
+$role = $_SESSION['user']['role'] ?? NULL;
+$message = NULL;
+$message_type = NULL;
 
 // Handle form submission
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -241,13 +241,13 @@ document.getElementById('edit-button').addEventListener('click', function() {
 
 document.getElementById('cancel-button').addEventListener('click', function() {
     // Reset the form fields to their original values
-    document.querySelector('#first-name').value = '<?php echo $_SESSION['user']['first_name'] ?? ''; ?>';
-    document.querySelector('#last-name').value = '<?php echo $_SESSION['user']['last_name'] ?? ''; ?>';
-    document.querySelector('#email').value = '<?php echo $_SESSION['user']['email'] ?? ''; ?>';
-    document.querySelector('#phone').value = '<?php echo $_SESSION['user']['phone_number'] ?? ''; ?>';
-    document.querySelector('#old-password').value = '';
-    document.querySelector('#password').value = '';
-    document.querySelector('#confirm-password').value = '';
+    document.querySelector('#first-name').value = '<?php echo $_SESSION['user']['first_name'] ?? NULL; ?>';
+    document.querySelector('#last-name').value = '<?php echo $_SESSION['user']['last_name'] ?? NULL; ?>';
+    document.querySelector('#email').value = '<?php echo $_SESSION['user']['email'] ?? NULL; ?>';
+    document.querySelector('#phone').value = '<?php echo $_SESSION['user']['phone_number'] ?? NULL; ?>';
+    document.querySelector('#old-password').value = NULL;
+    document.querySelector('#password').value = NULL;
+    document.querySelector('#confirm-password').value = NULL;
 
     // Disable the form fields
     document.querySelectorAll('#profile-form input').forEach(input => {

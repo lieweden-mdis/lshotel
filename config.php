@@ -7,7 +7,7 @@ if (!defined('DB_USERNAME')) {
     define('DB_USERNAME', 'root');
 }
 if (!defined('DB_PASSWORD')) {
-    define('DB_PASSWORD', '');
+    define('DB_PASSWORD', NULL);
 }
 if (!defined('DB_DATABASE')) {
     define('DB_DATABASE', 'hotel');

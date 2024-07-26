@@ -10,7 +10,7 @@ function sanitizeInput($data) {
 // Check if the user is logged in
 $user = isset($_SESSION['user']) ? $_SESSION['user'] : null;
 $userDetails = [];
-$user_email = '';
+$user_email = null;
 
 if ($user) {
     $sql = "SELECT first_name, last_name, email, phone_number FROM users WHERE id = ?";
