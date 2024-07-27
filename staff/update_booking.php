@@ -1,39 +1,42 @@
 <?php
-// Example PHP code to update booking details
+// Include the database configuration file
+include '../config.php';
 
-// Get the booking ID
-$booking_id = $_GET['booking_id'];
-
-// Get the JSON data from the request body
+// Get the raw POST data
 $data = json_decode(file_get_contents('php://input'), true);
 
-// Database connection
-$conn = new mysqli('localhost', 'username', 'password', 'database');
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Check if the necessary data is provided
+if (!isset($data['booking_id'])) {
+    die('Error: Booking ID is missing.');
 }
 
-// Prepare and bind
-$stmt = $conn->prepare("UPDATE bookings SET bed_selection=?, smoke=?, customer_name=?, email=?, phone=?, bring_car=?, car_plate=? WHERE booking_id=?");
-$stmt->bind_param("sssssssi", $bed_selection, $smoke, $customer_name, $email, $phone, $bring_car, $car_plate, $booking_id);
-
-// Set parameters and execute
-$bed_selection = $data['bed_selection'];
-$smoke = $data['smoke'];
-$customer_name = $data['customer_name'];
+$booking_id = $data['booking_id'];
+$first_name = $data['first_name'];
+$last_name = $data['last_name'];
 $email = $data['email'];
 $phone = $data['phone'];
 $bring_car = $data['bring_car'];
 $car_plate = $data['car_plate'];
+$bed_selection = $data['bed_selection'];
+$smoke = $data['smoke'];
 
-if ($stmt->execute()) {
-    echo json_encode(array("success" => true));
-} else {
-    echo json_encode(array("success" => false, "error" => $stmt->error));
+// Check the connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
+// Prepare the SQL statement
+$stmt = $conn->prepare("UPDATE bookings SET first_name = ?, last_name = ?, email = ?, phone_number = ?, bring_car = ?, car_plates = ?, bed_selection = ?, smoke = ? WHERE booking_id = ?");
+$stmt->bind_param('ssssssssi', $first_name, $last_name, $email, $phone, $bring_car, $car_plate, $bed_selection, $smoke, $booking_id);
+
+// Execute the statement
+if ($stmt->execute()) {
+    echo 'Success';
+} else {
+    echo 'Error: ' . $stmt->error;
+}
+
+// Close the connection
 $stmt->close();
 $conn->close();
 ?>

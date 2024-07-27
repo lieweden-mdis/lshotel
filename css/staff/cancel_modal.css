@@ -1,3 +1,4 @@
+/* cancel_modal.css */
 .modal {
   display: none;
   position: fixed;
@@ -24,12 +25,12 @@
 
 @keyframes slide-down {
   from {
-      transform: translateY(-50px);
-      opacity: 0;
+    transform: translateY(-50px);
+    opacity: 0;
   }
   to {
-      transform: translateY(0);
-      opacity: 1;
+    transform: translateY(0);
+    opacity: 1;
   }
 }
 

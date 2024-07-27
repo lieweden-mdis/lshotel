@@ -1,31 +1,46 @@
 <?php
 include '../config.php';
 
-$data = json_decode(file_get_contents('php://input'), true);
-$booking_id = $data['booking_id'];
-$room_assignments = $data['room_assignments'];
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['assignRooms'])) {
+    $booking_id = $_POST['booking_id'];
+    $room_assignments = $_POST['room_assignments'];
 
-$success = true;
+    $assign_success = true;
 
-foreach ($room_assignments as $assignment) {
-    $room_number = $assignment['roomNumber'];
-    
-    // Update the room status to 'assigned'
-    $update_room_query = "UPDATE room_assignments SET assign_status = 'Assign', booking_id = '$booking_id' WHERE room_number = '$room_number'";
-    if (!$conn->query($update_room_query)) {
-        $success = false;
-        break;
+    // Start a transaction
+    $conn->begin_transaction();
+
+    try {
+        foreach ($room_assignments as $room_number) {
+            // Update room_assignments table
+            $update_query = "UPDATE room_assignments SET assign_status = 'Assign', booking_id = ? WHERE room_number = ? AND assign_status = 'Not Assign'";
+            $stmt = $conn->prepare($update_query);
+            $stmt->bind_param("is", $booking_id, $room_number);
+            if (!$stmt->execute()) {
+                throw new Exception("Failed to assign room $room_number.");
+            }
+        }
+
+        // Update bookings table
+        $update_booking_query = "UPDATE bookings SET booking_status = 'Success' WHERE booking_id = ?";
+        $stmt = $conn->prepare($update_booking_query);
+        $stmt->bind_param("i", $booking_id);
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to update booking status.");
+        }
+
+        // Commit the transaction
+        $conn->commit();
+        $message = "Rooms assigned successfully.";
+    } catch (Exception $e) {
+        // Rollback the transaction on error
+        $conn->rollback();
+        $assign_success = false;
+        $message = "Failed to assign rooms: " . $e->getMessage();
     }
 }
 
-// Update booking status to 'assigned' if all room assignments were successful
-if ($success) {
-    $update_booking_query = "UPDATE bookings SET booking_status = 'Success' WHERE booking_id = '$booking_id'";
-    $success = $conn->query($update_booking_query);
-}
-
-$response = ['success' => $success];
-echo json_encode($response);
-
-$conn->close();
+// Redirect back to the pending booking page with a success or error message
+header("Location: pending_booking.php?message=" . urlencode($message));
+exit;
 ?>

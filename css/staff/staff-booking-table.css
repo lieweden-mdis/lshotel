@@ -7,12 +7,14 @@
 .booking-table table {
   width: 100%;
   border-collapse: collapse;
+  white-space: nowrap; /* Ensure no wrapping */
 }
 
 .booking-table th, .booking-table td {
   border: 1px solid #ddd;
   padding: 8px;
   text-align: left;
+  white-space: nowrap; /* Ensure no wrapping */
 }
 
 .booking-table th {

@@ -1,5 +1,4 @@
-/* booking_modal.css */
-.modal {
+.booking-modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -12,7 +11,7 @@
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
 
-.modal-content {
+.booking-modal-content {
     background-color: #fefefe;
     margin: 5% auto; /* 5% from the top and centered */
     padding: 20px;
@@ -28,47 +27,53 @@
     to {top: 0; opacity: 1}
 }
 
-.close {
+.booking-close {
     color: #aaa;
     float: right;
     font-size: 28px;
     font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.booking-close:hover,
+.booking-close:focus {
     color: black;
     text-decoration: none;
     cursor: pointer;
 }
 
-.modal-section {
+.booking-modal-section {
     margin-bottom: 20px;
 }
 
-.modal-section h3 {
+.booking-modal-section h2 {
     margin-bottom: 10px;
     border-bottom: 1px solid #ddd;
     padding-bottom: 5px;
 }
 
-.modal-grid {
+.booking-modal-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns for better spacing */
+    grid-template-columns: repeat(3, 1fr); /* Three columns for better spacing */
     gap: 10px;
 }
 
-.grid-item {
+.booking-grid-item {
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
-.grid-item label {
-    margin-bottom: 5px;
+.label-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.booking-grid-item label {
     font-weight: bold;
 }
 
-.grid-item input {
+.booking-grid-item input, .booking-grid-item select {
     padding: 8px;
     font-size: 14px;
     border: 1px solid #ddd;
@@ -76,20 +81,35 @@
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     width: 100%; /* Full width */
     box-sizing: border-box;
+    background-color: #e9ecef; /* Default gray background */
 }
 
-.grid-item input[readonly] {
-    background-color: #e9ecef; /* Gray background for read-only fields */
-    cursor: not-allowed; /* Change cursor to not-allowed for read-only fields */
+.booking-grid-item input.editable, .booking-grid-item select.editable {
+    background-color: #fff; /* White background when editable */
 }
 
-.modal-actions {
+.booking-edit-button {
+    margin-left: 10px;
+    margin-bottom: 0.5em;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.booking-edit-button:hover {
+    background-color: #0056b3;
+}
+
+.booking-modal-actions {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
 }
 
-button {
+.booking-modal-actions button {
     background-color: #4CAF50; /* Green */
     color: white;
     padding: 10px 20px;
@@ -99,6 +119,18 @@ button {
     transition: background-color 0.3s;
 }
 
-button:hover {
-    background-color: #45a049;
+.booking-modal-actions button.booking-close-button {
+    background-color: #6c757d; /* Gray */
+}
+
+.booking-modal-actions button.booking-close-button:hover {
+    background-color: #5a6268;
+}
+
+.booking-modal-actions button.booking-update-button {
+    background-color: #28a745; /* Green */
+}
+
+.booking-modal-actions button.booking-update-button:hover {
+    background-color: #218838;
 }
