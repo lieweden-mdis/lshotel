@@ -58,7 +58,7 @@ $staffRole = isset($_SESSION['user']['role']) ? $_SESSION['user']['role'] : 'N/A
         <i class="fa fa-book"></i> Booking Management <i class="fa fa-caret-down"></i>
     </div>
     <div class="dropdown-container" style="max-height: 500px; padding-top: 0.5em; padding-bottom: 0.5em;">
-        <a href="all_booking.php" target="_self"><i class="fa fa-list"></i> All Booking</a>
+        <a href="allbooking.php" target="_self"><i class="fa fa-list"></i> All Booking</a>
         <a href="pending_booking.php" target="_self" id="pending-booking-link"><i class="fa fa-clock-o"></i> Pending Booking <span class="notification"><?php echo $pendingCount; ?></span></a>
     </div>
 

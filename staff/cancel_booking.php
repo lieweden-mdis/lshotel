@@ -1,32 +1,60 @@
 <?php
-require_once '../config.php';
+include '../config.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $booking_id = $_POST['booking_id'];
-    $cancel_reason = $_POST['cancel_reason'];
-    $number_of_rooms = $_POST['number_of_rooms'];
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-    $conn->begin_transaction();
+// Get data from POST request
+$booking_id = $_POST['cancel-booking-id'];
+$cancel_reason = $_POST['cancel_reason'];
 
-    try {
-        $stmt_update_booking = $conn->prepare("UPDATE bookings SET booking_status = 'cancelled', cancel_reason = ? WHERE booking_id = ?");
-        if ($stmt_update_booking) {
-            $stmt_update_booking->bind_param('si', $cancel_reason, $booking_id);
-            $stmt_update_booking->execute();
-            $stmt_update_booking->close();
-        } else {
-            throw new Exception("Error preparing statement for bookings: " . $conn->error);
-        }
+if (!$booking_id) {
+    echo "Error: Booking ID is missing.";
+    exit;
+}
 
-        // Additional update logic...
+// Begin transaction
+$conn->begin_transaction();
 
-        $conn->commit();
-        echo "Success";
-    } catch (Exception $e) {
-        $conn->rollback();
-        echo $e->getMessage();
+try {
+    // Update booking status
+    $updateBookingStatus = "UPDATE bookings SET booking_status = 'Cancelled', cancel_reason = ? WHERE booking_id = ?";
+    $stmt = $conn->prepare($updateBookingStatus);
+    $stmt->bind_param("si", $cancel_reason, $booking_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows === 0) {
+        throw new Exception("Failed to update booking status.");
     }
 
-    $conn->close();
+    // Update room availability in room_assignments
+    $updateRoomAssignments = "UPDATE room_assignments SET assign_status = 'Cancelled' WHERE booking_id = ?";
+    $stmt = $conn->prepare($updateRoomAssignments);
+    $stmt->bind_param("i", $booking_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows === 0) {
+        throw new Exception("Failed to update room assignments.");
+    }
+
+    // Increment the room availability in the rooms table
+    $incrementRoomAvailability = "UPDATE rooms SET room_availability = room_availability + (SELECT number_of_rooms FROM bookings WHERE booking_id = ?) WHERE room_id IN (SELECT room_id FROM bookings WHERE booking_id = ?)";
+    $stmt = $conn->prepare($incrementRoomAvailability);
+    $stmt->bind_param("ii", $booking_id, $booking_id);
+    $stmt->execute();
+
+    if ($stmt->affected_rows === 0) {
+        throw new Exception("Failed to increment room availability.");
+    }
+
+    // Commit transaction
+    $conn->commit();
+    echo "Success";
+} catch (Exception $e) {
+    // Rollback transaction
+    $conn->rollback();
+    echo "Error: " . $e->getMessage();
 }
+
+$conn->close();
 ?>

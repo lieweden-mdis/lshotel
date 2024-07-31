@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 $booking_id = isset($_GET['booking_id']) ? $_GET['booking_id'] : '';
 $user_info = isset($_GET['user_info']) ? $_GET['user_info'] : '';
 $check_in_date = isset($_GET['check_in_date']) ? $_GET['check_in_date'] : '';
-$status = isset($_GET['status']) ? $_GET['status'] : '';
+$booking_status = isset($_GET['booking_status']) ? $_GET['booking_status'] : '';
 $room_type = isset($_GET['room_type']) ? $_GET['room_type'] : '';
 
 // Function to parse room features
@@ -38,7 +38,7 @@ function parseRoomFeatures($featuresString) {
 }
 
 // Check if a single booking_id is requested
-if ($booking_id != '' && $user_info == '' && $check_in_date == '' && $status == '' && $room_type == '') {
+if ($booking_id != '' && $user_info == '' && $check_in_date == '' && $booking_status == '' && $room_type == '') {
     $sql = "SELECT bookings.booking_id, bookings.created_at AS booking_date, rooms.room_type, bookings.check_in_date, bookings.check_out_date, bookings.days AS stay_days, bookings.number_of_rooms AS room_quantity, bookings.bed_selection, bookings.smoke, bookings.total_amount, bookings.booking_status, bookings.first_name, bookings.last_name, bookings.email, bookings.phone_number AS phone, bookings.bring_car, bookings.car_plates AS car_plate, bookings.additional_requests, rooms.room_features 
             FROM bookings 
             JOIN rooms ON bookings.room_id = rooms.room_id 
@@ -79,8 +79,8 @@ if ($user_info != '') {
 if ($check_in_date != '') {
     $sql .= " AND bookings.check_in_date = '$check_in_date'";
 }
-if ($status != '') {
-    $sql .= " AND bookings.booking_status = '$status'";
+if ($booking_status != '') {
+    $sql .= " AND bookings.booking_status = '$booking_status'";
 }
 if ($room_type != '') {
     $sql .= " AND rooms.room_type = '$room_type'";

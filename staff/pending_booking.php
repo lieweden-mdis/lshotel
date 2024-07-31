@@ -201,6 +201,9 @@ $rooms_json = json_encode($rooms);
     <p>&copy;2024 L's Hotel All Right Reserved.</p>
 </footer>
 
+<script>
+    const availableRooms = <?php echo $rooms_json; ?>;
+</script>
 <script src="../script/pending_booking.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>

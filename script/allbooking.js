@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', () => {
       booking_id: document.getElementById('booking-id').value,
       user_info: document.getElementById('user-info').value,
       check_in_date: document.getElementById('check-in-date').value,
-      status: document.getElementById('booking-status').value,
+      booking_status: document.getElementById('booking-status').value,
       room_type: document.getElementById('room-type').value,
     });
 
     fetch(`fetch_bookings.php?${params.toString()}`)
       .then(response => response.text())
       .then(data => {
-        console.log('Fetch bookings response:', data); // Log the response
+        console.log('Fetch bookings response:', data);
         document.getElementById('booking-rows').innerHTML = data;
       })
       .catch(error => console.error('Error fetching bookings:', error));
@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     fetch(`fetch_bookings.php?booking_id=${bookingId}`)
       .then(response => response.json())
       .then(booking => {
-        console.log('Fetch booking details response:', booking); // Log the response
+        console.log('Fetch booking details response:', booking);
         if (!booking || !booking.booking_id) {
           console.error('Booking not found or invalid response');
           return;
@@ -126,6 +126,20 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     })
     .catch(error => console.error('Error:', error));
+  };
+
+  window.viewReceipt = (bookingId) => {
+    window.location.href = `../invoice.php?booking_id=${bookingId}`;
+  };
+
+  window.openCancelModal = (bookingId) => {
+    document.getElementById('cancel-booking-id').value = bookingId;
+    document.getElementById('cancel_reason').value = ''; // Clear previous reason
+    document.getElementById('cancelModal').style.display = 'block';
+  };
+
+  window.closeCancelModal = () => {
+    document.getElementById('cancelModal').style.display = 'none';
   };
 
   document.getElementById('cancelForm').addEventListener('submit', function(event) {

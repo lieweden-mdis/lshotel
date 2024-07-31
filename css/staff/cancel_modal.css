@@ -1,5 +1,4 @@
-/* cancel_modal.css */
-.modal {
+.cancel-modal {
   display: none;
   position: fixed;
   z-index: 1;
@@ -12,7 +11,7 @@
   transition: opacity 0.3s ease;
 }
 
-.modal-content {
+.cancel-modal-content {
   background-color: #fff;
   margin: 15% auto;
   padding: 20px;
@@ -34,7 +33,7 @@
   }
 }
 
-.close {
+.cancel-close {
   color: #aaa;
   float: right;
   font-size: 28px;
@@ -42,21 +41,21 @@
   cursor: pointer;
 }
 
-.close:hover,
-.close:focus {
+.cancel-close:hover,
+.cancel-close:focus {
   color: black;
   text-decoration: none;
 }
 
-.modal h2 {
+.cancel-modal h2 {
   margin-top: 0;
 }
 
-.modal label {
+.cancel-modal label {
   font-weight: bold;
 }
 
-.modal textarea {
+.cancel-modal textarea {
   width: calc(100% - 20px);
   padding: 10px;
   border: 1px solid #ccc;
@@ -64,8 +63,7 @@
   resize: none;
 }
 
-.modal button {
-  background-color: #f44336;
+.cancel-modal .cancel-button {
   color: white;
   border: none;
   padding: 10px 20px;
@@ -75,6 +73,25 @@
   transition: background-color 0.3s;
 }
 
-.modal button:hover {
+.cancel-modal .cancel-no-button {
+  background-color: #6c757d; /* Gray color for No button */
+}
+
+.cancel-modal .cancel-no-button:hover {
+  background-color: #5a6268;
+}
+
+.cancel-modal .cancel-yes-button {
+  background-color: #f44336; /* Red color for Yes, Cancel button */
+}
+
+.cancel-modal .cancel-yes-button:hover {
   background-color: #d32f2f;
+}
+
+.cancel-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
 }

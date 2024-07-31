@@ -5,66 +5,74 @@
     <div class="booking-modal-section">
       <div class="booking-modal-grid">
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-booking-id">Booking ID</label>
+          <label for="modal-booking-id">Booking ID</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-booking-id" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="text" id="modal-booking-id" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-booking-date">Booking Date</label>
+          <label for="modal-booking-date">Booking Date</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-booking-date" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="text" id="modal-booking-date" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-room-type">Room Type</label>
+          <label for="modal-room-type">Room Type</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-room-type" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="text" id="modal-room-type" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-check-in-date">Check-in Date</label>
+          <label for="modal-check-in-date">Check-in Date</label>
+          <div style="display: flex;">
+            <input type="date" id="modal-check-in-date" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="date" id="modal-check-in-date" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-check-out-date">Check-out Date</label>
+          <label for="modal-check-out-date">Check-out Date</label>
+          <div style="display: flex;">
+            <input type="date" id="modal-check-out-date" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="date" id="modal-check-out-date" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-stay-days">Stay Days</label>
+          <label for="modal-stay-days">Stay Days</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-stay-days" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="text" id="modal-stay-days" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-room-quantity">Room Quantity</label>
+          <label for="modal-room-quantity">Room Quantity</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-room-quantity" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="text" id="modal-room-quantity" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-bed-selection">Bed Selection</label>
+          <label for="modal-bed-selection">Bed Selection</label>
+          <div style="display: flex;">
+            <select id="modal-bed-selection" disabled></select>
             <button type="button" class="booking-edit-button" onclick="editField('modal-bed-selection')">Edit</button>
           </div>
-          <select id="modal-bed-selection" disabled></select>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-smoke">Smoke Preference</label>
+          <label for="modal-smoke">Smoke Preference</label>
+          <div style="display: flex;">
+            <select id="modal-smoke" disabled></select>
             <button type="button" class="booking-edit-button" onclick="editField('modal-smoke')">Edit</button>
           </div>
-          <select id="modal-smoke" disabled></select>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-total-amount">Total Amount</label>
+          <label for="modal-total-amount">Total Amount</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-total-amount" readonly>
+            <span class="edit-placeholder"></span>
           </div>
-          <input type="text" id="modal-total-amount" readonly>
         </div>
       </div>
     </div>
@@ -72,49 +80,49 @@
     <div class="booking-modal-section">
       <div class="booking-modal-grid">
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-first-name">First Name</label>
+          <label for="modal-first-name">First Name</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-first-name" readonly>
             <button type="button" class="booking-edit-button" onclick="editField('modal-first-name')">Edit</button>
           </div>
-          <input type="text" id="modal-first-name" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-last-name">Last Name</label>
+          <label for="modal-last-name">Last Name</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-last-name" readonly>
             <button type="button" class="booking-edit-button" onclick="editField('modal-last-name')">Edit</button>
           </div>
-          <input type="text" id="modal-last-name" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-email">Email</label>
+          <label for="modal-email">Email</label>
+          <div style="display: flex;">
+            <input type="email" id="modal-email" readonly>
             <button type="button" class="booking-edit-button" onclick="editField('modal-email')">Edit</button>
           </div>
-          <input type="email" id="modal-email" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-phone">Phone</label>
+          <label for="modal-phone">Phone</label>
+          <div style="display: flex;">
+            <input type="tel" id="modal-phone" readonly>
             <button type="button" class="booking-edit-button" onclick="editField('modal-phone')">Edit</button>
           </div>
-          <input type="tel" id="modal-phone" readonly>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-bring-car">Bringing Car</label>
+          <label for="modal-bring-car">Bringing Car</label>
+          <div style="display: flex;">
+            <select id="modal-bring-car" disabled>
+              <option value="Yes">Yes</option>
+              <option value="No">No</option>
+            </select>
             <button type="button" class="booking-edit-button" onclick="editField('modal-bring-car')">Edit</button>
           </div>
-          <select id="modal-bring-car" readonly>
-            <option value="Yes">Yes</option>
-            <option value="No">No</option>
-          </select>
         </div>
         <div class="booking-grid-item">
-          <div class="label-edit">
-            <label for="modal-car-plate">Car Plate</label>
+          <label for="modal-car-plate">Car Plate</label>
+          <div style="display: flex;">
+            <input type="text" id="modal-car-plate" readonly>
             <button type="button" class="booking-edit-button" onclick="editField('modal-car-plate')">Edit</button>
           </div>
-          <input type="text" id="modal-car-plate" readonly>
         </div>
       </div>
     </div>

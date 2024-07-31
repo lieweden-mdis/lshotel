@@ -13,13 +13,13 @@
 .booking-table th, .booking-table td {
   border: 1px solid #ddd;
   padding: 8px;
-  text-align: left;
+  text-align: center;
   white-space: nowrap; /* Ensure no wrapping */
 }
 
 .booking-table th {
-  background-color: #f4f4f4;
-  color: #333;
+  background-color: #007bff;
+  color: #ffffff;
 }
 
 .booking-table tr:nth-child(even) {
